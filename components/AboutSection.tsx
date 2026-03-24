@@ -86,8 +86,7 @@ export default function AboutSection() {
                 high-quality standards throughout the development lifecycle.
               </p>
               <p className="about-text text-neutral-light leading-relaxed md:text-lg md:leading-loose">
-                My expertise spans across manual and automated testing, CI/CD pipeline integration,
-                performance testing, and API testing. I believe that quality is not just a phase
+                My expertise spans across manual and automated testing and API testing. I believe that quality is not just a phase
                 but a culture that should be embedded in every aspect of software development.
               </p>
               <p className="about-text text-neutral-light leading-relaxed md:text-lg md:leading-loose">

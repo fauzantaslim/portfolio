@@ -118,13 +118,13 @@ export default function Footer() {
           </div>
           
           <div className="flex items-center gap-6">
-            <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors hover:scale-110" aria-label="LinkedIn">
+            <a href="https://www.linkedin.com/in/fauzan-taslim-hidayat" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors hover:scale-110" aria-label="LinkedIn">
               <FaLinkedin className="w-5 h-5" />
             </a>
-            <a href="https://github.com" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors hover:scale-110" aria-label="GitHub">
+            <a href="https://github.com/fauzantaslim" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors hover:scale-110" aria-label="GitHub">
               <FaGithub className="w-5 h-5" />
             </a>
-            <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors hover:scale-110" aria-label="Instagram">
+            <a href="https://www.instagram.com/fauzntaslm16" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors hover:scale-110" aria-label="Instagram">
               <FaInstagram className="w-5 h-5" />
             </a>
           </div>

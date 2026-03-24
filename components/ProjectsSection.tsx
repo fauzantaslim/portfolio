@@ -11,53 +11,61 @@ gsap.registerPlugin(ScrollTrigger);
 
 const projects = [
   {
-    title: "E-Commerce QA Automation Setup",
+    title: "Articles Website",
     description:
-      "Built a comprehensive automated testing framework from scratch using Cypress for a major e-commerce platform. Reduced manual testing time by 75% and integrated directly into the CI/CD pipeline.",
-    image: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?q=80&w=800&auto=format&fit=crop",
-    category: "Automation Test",
-    tags: ["Cypress", "JavaScript", "GitHub Actions", "Mocha"],
-    links: {
-      github: "#",
-      live: "#",
-    },
-  },
-  {
-    title: "API Testing Suite Dashboard",
-    description:
-      "Developed an internal dashboard to monitor API health and test results across microservices. Integrated with Postman/Newman to visualize test execution reports automatically.",
-    image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=800&auto=format&fit=crop",
-    category: "API",
-    tags: ["React", "Express", "Newman", "Chart.js"],
-    links: {
-      github: "#",
-    },
-  },
-  {
-    title: "Responsive Web UI Testing",
-    description: "Executed cross-browser and device interface testing for a high-traffic e-learning platform using BrowserStack.",
-    image: "https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?q=80&w=800&auto=format&fit=crop",
+      "Build a web application for Islamic news articles with a focus on user experience and accessibility. Designed a responsive layout and implemented key features such as article browsing, search, and categorization.",
+    image: "/religi-id.png",
     category: "Web",
-    tags: ["BrowserStack", "Percy", "UI/UX"],
+    tags: ["Laravel", "PHP", "MySQL", "Tailwind CSS"],
     links: {
+      github: "#",
+      live: "https://religi.id",
+    },
+  },
+  {
+    
+    title: "SIMARU API",
+    description:"Built a RESTful API for a Hospital Asset Management System with a focus on reliability and scalability. Designed a database schema and implemented key modules such as asset lifecycle management, procurement, inventory auditing, and depreciation tracking. Applied role-based authentication, developed integration tests, and created test scenarios to ensure system stability.",
+    image: "/simaru.png",
+    category: "API",
+    tags: ["Typescript", "Express", "Mysql", "Sequelize"],
+    links: {
+      github: "https://github.com/fauzantaslim/api-simaru",
       live: "#",
     },
   },
   {
-    title: "Manual Test Case Management",
-    description: "Designed robust manual test cases for a banking application, covering all edge cases to ensure 100% compliance with financial security standards.",
-    image: "https://images.unsplash.com/photo-1554415707-6e8cfc93fe23?q=80&w=800&auto=format&fit=crop",
-    category: "Manual Test",
-    tags: ["TestRail", "Jira", "Security Testing"],
-    links: {},
+    title: "Asia Tiga Utama Company Profile",
+    description: "Build a company profile website for Asia Tiga Utama with a focus on user experience and accessibility. Designed a responsive layout and implemented key features such as company information, services,, blog, portfolio, gallery, and contact.",
+    image: "/asia-tiga-utama.png",
+    category: "Web",
+    tags: ["Laravel", "PHP", "MySQL", "Tailwind CSS", "Filament"],
+    links: {
+      live: "https://evenly.fauzantaslim.biz.id/",
+      github: "https://github.com/fauzantaslim/asia-tiga-utama-company-profile",
+    },
   },
   {
-    title: "Web App Bug Reporting Tool",
-    description: "Configured a streamlined bug tracking workflow for web applications to help developers reproduce issues 50% faster.",
-    image: "https://images.unsplash.com/photo-1607799279861-4dddf8d601b6?q=80&w=800&auto=format&fit=crop",
-    category: "Bug Reporting",
-    tags: ["Jira", "Confluence", "Web"],
-    links: {},
+    title: "Finance Tracker App API",
+    description: "Build a RESTful API for a Finance Tracker App",
+    image: "/finance-tracker.png",
+    category: "API",
+    tags: ["Typescript", "Express", "Mysql", "Knex"],
+    links: {
+      github: "https://github.com/fauzantaslim/finance-tracker-app/tree/main/backend-finance-tracker",
+      live: "#",
+    },
+  },
+  {
+    title: "Finance Tracker Web App",
+    description: "Build a Finance Tracker App with a focus on user experience and accessibility. Designed a responsive layout and implemented key features such as transaction tracking, budget management, and expense visualization.",
+    image: "/finance-tracker.png",
+    category: "Web",
+    tags: ["React", "Tailwind CSS", "Framer Motion"],
+    links: {
+      github: "https://github.com/fauzantaslim/finance-tracker-app/tree/main/finance-tracker-react",
+      live: "#",
+    },
   },
 ];
 
