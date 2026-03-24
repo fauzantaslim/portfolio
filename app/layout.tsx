@@ -20,9 +20,9 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  title: "Fauzan Taslim Hidayat | Software Quality Engineer",
+  title: "Fauzan Taslim Hidayat | Portfolio",
   description:
-    "Portfolio of Fauzan Taslim Hidayat — Software Quality Engineer specializing in test automation, CI/CD, and quality assurance.",
+    "Fauzan Taslim Hidayat | Portfolio",
   icons: {
     icon: "/logo-fauzan.svg",
     shortcut: "/logo-fauzan.svg",
@@ -42,15 +42,15 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Fauzan Taslim Hidayat | Software Quality Engineer",
     description: "Portfolio of Fauzan Taslim Hidayat — Software Quality Engineer specializing in test automation, CI/CD, and quality assurance.",
-    url: "https://your-domain.com", // Recommend updating this to the actual domain
-    siteName: "Fauzan Taslim Portfolio",
-    locale: "en_US",
+    url: "https://fauzantaslim.my.id", // Recommend updating this to the actual domain
+    siteName: "Fauzan Taslim Hidayat | Portfolio",
+    locale: "id_ID",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
     title: "Fauzan Taslim Hidayat | Software Quality Engineer",
-    description: "Portfolio of Fauzan Taslim Hidayat — Software Quality Engineer.",
+    description: "Fauzan Taslim Hidayat | Portfolio",
     creator: "@yourtwitterhandle", // Update with actual or remove
   },
   robots: {
