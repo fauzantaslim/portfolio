@@ -174,7 +174,7 @@ export default function ExperienceSection() {
                     </h3>
                     <p className="text-primary font-medium text-lg">{exp.company}</p>
                     
-                    <div className="flex flex-wrap gap-4 text-sm text-neutral-light mt-2 border-b border-card-border pb-4">
+                    <div className="flex flex-wrap gap-4 text-sm text-white mt-2 border-b border-card-border pb-4">
                       <span className="flex items-center gap-2">
                         <FaCalendarDays className="w-4 h-4 text-primary/70" />
                         {exp.period}
@@ -187,7 +187,7 @@ export default function ExperienceSection() {
                   </div>
 
                   <div className="flex-grow overflow-y-auto pr-2 custom-scrollbar">
-                    <ul className="text-neutral-light/80 leading-relaxed space-y-4">
+                    <ul className="text-white leading-relaxed space-y-4">
                       {exp.description.map((item, idx) => (
                         <li key={idx} className="flex items-start gap-3">
                           <span className="text-primary mt-2 min-w-[6px] h-[6px] rounded-full bg-primary inline-block shrink-0"></span>

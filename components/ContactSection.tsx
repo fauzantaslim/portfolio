@@ -97,29 +97,29 @@ export default function ContactSection() {
           <div className="contact-info space-y-8">
             <div>
               <h3 className="text-2xl font-bold mb-4">Let&apos;s talk about your next project</h3>
-              <p className="text-neutral-light leading-relaxed">
+              <p className="text-white leading-relaxed">
                 Whether you have a question about my QA processes, want to discuss a potential
                 collaboration, or just want to say hi, my inbox is always open.
               </p>
             </div>
 
             <div className="space-y-6">
-              <a href="mailto:fauzantaslim123@gmail.com" className="group flex items-center gap-4 text-neutral-light hover:text-primary transition-colors" aria-label="Email me at hello@example.com">
+              <a href="mailto:fauzantaslim123@gmail.com" className="group flex items-center gap-4 text-white hover:text-primary transition-colors" aria-label="Email me at hello@example.com">
                 <div className="p-4 rounded-full bg-card-bg border border-card-border group-hover:border-primary/50 transition-colors">
                   <FaEnvelope className="w-5 h-5 text-primary" aria-hidden="true" />
                 </div>
                 <div>
-                  <p className="font-mono text-sm text-neutral-light/70 mb-1">Email</p>
+                  <p className="font-mono text-sm text-white mb-1">Email</p>
                   <p className="text-lg">fauzantaslim123@gmail.com</p>
                 </div>
               </a>
 
-              <div className="flex items-center gap-4 text-neutral-light group" aria-label="Located in Bogor, Indonesia">
+              <div className="flex items-center gap-4 text-white group" aria-label="Located in Bogor, Indonesia">
                 <div className="p-4 rounded-full bg-card-bg border border-card-border group-hover:border-primary/50 transition-colors">
                   <FaLocationDot className="w-5 h-5 text-primary" aria-hidden="true" />
                 </div>
                 <div>
-                  <p className="font-mono text-sm text-neutral-light/70 mb-1">Location</p>
+                  <p className="font-mono text-sm text-white/70 mb-1">Location</p>
                   <p className="text-lg">Bogor, Indonesia</p>
                 </div>
               </div>
@@ -132,7 +132,7 @@ export default function ContactSection() {
           <div className="contact-form p-8 rounded-2xl bg-card-bg border border-card-border shadow-2xl">
             <form onSubmit={handleSubmit} className="space-y-6">
               <div>
-                <label htmlFor="name" className="block text-sm font-medium text-neutral-light mb-2">
+                <label htmlFor="name" className="block text-sm font-medium text-white mb-2">
                   Name
                 </label>
                 <input
@@ -147,7 +147,7 @@ export default function ContactSection() {
               </div>
 
               <div>
-                <label htmlFor="email" className="block text-sm font-medium text-neutral-light mb-2">
+                <label htmlFor="email" className="block text-sm font-medium text-white mb-2">
                   Email
                 </label>
                 <input
@@ -162,7 +162,7 @@ export default function ContactSection() {
               </div>
 
               <div>
-                <label htmlFor="message" className="block text-sm font-medium text-neutral-light mb-2">
+                <label htmlFor="message" className="block text-sm font-medium text-white mb-2">
                   Message
                 </label>
                 <textarea

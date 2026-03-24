@@ -100,7 +100,7 @@ export default function Footer() {
         </div>
 
         {/* Middle: Links */}
-        <nav className="flex flex-wrap justify-center gap-x-8 gap-y-4 text-sm md:text-base font-medium text-neutral-light">
+        <nav className="flex flex-wrap justify-center gap-x-8 gap-y-4 text-sm md:text-base font-medium text-white">
           <a href="#about" className="hover:text-white transition-colors">About</a>
           <a href="#stack" className="hover:text-white transition-colors">Stack</a>
           <a href="#experience" className="hover:text-white transition-colors">Experience</a>
@@ -112,7 +112,7 @@ export default function Footer() {
         <div className="w-full max-w-4xl border-t border-dashed border-neutral-dark/50 my-2"></div>
 
         {/* Bottom: Copyright and Socials */}
-        <div className="w-full max-w-4xl flex flex-col md:flex-row items-center justify-between gap-6 text-neutral-light text-sm">
+        <div className="w-full max-w-4xl flex flex-col md:flex-row items-center justify-between gap-6 text-white text-sm">
           <div>
             &copy; {currentYear} Fauzan Taslim Hidayat.
           </div>

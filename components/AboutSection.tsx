@@ -79,17 +79,17 @@ export default function AboutSection() {
           {/* Right: Text */}
           <div className="lg:col-span-7 space-y-10">
             <div className="space-y-6">
-              <p className="about-text text-neutral-light leading-relaxed md:text-lg md:leading-loose">
+              <p className="about-text text-white leading-relaxed md:text-lg md:leading-loose">
                 I&apos;m a dedicated <span className="text-primary font-semibold">Backend Developer</span> & <span className="text-primary font-semibold">Software Quality Engineer</span> with
                 a passion for ensuring software reliability and performance. I specialize in designing
                 and implementing comprehensive testing strategies that catch defects early and maintain
                 high-quality standards throughout the development lifecycle.
               </p>
-              <p className="about-text text-neutral-light leading-relaxed md:text-lg md:leading-loose">
+              <p className="about-text text-white leading-relaxed md:text-lg md:leading-loose">
                 My expertise spans across manual and automated testing and API testing. I believe that quality is not just a phase
                 but a culture that should be embedded in every aspect of software development.
               </p>
-              <p className="about-text text-neutral-light leading-relaxed md:text-lg md:leading-loose">
+              <p className="about-text text-white leading-relaxed md:text-lg md:leading-loose">
                 When I&apos;m not breaking software (in a good way), I enjoy exploring new testing
                 tools, contributing to open-source projects, and staying up-to-date with the
                 latest trends in software development and quality assurance.

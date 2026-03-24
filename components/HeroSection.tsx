@@ -99,14 +99,14 @@ export default function HeroSection() {
 
         <p
           ref={titleRef}
-          className="text-xl md:text-2xl text-neutral-light font-light mb-6 opacity-0"
+          className="text-xl md:text-2xl text-white font-light mb-6 opacity-0"
         >
           Software Quality Engineer
         </p>
 
         <p
           ref={descRef}
-          className="max-w-2xl mx-auto text-neutral-light/70 text-base md:text-lg leading-relaxed mb-10 opacity-0"
+          className="max-w-2xl mx-auto text-white text-base md:text-lg leading-relaxed mb-10 opacity-0"
         >
           Passionate about ensuring software excellence through comprehensive
           testing strategies, automation frameworks, and continuous quality
@@ -148,7 +148,7 @@ export default function HeroSection() {
             e.preventDefault();
             document.querySelector("#about")?.scrollIntoView({ behavior: "smooth" });
           }}
-          className="flex flex-col items-center gap-2 text-neutral-light/50 hover:text-primary transition-colors"
+          className="flex flex-col items-center gap-2 text-white/50 hover:text-primary transition-colors"
         >
           <span className="text-xs tracking-widest uppercase">Scroll</span>
           <FaChevronDown className="w-5 h-5" />

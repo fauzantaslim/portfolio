@@ -139,7 +139,7 @@ export default function ProjectsSection() {
                 className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 ${
                   activeFilter === cat
                     ? "bg-primary text-black shadow-[0_0_15px_rgba(29,205,159,0.3)]"
-                    : "bg-card-bg border border-card-border text-neutral-light hover:border-primary/50 hover:text-white"
+                    : "bg-card-bg border border-card-border text-white hover:border-primary/50 hover:text-white"
                 }`}
               >
                 {cat} ({count})
@@ -201,12 +201,12 @@ export default function ProjectsSection() {
               {/* Content */}
               <div className="p-6 flex flex-col flex-grow">
                 <div className="flex justify-between items-start mb-4">
-                  <h3 className="text-xl font-bold text-white group-hover:text-primary transition-colors pr-6">
+                  <h3 className="text-xl font-bold text-primary group-hover:text-primary transition-colors pr-6">
                     {project.title}
                   </h3>
                 </div>
 
-                <p className="text-neutral-light/80 text-sm leading-relaxed mb-6 flex-grow">
+                <p className="text-white text-sm leading-relaxed mb-6 flex-grow">
                   {project.description}
                 </p>
 
