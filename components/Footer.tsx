@@ -1,9 +1,10 @@
 "use client";
 
-import { FaXTwitter, FaLinkedin, FaGithub, FaFacebook, FaInstagram } from "react-icons/fa6";
+import { FaLinkedin, FaGithub, FaInstagram } from "react-icons/fa6";
 import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import Image from "next/image";
 import { Particles } from "@/components/ui/particles";
 import { useTheme } from "next-themes";
 
@@ -81,13 +82,19 @@ export default function Footer() {
               e.preventDefault();
               scrollToTop();
             }}
-            className="flex flex-col items-center justify-center group"
+            className="flex flex-col items-center justify-center group transition-transform duration-300 hover:scale-110"
           >
-            <div className="flex items-center justify-center w-12 h-12 rounded-xl bg-white text-black font-bold text-2xl mb-3 group-hover:scale-110 group-hover:bg-primary transition-all duration-300">
-              F
-            </div>
-            <span className="text-2xl font-bold tracking-tight text-white group-hover:text-primary transition-colors">
-              Fauzan.
+            <Image 
+              src="/logo-fauzan.svg" 
+              alt="Fauzan Logo" 
+              width={160} 
+              height={60} 
+              className="h-10 md:h-14 w-auto object-contain bg-white hover:bg-[#1DCD9F] rounded-xl shadow-lg mb-3"
+            />
+            <span className="text-2xl font-bold tracking-tight transition-colors">
+              <span className="text-[#1DCD9F] group-hover:text-white transition-colors duration-300">F</span>
+              <span className="text-white group-hover:text-[#1DCD9F] transition-colors duration-300">auzan</span>
+              <span className="text-[#1DCD9F] group-hover:text-white transition-colors duration-300">.</span>
             </span>
           </a>
         </div>

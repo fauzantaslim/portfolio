@@ -22,6 +22,11 @@ export const metadata: Metadata = {
   title: "Fauzan Taslim Hidayat | Software Quality Engineer",
   description:
     "Portfolio of Fauzan Taslim Hidayat — Software Quality Engineer specializing in test automation, CI/CD, and quality assurance.",
+  icons: {
+    icon: "/logo-fauzan.svg",
+    shortcut: "/logo-fauzan.svg",
+    apple: "/logo-fauzan.svg",
+  },
   keywords: [
     "Software Quality Engineer",
     "QA",

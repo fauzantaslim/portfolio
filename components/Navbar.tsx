@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
+import Image from "next/image";
 
 const navLinks = [
   { label: "Home", href: "#hero" },
@@ -58,11 +59,21 @@ export default function Navbar() {
         <a
           href="#hero"
           onClick={(e) => handleLinkClick(e, "#hero")}
-          className="text-xl font-bold tracking-tight"
+          className="flex items-center gap-3 relative z-50 transition-transform hover:scale-105 duration-300"
         >
-          <span className="text-primary">F</span>
-          <span className="text-white">auzan</span>
-          <span className="text-primary">.</span>
+          <Image 
+            src="/logo-fauzan.svg" 
+            alt="Fauzan Logo" 
+            width={120} 
+            height={40} 
+            className="h-8 md:h-10 w-auto object-contain bg-white hover:bg-[#1DCD9F] rounded-lg shadow-sm"
+            priority
+          />
+          <span className="text-2xl font-bold tracking-tight transition-colors">
+              <span className="text-[#1DCD9F] group-hover:text-white transition-colors duration-300">F</span>
+              <span className="text-white group-hover:text-[#1DCD9F] transition-colors duration-300">auzan</span>
+              <span className="text-[#1DCD9F] group-hover:text-white transition-colors duration-300">.</span>
+            </span>
         </a>
 
         {/* Desktop Links */}
