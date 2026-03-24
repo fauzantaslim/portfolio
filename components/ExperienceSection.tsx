@@ -34,20 +34,7 @@ const experiences = [
       "Collaborated with warehouse and store teams to maintain seamless workflows, minimize stock discrepancies, and support smooth daily operations"
     ],
     tags: ["WMS", "Inventory Management", "Operations", "Team Collaboration"],
-  },
-  {
-    company: "Robinson Mart, Mall BTM 2",
-    role: "Staff Warehouse Intern",
-    period: "Mar 2021 - May 2022",
-    location: "Bogor, Indonesia",
-    description: [
-      "Managed daily inventory operations including stock receiving, storage, and processing to ensure timely product availability on the sales floor",
-      "Handled product return processes using Warehouse Management System (WMS), ensuring accurate data entry and stock reconciliation",
-      "Assisted in optimizing storage layouts to improve picking efficiency and maximize warehouse space utilization",
-      "Collaborated with warehouse and store teams to maintain seamless workflows, minimize stock discrepancies, and support smooth daily operations"
-    ],
-    tags: ["WMS", "Inventory Management", "Operations", "Team Collaboration"],
-  },
+  }
 ];
 
 export default function ExperienceSection() {

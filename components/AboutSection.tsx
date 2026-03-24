@@ -66,7 +66,7 @@ export default function AboutSection() {
             <div className="relative w-full aspect-[4/5] rounded-2xl overflow-hidden border border-card-border group shadow-[0_0_30px_rgba(29,205,159,0.05)]">
                <div className="absolute inset-0 bg-primary/20 mix-blend-overlay z-10 group-hover:bg-transparent transition-colors duration-500" />
                <Image 
-                  src="https://images.unsplash.com/photo-1568602471122-7832951cc4c5?q=80&w=800&auto=format&fit=crop" 
+                  src="/ojan.png" 
                   alt="Fauzan Taslim Hidayat" 
                   fill 
                   className="object-cover filter grayscale group-hover:grayscale-0 transition-all duration-700" 
