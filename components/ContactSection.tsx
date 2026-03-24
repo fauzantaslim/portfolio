@@ -140,7 +140,7 @@ export default function ContactSection() {
                   id="name"
                   required
                   className="w-full px-4 py-3 rounded-lg bg-black border border-card-border focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all text-white"
-                  placeholder="John Doe"
+                  placeholder="Your Name"
                   value={formState.name}
                   onChange={(e) => setFormState({ ...formState, name: e.target.value })}
                 />
@@ -155,7 +155,7 @@ export default function ContactSection() {
                   id="email"
                   required
                   className="w-full px-4 py-3 rounded-lg bg-black border border-card-border focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all text-white"
-                  placeholder="john@example.com"
+                  placeholder="Your Email"
                   value={formState.email}
                   onChange={(e) => setFormState({ ...formState, email: e.target.value })}
                 />
@@ -170,7 +170,7 @@ export default function ContactSection() {
                   required
                   rows={5}
                   className="w-full px-4 py-3 rounded-lg bg-black border border-card-border focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all text-white resize-none"
-                  placeholder="How can I help you?"
+                  placeholder="Your Message"
                   value={formState.message}
                   onChange={(e) => setFormState({ ...formState, message: e.target.value })}
                 />

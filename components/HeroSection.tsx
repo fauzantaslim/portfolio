@@ -126,9 +126,10 @@ export default function HeroSection() {
             Contact Me
           </a>
           <a
-            href="#"
+            href="/Fauzan Taslim Hidayat - CV Maret 2026.pdf"
+            target="_blank"
+            rel="noopener noreferrer"
             className="group flex items-center gap-2 px-8 py-3.5 border border-primary/30 text-primary rounded-full hover:bg-primary/10 transition-all duration-300"
-            aria-disabled="true"
           >
             <FaDownload className="w-4 h-4" aria-hidden="true" />
             Download CV
