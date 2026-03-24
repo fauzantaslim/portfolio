@@ -115,7 +115,7 @@ export default function StackSection() {
           {slugs.map((slug) => (
             <span
               key={slug}
-              className="stack-tag px-4 py-2 rounded-full text-sm border border-card-border bg-card-bg text-neutral-light hover:border-primary/40 hover:text-primary transition-all duration-300 cursor-default"
+              className="stack-tag px-4 py-2 rounded-full text-sm border border-card-border bg-card-bg text-white hover:border-primary/40 hover:text-primary transition-all duration-300 cursor-default"
             >
               {slug.replace("dotjs", ".js").replace("dotjs", ".js")}
             </span>
