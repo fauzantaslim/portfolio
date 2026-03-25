@@ -23,20 +23,21 @@ const projects = [
     },
   },
   {
-    
     title: "SIMARU API",
-    description:"Built a RESTful API for a Hospital Asset Management System with a focus on reliability and scalability. Designed a database schema and implemented key modules such as asset lifecycle management, procurement, inventory auditing, and depreciation tracking. Applied role-based authentication, developed integration tests, and created test scenarios to ensure system stability.",
+    description:
+      "Built a RESTful API for a Hospital Asset Management System with a focus on reliability and scalability. Designed a database schema and implemented key modules such as asset lifecycle management, procurement, inventory auditing, and depreciation tracking.",
     image: "/simaru.png",
     category: "API",
-    tags: ["Typescript", "Express", "Mysql", "Sequelize"],
+    tags: ["TypeScript", "Express", "MySQL", "Sequelize"],
     links: {
       github: "https://github.com/fauzantaslim/api-simaru",
       live: "#",
     },
   },
   {
-    title: "Asia Tiga Utama Company Profile",
-    description: "Build a company profile website for Asia Tiga Utama with a focus on user experience and accessibility. Designed a responsive layout and implemented key features such as company information, services,, blog, portfolio, gallery, and contact.",
+    title: "Asia Tiga Utama",
+    description:
+      "Build a company profile website for Asia Tiga Utama with a focus on user experience. Designed a responsive layout and implemented key features: company info, services, blog, portfolio, gallery, and contact.",
     image: "/asia-tiga-utama.png",
     category: "Web",
     tags: ["Laravel", "PHP", "MySQL", "Tailwind CSS", "Filament"],
@@ -46,24 +47,28 @@ const projects = [
     },
   },
   {
-    title: "Finance Tracker App API",
-    description: "Build a RESTful API for a Finance Tracker App",
+    title: "Finance Tracker API",
+    description:
+      "Build a RESTful API for a Finance Tracker App with modular architecture, JWT auth, and structured endpoints for transaction management.",
     image: "/finance-tracker.png",
     category: "API",
-    tags: ["Typescript", "Express", "Mysql", "Knex"],
+    tags: ["TypeScript", "Express", "MySQL", "Knex"],
     links: {
-      github: "https://github.com/fauzantaslim/finance-tracker-app/tree/main/backend-finance-tracker",
+      github:
+        "https://github.com/fauzantaslim/finance-tracker-app/tree/main/backend-finance-tracker",
       live: "#",
     },
   },
   {
-    title: "Finance Tracker Web App",
-    description: "Build a Finance Tracker App with a focus on user experience and accessibility. Designed a responsive layout and implemented key features such as transaction tracking, budget management, and expense visualization.",
+    title: "Finance Tracker Web",
+    description:
+      "Build a Finance Tracker App with a focus on user experience. Implemented transaction tracking, budget management, and expense visualization with smooth interactive UI.",
     image: "/finance-tracker.png",
     category: "Web",
     tags: ["React", "Tailwind CSS", "Framer Motion"],
     links: {
-      github: "https://github.com/fauzantaslim/finance-tracker-app/tree/main/finance-tracker-react",
+      github:
+        "https://github.com/fauzantaslim/finance-tracker-app/tree/main/finance-tracker-react",
       live: "#",
     },
   },
@@ -71,43 +76,73 @@ const projects = [
 
 const categories = ["All", "Web", "API", "Manual Test", "Automation Test", "Bug Reporting"];
 
+const categoryColor: Record<string, string> = {
+  Web: "#22c55e",
+  API: "#38bdf8",
+  "Manual Test": "#a78bfa",
+  "Automation Test": "#fb923c",
+  "Bug Reporting": "#f43f5e",
+};
+
 export default function ProjectsSection() {
   const sectionRef = useRef<HTMLDivElement>(null);
   const [activeFilter, setActiveFilter] = useState("All");
 
-  const filteredProjects = activeFilter === "All"
-    ? projects
-    : projects.filter((p) => p.category === activeFilter);
+  const filteredProjects =
+    activeFilter === "All"
+      ? projects
+      : projects.filter((p) => p.category === activeFilter);
 
   useEffect(() => {
     const ctx = gsap.context(() => {
       gsap.fromTo(
-        ".proj-title",
-        { opacity: 0, y: 50 },
+        ".proj-eyebrow",
+        { opacity: 0, x: -24 },
+        {
+          opacity: 1,
+          x: 0,
+          duration: 0.6,
+          ease: "power3.out",
+          scrollTrigger: { trigger: ".proj-eyebrow", start: "top 88%" },
+        }
+      );
+
+      gsap.fromTo(
+        ".proj-headline",
+        { opacity: 0, y: 50, skewY: 3 },
         {
           opacity: 1,
           y: 0,
-          duration: 0.8,
-          scrollTrigger: {
-            trigger: ".proj-title",
-            start: "top 85%",
-          },
+          skewY: 0,
+          duration: 0.9,
+          ease: "expo.out",
+          scrollTrigger: { trigger: ".proj-headline", start: "top 88%" },
+        }
+      );
+
+      gsap.fromTo(
+        ".proj-filter-btn",
+        { opacity: 0, y: 16 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.4,
+          stagger: 0.06,
+          ease: "power2.out",
+          scrollTrigger: { trigger: ".proj-filters", start: "top 90%" },
         }
       );
 
       gsap.fromTo(
         ".proj-card",
-        { opacity: 0, y: 60 },
+        { opacity: 0, y: 50 },
         {
           opacity: 1,
           y: 0,
-          duration: 0.8,
-          stagger: 0.2,
+          duration: 0.65,
+          stagger: 0.12,
           ease: "power2.out",
-          scrollTrigger: {
-            trigger: ".proj-grid",
-            start: "top 80%",
-          },
+          scrollTrigger: { trigger: ".proj-grid", start: "top 82%" },
         }
       );
     }, sectionRef);
@@ -115,115 +150,209 @@ export default function ProjectsSection() {
     return () => ctx.revert();
   }, []);
 
+  // Re-animate cards whenever filter changes
+  useEffect(() => {
+    gsap.fromTo(
+      ".proj-card",
+      { opacity: 0, y: 30, scale: 0.97 },
+      { opacity: 1, y: 0, scale: 1, duration: 0.4, stagger: 0.08, ease: "power2.out" }
+    );
+  }, [activeFilter]);
+
   return (
-    <section id="projects" ref={sectionRef} className="py-24 md:py-32 relative">
+    <section id="projects" ref={sectionRef} className="py-24 md:py-36 relative overflow-hidden">
+      <style>{`
+        .proj-card {
+          will-change: transform, opacity;
+          transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+        .proj-card:hover {
+          border-color: rgba(29,205,159,0.25);
+          box-shadow: 0 0 40px rgba(29,205,159,0.08), 0 20px 60px rgba(0,0,0,0.4);
+        }
+        .proj-num {
+          font-family: 'JetBrains Mono', 'Fira Code', ui-monospace, monospace;
+        }
+        .proj-filter-btn {
+          font-family: 'JetBrains Mono', 'Fira Code', ui-monospace, monospace;
+          font-size: 0.68rem;
+          letter-spacing: 0.08em;
+          transition: all 0.2s ease;
+        }
+      `}</style>
+
+      {/* Faint background index */}
+      <span
+        aria-hidden="true"
+        className="absolute right-0 top-1/2 -translate-y-1/2 text-[22vw] font-black text-white/[0.02] select-none leading-none pointer-events-none"
+        style={{ fontFamily: "'JetBrains Mono', monospace" }}
+      >
+        04
+      </span>
+
       <div className="section-container relative z-10">
-        {/* Section header */}
-        <div className="text-center mb-16">
-          <p className="proj-title text-primary font-mono text-sm tracking-widest uppercase mb-3">
-            Selected Work
-          </p>
-          <h2 className="proj-title text-3xl md:text-5xl font-bold">
+        {/* ── Header ── */}
+        <div className="mb-14 md:mb-18">
+          <div className="flex items-center gap-3 mb-4">
+            <span className="proj-eyebrow font-mono text-xs tracking-[0.25em] uppercase text-primary">
+              Selected Work
+            </span>
+            <div className="h-px flex-1 max-w-[80px] bg-primary/60" />
+          </div>
+          <h2 className="proj-headline text-4xl md:text-6xl font-black tracking-tight leading-[1.05]">
             Featured <span className="text-primary">Projects</span>
           </h2>
         </div>
 
-        {/* Filter */}
-        <div className="flex flex-wrap justify-center gap-2 md:gap-4 mb-12">
+        {/* ── Filter bar — industrial chip style ── */}
+        <div className="proj-filters flex flex-wrap gap-2 mb-12">
           {categories.map((cat) => {
-            const count = cat === "All" ? projects.length : projects.filter((p) => p.category === cat).length;
+            const count =
+              cat === "All"
+                ? projects.length
+                : projects.filter((p) => p.category === cat).length;
+            const isActive = activeFilter === cat;
+            const accent = cat === "All" ? "#1DCD9F" : (categoryColor[cat] ?? "#1DCD9F");
+
             return (
               <button
                 key={cat}
                 onClick={() => setActiveFilter(cat)}
-                className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 ${
-                  activeFilter === cat
-                    ? "bg-primary text-black shadow-[0_0_15px_rgba(29,205,159,0.3)]"
-                    : "bg-card-bg border border-card-border text-white hover:border-primary/50 hover:text-white"
-                }`}
+                className="proj-filter-btn inline-flex items-center gap-2 px-3 py-1.5 uppercase cursor-pointer"
+                style={{
+                  border: `1px solid ${isActive ? accent : accent + "28"}`,
+                  backgroundColor: isActive ? accent + "18" : accent + "08",
+                  borderRadius: "4px",
+                  color: isActive ? accent : "#ffffff80",
+                  boxShadow: isActive ? `0 0 12px ${accent}33` : "none",
+                }}
+                onMouseEnter={(e) => {
+                  if (!isActive) {
+                    (e.currentTarget as HTMLElement).style.borderColor = accent + "55";
+                    (e.currentTarget as HTMLElement).style.color = "#ffffffcc";
+                  }
+                }}
+                onMouseLeave={(e) => {
+                  if (!isActive) {
+                    (e.currentTarget as HTMLElement).style.borderColor = accent + "28";
+                    (e.currentTarget as HTMLElement).style.color = "#ffffff80";
+                  }
+                }}
               >
-                {cat} ({count})
+                {cat}
+                <span
+                  style={{
+                    fontSize: "0.6rem",
+                    backgroundColor: accent + "22",
+                    color: accent,
+                    padding: "1px 5px",
+                    borderRadius: "2px",
+                    fontWeight: 700,
+                  }}
+                >
+                  {count}
+                </span>
               </button>
             );
           })}
         </div>
 
-        {/* Projects Grid */}
-        <div className="proj-grid grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {filteredProjects.map((project, index) => (
-            <div
-              key={index}
-              className="proj-card group rounded-2xl bg-card-bg border border-card-border overflow-hidden hover:border-primary/30 transition-all duration-500 hover:shadow-[0_0_40px_rgba(29,205,159,0.1)] flex flex-col"
-            >
-              {/* Image Container */}
-              <div className="relative h-48 w-full">
-                <div className="absolute inset-0">
+        {/* ── Projects Grid ── */}
+        <div className="proj-grid grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {filteredProjects.map((project, index) => {
+            const accent = categoryColor[project.category] ?? "#1DCD9F";
+            return (
+              <div
+                key={`${project.title}-${index}`}
+                className="proj-card group flex flex-col rounded-xl bg-white/[0.02] border border-white/8 overflow-hidden"
+              >
+                {/* Image */}
+                <div className="relative h-48 w-full overflow-hidden">
                   <Lens zoomFactor={2} lensSize={150} isStatic={false} ariaLabel="Zoom Area">
-                    <div className="relative h-48 w-full overflow-hidden">
-                      <div className="absolute inset-0 bg-primary/20 mix-blend-overlay z-10 group-hover:bg-transparent transition-colors duration-500 pointer-events-none" aria-hidden="true" />
+                    <div className="relative h-48 w-full">
+                      <div className="absolute inset-0 bg-primary/15 mix-blend-overlay z-10 group-hover:opacity-0 transition-opacity duration-500 pointer-events-none" />
                       <Image
                         src={project.image}
                         alt={project.title}
                         fill
-                        className="object-cover filter grayscale group-hover:grayscale-0"
+                        className="object-cover filter grayscale group-hover:grayscale-0 transition-all duration-700"
                       />
                     </div>
                   </Lens>
-                </div>
-                
-                {/* Floating Links on Hover */}
-                <div className="absolute top-4 right-4 z-20 flex gap-2 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-2 group-hover:translate-y-0 pointer-events-auto">
-                  {project.links.live && (
-                    <a
-                      href={project.links.live}
-                      className="w-10 h-10 rounded-full bg-primary text-black flex items-center justify-center hover:scale-110 transition-transform shadow-[0_0_15px_rgba(29,205,159,0.4)]"
-                      aria-label="View live site"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      <FaArrowUpRightFromSquare className="w-4 h-4" aria-hidden="true" />
-                    </a>
-                  )}
-                  {project.links.github && (
-                    <a
-                      href={project.links.github}
-                      className="w-10 h-10 rounded-full bg-primary text-black flex items-center justify-center hover:scale-110 transition-transform shadow-[0_0_15px_rgba(29,205,159,0.4)]"
-                      aria-label="View source code"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      <FaGithub className="w-5 h-5" aria-hidden="true" />
-                    </a>
-                  )}
-                </div>
-              </div>
 
-              {/* Content */}
-              <div className="p-6 flex flex-col flex-grow">
-                <div className="flex justify-between items-start mb-4">
-                  <h3 className="text-xl font-bold text-primary group-hover:text-primary transition-colors pr-6">
-                    {project.title}
-                  </h3>
+                  {/* Category chip on image */}
+                  <span
+                    className="absolute top-3 left-3 z-20 text-[0.6rem] font-bold uppercase tracking-widest px-2 py-0.5 rounded-sm pointer-events-none"
+                    style={{
+                      backgroundColor: accent + "22",
+                      color: accent,
+                      border: `1px solid ${accent}44`,
+                      fontFamily: "'JetBrains Mono', monospace",
+                    }}
+                  >
+                    {project.category}
+                  </span>
+
+                  {/* Link buttons */}
+                  <div className="absolute top-3 right-3 z-20 flex gap-2 opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0 transition-all duration-300">
+                    {project.links.live && project.links.live !== "#" && (
+                      <a
+                        href={project.links.live}
+                        className="w-8 h-8 rounded-full bg-primary text-black flex items-center justify-center hover:scale-110 transition-transform shadow-[0_0_15px_rgba(29,205,159,0.4)]"
+                        aria-label="View live site"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        <FaArrowUpRightFromSquare className="w-3 h-3" aria-hidden="true" />
+                      </a>
+                    )}
+                    {project.links.github && project.links.github !== "#" && (
+                      <a
+                        href={project.links.github}
+                        className="w-8 h-8 rounded-full bg-primary text-black flex items-center justify-center hover:scale-110 transition-transform shadow-[0_0_15px_rgba(29,205,159,0.4)]"
+                        aria-label="View source code"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        <FaGithub className="w-4 h-4" aria-hidden="true" />
+                      </a>
+                    )}
+                  </div>
                 </div>
 
-                <p className="text-white text-sm leading-relaxed mb-6 flex-grow">
-                  {project.description}
-                </p>
-
-                {/* Tags */}
-                <div className="flex flex-wrap gap-2 mt-auto pt-4 border-t border-card-border">
-                  {project.tags.map((tag) => (
+                {/* Content */}
+                <div className="p-5 flex flex-col flex-grow">
+                  {/* Index + Title */}
+                  <div className="flex items-baseline gap-3 mb-3">
                     <span
-                      key={tag}
-                      className="text-xs font-mono text-primary bg-primary/5 px-2 py-1 rounded"
+                      className="proj-num text-primary/40 text-xs font-bold shrink-0"
                     >
-                      {tag}
+                      {String(index + 1).padStart(2, "0")}
                     </span>
-                  ))}
+                    <h3 className="text-base font-bold text-white leading-snug group-hover:text-primary transition-colors duration-300">
+                      {project.title}
+                    </h3>
+                  </div>
+
+                  <p className="text-white/50 text-xs leading-relaxed mb-5 flex-grow">
+                    {project.description}
+                  </p>
+
+                  {/* Tags */}
+                  <div className="flex flex-wrap gap-1.5 pt-4 border-t border-white/6">
+                    {project.tags.map((tag) => (
+                      <span
+                        key={tag}
+                        className="text-[0.6rem] font-mono text-primary/70 bg-primary/5 px-2 py-0.5 rounded-sm border border-primary/10"
+                      >
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </div>
     </section>
