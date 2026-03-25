@@ -64,10 +64,16 @@ export default function Navbar() {
   return (
     <nav
       ref={navRef}
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
-        isScrolled ? "glass py-3" : "bg-transparent py-5"
-      }`}
+      className="fixed top-0 left-0 right-0 z-50"
     >
+      {/* Header bar with its own solid background */}
+      <div
+        className={`transition-all duration-500 ${
+          isScrolled || isMobileOpen
+            ? "bg-black/80 backdrop-blur-xl border-b border-primary/10 py-3"
+            : "bg-transparent py-5"
+        }`}
+      >
       <style>{`
         .nav-link-item {
           font-family: 'JetBrains Mono', 'Fira Code', ui-monospace, monospace;
@@ -96,14 +102,25 @@ export default function Navbar() {
         .nav-link-item.active {
           color: #1DCD9F;
         }
+        .hamburger-btn {
+          display: block;
+          position: relative;
+          width: 22px;
+          height: 16px;
+        }
         .hamburger-line {
           display: block;
+          position: absolute;
+          left: 0;
           width: 22px;
           height: 1.5px;
           background: #1DCD9F;
-          transition: all 0.3s ease;
-          transform-origin: center;
+          transition: transform 0.3s ease, opacity 0.3s ease;
+          transform-origin: center center;
         }
+        .hamburger-line:nth-child(1) { top: 0px; }
+        .hamburger-line:nth-child(2) { top: 7.25px; }
+        .hamburger-line:nth-child(3) { top: 14.5px; }
       `}</style>
 
       <div className="section-container flex items-center justify-between">
@@ -154,24 +171,35 @@ export default function Navbar() {
         {/* Mobile Toggle */}
         <button
           onClick={() => setIsMobileOpen(!isMobileOpen)}
-          className="md:hidden flex flex-col gap-1.5 p-2 relative z-50"
+          className="md:hidden p-2 relative z-50"
           aria-label="Toggle menu"
           aria-expanded={isMobileOpen}
         >
-          <span
-            className="hamburger-line"
-            style={{ transform: isMobileOpen ? "rotate(45deg) translateY(5px)" : "none" }}
-          />
-          <span
-            className="hamburger-line"
-            style={{ opacity: isMobileOpen ? 0 : 1 }}
-          />
-          <span
-            className="hamburger-line"
-            style={{ transform: isMobileOpen ? "rotate(-45deg) translateY(-5px)" : "none" }}
-          />
+          <span className="hamburger-btn">
+            <span
+              className="hamburger-line"
+              style={{
+                transform: isMobileOpen
+                  ? "translateY(7.25px) rotate(45deg)"
+                  : "none",
+              }}
+            />
+            <span
+              className="hamburger-line"
+              style={{ opacity: isMobileOpen ? 0 : 1, transform: "none" }}
+            />
+            <span
+              className="hamburger-line"
+              style={{
+                transform: isMobileOpen
+                  ? "translateY(-7.25px) rotate(-45deg)"
+                  : "none",
+              }}
+            />
+          </span>
         </button>
       </div>
+      </div> {/* end header bar */}
 
       {/* Mobile Menu */}
       <div
@@ -179,7 +207,7 @@ export default function Navbar() {
           isMobileOpen ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
         }`}
       >
-        <div className="section-container flex flex-col gap-1 py-6 border-t border-white/8 mt-2">
+        <div className="section-container glass flex flex-col gap-1 py-6 border-t border-white/8 mt-2 shadow-2xl">
           {navLinks.map((link) => {
             const isActive = activeSection === link.href.replace("#", "");
             return (

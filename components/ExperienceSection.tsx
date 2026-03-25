@@ -10,11 +10,11 @@ gsap.registerPlugin(ScrollTrigger);
 type TagCategory = "api" | "test" | "db" | "ops" | "collab";
 
 const tagMeta: Record<TagCategory, string> = {
-  api:   "#38bdf8",
-  test:  "#fb923c",
-  db:    "#a78bfa",
-  ops:   "#f43f5e",
-  collab:"#facc15",
+  api:    "#38bdf8",
+  test:   "#fb923c",
+  db:     "#a78bfa",
+  ops:    "#f43f5e",
+  collab: "#facc15",
 };
 
 type ExpTag = { label: string; cat: TagCategory };
@@ -42,11 +42,11 @@ const experiences: {
       "Integrated push notifications (WhatsApp), QR code generation, API documentation, and Excel-based reporting.",
     ],
     tags: [
-      { label: "REST API",             cat: "api"    },
-      { label: "DB Design",            cat: "db"     },
-      { label: "TypeScript",           cat: "api"    },
-      { label: "Integration Testing",  cat: "test"   },
-      { label: "API Docs",             cat: "ops"    },
+      { label: "REST API",            cat: "api"  },
+      { label: "DB Design",           cat: "db"   },
+      { label: "TypeScript",          cat: "api"  },
+      { label: "Integration Testing", cat: "test" },
+      { label: "API Docs",            cat: "ops"  },
     ],
   },
   {
@@ -62,10 +62,10 @@ const experiences: {
       "Collaborated with warehouse and store teams to minimize stock discrepancies and support smooth daily operations.",
     ],
     tags: [
-      { label: "WMS",                  cat: "ops"    },
-      { label: "Inventory Mgmt",       cat: "db"     },
-      { label: "Operations",           cat: "ops"    },
-      { label: "Team Collaboration",   cat: "collab" },
+      { label: "WMS",                cat: "ops"    },
+      { label: "Inventory Mgmt",     cat: "db"     },
+      { label: "Operations",         cat: "ops"    },
+      { label: "Team Collaboration", cat: "collab" },
     ],
   },
 ];
@@ -79,7 +79,7 @@ export default function ExperienceSection() {
       if (!container) return;
 
       const cards = gsap.utils.toArray<HTMLElement>(".exp-card");
-      const dots = gsap.utils.toArray<HTMLElement>(".timeline-dot");
+      const dots  = gsap.utils.toArray<HTMLElement>(".timeline-dot");
 
       gsap.set(cards[0], { yPercent: 0, opacity: 1, scale: 1 });
       gsap.set(cards.slice(1), { yPercent: 120, opacity: 0, scale: 1 });
@@ -125,46 +125,47 @@ export default function ExperienceSection() {
 
   return (
     <section id="experience" className="relative z-20 bg-black">
+      <style>{`
+        .exp-tag {
+          font-family: 'JetBrains Mono', 'Fira Code', ui-monospace, monospace;
+          font-size: 0.62rem;
+          letter-spacing: 0.07em;
+          font-weight: 700;
+          text-transform: uppercase;
+          padding: 2px 8px;
+          border-radius: 3px;
+        }
+        .exp-bullet {
+          width: 5px;
+          height: 5px;
+          border-radius: 50%;
+          background: #1DCD9F;
+          margin-top: 9px;
+          flex-shrink: 0;
+        }
+        .exp-type-badge {
+          font-family: 'JetBrains Mono', monospace;
+          font-size: 0.58rem;
+          letter-spacing: 0.1em;
+          text-transform: uppercase;
+          padding: 2px 7px;
+          border-radius: 2px;
+          border: 1px solid rgba(29,205,159,0.3);
+          color: #1DCD9F;
+          background: rgba(29,205,159,0.08);
+        }
+      `}</style>
+
+      {/* Single container — pinned GSAP on all screen sizes */}
       <div
         ref={containerRef}
         className="py-16 md:py-24 relative min-h-screen w-full flex flex-col items-center overflow-hidden"
       >
-        <style>{`
-          .exp-tag {
-            font-family: 'JetBrains Mono', 'Fira Code', ui-monospace, monospace;
-            font-size: 0.62rem;
-            letter-spacing: 0.07em;
-            font-weight: 700;
-            text-transform: uppercase;
-            padding: 2px 8px;
-            border-radius: 3px;
-          }
-          .exp-bullet {
-            width: 5px;
-            height: 5px;
-            border-radius: 50%;
-            background: #1DCD9F;
-            margin-top: 9px;
-            flex-shrink: 0;
-          }
-          .exp-type-badge {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.58rem;
-            letter-spacing: 0.1em;
-            text-transform: uppercase;
-            padding: 2px 7px;
-            border-radius: 2px;
-            border: 1px solid rgba(29,205,159,0.3);
-            color: #1DCD9F;
-            background: rgba(29,205,159,0.08);
-          }
-        `}</style>
-
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-neutral-dark/20 to-transparent pointer-events-none" />
 
         <div className="section-container relative z-10 w-full flex flex-col items-center flex-grow h-full">
           {/* Header */}
-          <div className="text-center mb-10 shrink-0 z-50">
+          <div className="text-center mb-8 md:mb-10 shrink-0 z-50">
             <div className="flex items-center justify-center gap-3 mb-4">
               <div className="h-px w-12 bg-primary/60" />
               <span className="font-mono text-xs tracking-[0.25em] uppercase text-primary">
@@ -177,51 +178,61 @@ export default function ExperienceSection() {
             </h2>
           </div>
 
-          {/* Main Content */}
-          <div className="relative w-full max-w-5xl mx-auto flex flex-col md:flex-row gap-6 md:gap-12 flex-grow h-[650px] md:h-[500px] px-4 md:px-0">
-            {/* Timeline */}
-            <div className="hidden md:flex flex-col items-center py-10 relative z-50 w-8 shrink-0">
-              <div className="absolute top-10 bottom-10 left-1/2 -translate-x-1/2 w-px bg-white/10" aria-hidden="true" />
+          {/* Main content — timeline left + cards right, on all screen sizes */}
+          <div className="relative w-full max-w-5xl mx-auto flex flex-row gap-4 md:gap-12 flex-grow h-[580px] md:h-[500px] px-2 md:px-0">
+
+            {/* Timeline sidebar — visible on all screens */}
+            <div className="flex flex-col items-center py-6 md:py-10 relative z-50 w-6 md:w-8 shrink-0">
               <div
-                className="timeline-progress absolute top-10 bottom-10 left-1/2 -translate-x-1/2 w-px bg-primary origin-top scale-y-0 shadow-[0_0_15px_rgba(29,205,159,0.8)]"
+                className="absolute top-6 bottom-6 md:top-10 md:bottom-10 left-1/2 -translate-x-1/2 w-px bg-white/10"
+                aria-hidden="true"
+              />
+              <div
+                className="timeline-progress absolute top-6 bottom-6 md:top-10 md:bottom-10 left-1/2 -translate-x-1/2 w-px bg-primary origin-top scale-y-0 shadow-[0_0_15px_rgba(29,205,159,0.8)]"
                 aria-hidden="true"
               />
               <div className="flex flex-col justify-between items-center relative z-10 h-full">
                 {experiences.map((_, i) => (
                   <div
                     key={i}
-                    className="timeline-dot w-3 h-3 rounded-full bg-white/10 z-10 shadow-lg border-2 border-black"
+                    className="timeline-dot w-2.5 h-2.5 md:w-3 md:h-3 rounded-full bg-white/10 z-10 shadow-lg border-2 border-black"
                   />
                 ))}
               </div>
             </div>
 
-            {/* Cards */}
+            {/* Cards stack */}
             <div className="relative w-full max-w-4xl flex-grow h-full">
               {experiences.map((exp, index) => (
                 <div
                   key={index}
-                  className="exp-card absolute top-0 left-0 w-full h-full p-6 md:p-8 rounded-2xl bg-[#0a0a0a] border border-white/8 shadow-[0_-20px_60px_rgba(0,0,0,0.6)] flex flex-col"
+                  className="exp-card absolute top-0 left-0 w-full h-full p-5 md:p-8 rounded-2xl bg-[#0a0a0a] border border-white/8 shadow-[0_-20px_60px_rgba(0,0,0,0.6)] flex flex-col"
                   style={{ zIndex: index + 1 }}
                 >
                   {/* Card header */}
-                  <div className="flex flex-col gap-2 mb-5 shrink-0">
-                    <div className="flex items-start justify-between gap-4 flex-wrap">
+                  <div className="flex flex-col gap-2 mb-4 md:mb-5 shrink-0">
+                    <div className="flex items-start justify-between gap-2 flex-wrap">
                       <div>
-                        <h3 className="text-xl md:text-2xl font-black text-white leading-tight mb-1">
+                        <h3 className="text-base md:text-2xl font-black text-white leading-tight mb-1">
                           {exp.role}
                         </h3>
-                        <p className="text-primary font-semibold">{exp.company}</p>
+                        <p className="text-primary font-semibold text-sm md:text-base">{exp.company}</p>
                       </div>
                       <span className="exp-type-badge shrink-0">{exp.type}</span>
                     </div>
 
-                    <div className="flex flex-wrap items-center gap-x-5 gap-y-1 text-white/45 border-b border-white/8 pb-4 mt-1">
-                      <span className="flex items-center gap-1.5 text-xs" style={{ fontFamily: "'JetBrains Mono', monospace" }}>
+                    <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-white/45 border-b border-white/8 pb-3 md:pb-4 mt-1">
+                      <span
+                        className="flex items-center gap-1.5 text-xs"
+                        style={{ fontFamily: "'JetBrains Mono', monospace" }}
+                      >
                         <FaCalendarDays className="w-3 h-3 text-primary/60" />
                         {exp.period}
                       </span>
-                      <span className="flex items-center gap-1.5 text-xs" style={{ fontFamily: "'JetBrains Mono', monospace" }}>
+                      <span
+                        className="flex items-center gap-1.5 text-xs"
+                        style={{ fontFamily: "'JetBrains Mono', monospace" }}
+                      >
                         <FaLocationDot className="w-3 h-3 text-primary/60" />
                         {exp.location}
                       </span>
@@ -230,18 +241,18 @@ export default function ExperienceSection() {
 
                   {/* Description */}
                   <div className="flex-grow overflow-y-auto pr-1" style={{ scrollbarWidth: "none" }}>
-                    <ul className="space-y-3">
+                    <ul className="space-y-2 md:space-y-3">
                       {exp.description.map((item, idx) => (
                         <li key={idx} className="flex items-start gap-3">
                           <span className="exp-bullet" aria-hidden="true" />
-                          <span className="text-white/60 text-sm leading-relaxed">{item}</span>
+                          <span className="text-white/60 text-xs md:text-sm leading-relaxed">{item}</span>
                         </li>
                       ))}
                     </ul>
                   </div>
 
                   {/* Tags */}
-                  <div className="flex flex-wrap gap-2 pt-5 mt-4 border-t border-white/8 shrink-0">
+                  <div className="flex flex-wrap gap-1.5 md:gap-2 pt-3 md:pt-5 mt-3 md:mt-4 border-t border-white/8 shrink-0">
                     {exp.tags.map(({ label, cat }) => (
                       <span
                         key={label}
