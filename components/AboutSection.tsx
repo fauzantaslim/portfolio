@@ -7,12 +7,7 @@ import Image from "next/image";
 
 gsap.registerPlugin(ScrollTrigger);
 
-const traits = [
-  { label: "Backend Dev", detail: "Node.js · Express · Laravel · Go" },
-  { label: "QA Engineer", detail: "Manual · Automated · API Testing" },
-  { label: "Test Architect", detail: "Jest · Playwright · Integration Tests" },
-  { label: "API Designer", detail: "REST · OpenAPI · Postman" },
-];
+
 
 export default function AboutSection() {
   const sectionRef = useRef<HTMLDivElement>(null);
@@ -74,11 +69,11 @@ export default function AboutSection() {
       );
 
       gsap.fromTo(
-        ".about-trait",
-        { opacity: 0, x: -20 },
+        ".about-info-item",
+        { opacity: 0, y: 14 },
         {
-          opacity: 1, x: 0, duration: 0.5, stagger: 0.1, ease: "power2.out",
-          scrollTrigger: { trigger: ".about-traits", start: "top 88%" },
+          opacity: 1, y: 0, duration: 0.45, stagger: 0.08, ease: "power2.out",
+          scrollTrigger: { trigger: ".about-info-grid", start: "top 88%" },
         }
       );
     }, sectionRef);
@@ -130,7 +125,7 @@ export default function AboutSection() {
         </div>
 
         {/* Two-column */}
-        <div className="grid lg:grid-cols-12 gap-12 lg:gap-20 items-start">
+        <div className="grid lg:grid-cols-12 gap-12 lg:gap-20 items-center">
           {/* Left: Image */}
           <div className="lg:col-span-5 relative">
             <div className="about-img-frame absolute -top-3 -left-3 w-full h-full border border-primary/25 rounded-xl z-0" />
@@ -169,26 +164,22 @@ export default function AboutSection() {
 
             <div className="w-full h-px bg-white/8" />
 
-            {/* Trait chips — replaces empty stats section */}
-            <div className="about-traits grid grid-cols-1 sm:grid-cols-2 gap-3">
-              {traits.map(({ label, detail }, i) => (
-                <div
-                  key={label}
-                  className="about-trait flex flex-col gap-1.5 p-4 rounded-lg border border-white/8 bg-white/[0.02] cursor-default"
-                >
-                  <div className="flex items-center gap-2">
-                    <span
-                      className="w-1.5 h-1.5 rounded-full bg-primary shrink-0"
-                      aria-hidden="true"
-                    />
-                    <span className="text-white font-semibold text-sm">{label}</span>
-                  </div>
+            {/* Quick info grid */}
+            <div className="about-info-grid grid grid-cols-2 gap-x-8 gap-y-5">
+              {[
+                { key: "Experience",   val: "Backend Development & QA Projects"                 },
+                { key: "Focus",        val: "Software Quality Assurance"              },
+                { key: "Location",     val: "Bogor, Indonesia"          },
+                { key: "Status",       val: "Open to opportunities"     },
+              ].map(({ key, val }) => (
+                <div key={key} className="about-info-item flex flex-col gap-1">
                   <span
-                    className="text-white/40 pl-[18px]"
-                    style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "0.62rem", letterSpacing: "0.05em" }}
+                    className="text-white/30 uppercase"
+                    style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "0.58rem", letterSpacing: "0.12em" }}
                   >
-                    {detail}
+                    {key}
                   </span>
+                  <span className="text-white/80 text-sm font-medium">{val}</span>
                 </div>
               ))}
             </div>
