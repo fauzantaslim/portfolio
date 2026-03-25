@@ -72,6 +72,17 @@ const projects = [
       live: "#",
     },
   },
+  {
+    title: "Manual Test SIMARU Web",
+    description:
+      "Write a manual test case for SIMARU Web",
+    image: "/finance-tracker.png",
+    category: "Manual Test",
+    tags: ["Manual Test", "Test Case"],
+    links: {
+      live: "https://shorturl.at/smXcw",
+    },
+  },
 ];
 
 const categories = ["All", "Web", "API", "Manual Test", "Automation Test", "Bug Reporting"];
