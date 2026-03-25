@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useCallback } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { FaArrowUpRightFromSquare, FaGithub } from "react-icons/fa6";
@@ -98,6 +98,18 @@ const categoryColor: Record<string, string> = {
 export default function ProjectsSection() {
   const sectionRef = useRef<HTMLDivElement>(null);
   const [activeFilter, setActiveFilter] = useState("All");
+  const [tappedIndex, setTappedIndex] = useState<number | null>(null);
+
+  const handleCardClick = useCallback((index: number) => {
+    setTappedIndex((prev) => (prev === index ? null : index));
+  }, []);
+
+  // Close tapped card when clicking outside
+  useEffect(() => {
+    const handleOutsideClick = () => setTappedIndex(null);
+    document.addEventListener("click", handleOutsideClick);
+    return () => document.removeEventListener("click", handleOutsideClick);
+  }, []);
 
   const filteredProjects =
     activeFilter === "All"
@@ -276,6 +288,7 @@ export default function ProjectsSection() {
               <div
                 key={`${project.title}-${index}`}
                 className="proj-card group flex flex-col rounded-xl bg-white/[0.02] border border-white/8 overflow-hidden"
+                onClick={(e) => { e.stopPropagation(); handleCardClick(index); }}
               >
                 {/* Image */}
                 <div className="relative h-48 w-full overflow-hidden">
@@ -305,7 +318,11 @@ export default function ProjectsSection() {
                   </span>
 
                   {/* Link buttons */}
-                  <div className="absolute top-3 right-3 z-20 flex gap-2 opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0 transition-all duration-300">
+                  <div className={`absolute top-3 right-3 z-20 flex gap-2 transition-all duration-300 ${
+                    tappedIndex === index
+                      ? "opacity-100 translate-y-0"
+                      : "opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0"
+                  }`}>
                     {project.links.live && project.links.live !== "#" && (
                       <a
                         href={project.links.live}

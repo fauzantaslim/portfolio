@@ -35,8 +35,8 @@ const experiences: {
     period: "Feb 2025 – Jul 2025",
     location: "Bogor, Indonesia",
     description: [
-      "Developed a REST API for a Hospital Asset Management System; designed a 45+ table database schema supporting the full asset management workflow.",
-      "Built core business modules: asset lifecycle management, procurement workflow, inventory auditing (stock opname), and depreciation tracking.",
+      "Developed a REST API for a Hospital Asset Management System; designed a table database schema supporting the full asset management workflow.",
+      "Built core business modules: asset lifecycle management, procurement workflow, inventory auditing (stock opname), and depreciation assets.",
       "Implemented role-based access control, user authentication, and security configurations for data protection.",
       "Created and executed test scenarios per module; wrote automated integration tests to ensure system reliability.",
       "Integrated push notifications (WhatsApp), QR code generation, API documentation, and Excel-based reporting.",
