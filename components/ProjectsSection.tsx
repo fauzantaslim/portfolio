@@ -318,7 +318,7 @@ export default function ProjectsSection() {
                   </span>
 
                   {/* Link buttons */}
-                  <div className={`absolute top-3 right-3 z-20 flex gap-2 transition-all duration-300 ${
+                  <div className={`absolute top-3 right-3 z-30 flex gap-2 transition-all duration-300 max-md:opacity-100 max-md:translate-y-0 ${
                     tappedIndex === index
                       ? "opacity-100 translate-y-0"
                       : "opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0"
