@@ -18,8 +18,8 @@ const contactLinks = [
   {
     icon: FaLinkedin,
     label: "LinkedIn",
-    value: "/in/fauzantaslim",
-    href: "https://linkedin.com/in/fauzantaslim",
+    value: "/in/fauzan-taslim-hidayat",
+    href: "https://www.linkedin.com/in/fauzan-taslim-hidayat",
     accent: "#38bdf8",
   },
   {
