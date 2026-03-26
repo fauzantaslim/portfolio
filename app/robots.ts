@@ -6,6 +6,6 @@ export default function robots(): MetadataRoute.Robots {
       userAgent: '*',
       allow: '/',
     },
-    sitemap: 'https://your-domain.com/sitemap.xml', // Update with actual domain
+    sitemap: 'https://fauzantaslim.my.id/sitemap.xml',
   };
 }
