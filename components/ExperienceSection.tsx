@@ -190,7 +190,7 @@ export default function ExperienceSection() {
           </div>
 
           {/* Main content — timeline left + cards right, on all screen sizes */}
-          <div className="relative w-full max-w-5xl mx-auto flex flex-row gap-4 md:gap-12 flex-grow h-[580px] md:h-[500px] px-2 md:px-0">
+          <div className="relative w-full max-w-7xl mx-auto flex flex-row gap-4 md:gap-12 flex-grow h-[580px] md:h-[500px] px-2 md:px-0">
 
             {/* Timeline sidebar — visible on all screens */}
             <div className="flex flex-col items-center py-6 md:py-10 relative z-50 w-6 md:w-8 shrink-0">
@@ -213,7 +213,7 @@ export default function ExperienceSection() {
             </div>
 
             {/* Cards stack */}
-            <div className="relative w-full max-w-4xl flex-grow h-full">
+            <div className="relative w-full max-w-6xl flex-grow h-full">
               {experiences.map((exp, index) => (
                 <div
                   key={index}
