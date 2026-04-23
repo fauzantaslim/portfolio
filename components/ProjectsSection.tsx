@@ -5,7 +5,6 @@ import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { FaArrowUpRightFromSquare, FaGithub } from "react-icons/fa6";
 import Image from "next/image";
-import { Lens } from "@/components/ui/lens";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -76,7 +75,7 @@ const projects = [
     title: "Manual Test SIMARU Web",
     description:
       "Write a manual test case for SIMARU Web",
-    image: "/finance-tracker.png",
+    image: "/simaru.png",
     category: "Manual Test",
     tags: ["Manual Test", "Test Case"],
     links: {
@@ -98,18 +97,6 @@ const categoryColor: Record<string, string> = {
 export default function ProjectsSection() {
   const sectionRef = useRef<HTMLDivElement>(null);
   const [activeFilter, setActiveFilter] = useState("All");
-  const [tappedIndex, setTappedIndex] = useState<number | null>(null);
-
-  const handleCardClick = useCallback((index: number) => {
-    setTappedIndex((prev) => (prev === index ? null : index));
-  }, []);
-
-  // Close tapped card when clicking outside
-  useEffect(() => {
-    const handleOutsideClick = () => setTappedIndex(null);
-    document.addEventListener("click", handleOutsideClick);
-    return () => document.removeEventListener("click", handleOutsideClick);
-  }, []);
 
   const filteredProjects =
     activeFilter === "All"
@@ -124,8 +111,8 @@ export default function ProjectsSection() {
         {
           opacity: 1,
           x: 0,
-          duration: 0.6,
-          ease: "power3.out",
+          duration: 0.8,
+          ease: "power2.out",
           scrollTrigger: { trigger: ".proj-eyebrow", start: "top 88%" },
         }
       );
@@ -156,43 +143,109 @@ export default function ProjectsSection() {
         }
       );
 
-      gsap.fromTo(
-        ".proj-card",
-        { opacity: 0, y: 50 },
-        {
-          opacity: 1,
-          y: 0,
-          duration: 0.65,
-          stagger: 0.12,
-          ease: "power2.out",
-          scrollTrigger: { trigger: ".proj-grid", start: "top 82%" },
-        }
-      );
+      // Pinned Single Container Stack Effect
+      const container = document.querySelector(".proj-container");
+      const panels = gsap.utils.toArray<HTMLElement>(".proj-panel");
+
+      if (container && panels.length > 0) {
+        // Set initial states: all panels are stacked perfectly.
+        gsap.set(panels, { yPercent: 0, transformOrigin: "top center" });
+
+        const tl = gsap.timeline({
+          scrollTrigger: {
+            trigger: container,
+            start: "center center",
+            end: () => `+=${window.innerHeight * (panels.length - 0.5)}`,
+            pin: true,
+            pinSpacing: true,
+            scrub: 1,
+          },
+        });
+
+        panels.forEach((panel, i) => {
+          const img = panel.querySelector(".proj-image");
+          const content = panel.querySelector(".proj-content");
+          const elements = content ? gsap.utils.toArray(content.children) : [];
+          const dimmer = panel.querySelector(".proj-dimmer");
+
+          // Initial states for panels beneath the first one
+          if (i > 0) {
+            gsap.set(panel, { scale: 0.95 });
+            gsap.set(dimmer, { opacity: 0.7 });
+            // Start far below the panel's bottom edge so they emerge from below the image
+            gsap.set(elements, { opacity: 0, y: 800 }); 
+          } else {
+            gsap.set(dimmer, { opacity: 0 });
+            gsap.fromTo(
+              elements,
+              { opacity: 0, y: 100 },
+              {
+                opacity: 1,
+                y: 0,
+                duration: 0.8,
+                stagger: 0.08,
+                ease: "power3.out",
+                scrollTrigger: {
+                  trigger: container,
+                  start: "top 75%",
+                },
+              }
+            );
+          }
+
+          // 1. Current Panel Disappearing (Sliding UP out of view)
+          if (i < panels.length - 1) {
+            tl.to(
+              panel,
+              { yPercent: -100, duration: 1, ease: "none" },
+              i
+            );
+
+            // Parallax image slides down slightly as panel slides up
+            tl.to(
+              img,
+              { yPercent: 15, duration: 1, ease: "none" },
+              i
+            );
+          }
+
+          // 2. Next Panel Revealing (Scaling UP and brightening)
+          if (i > 0) {
+            tl.to(
+              panel,
+              { scale: 1, duration: 1, ease: "none" },
+              i - 1
+            );
+            
+            tl.to(
+              dimmer,
+              { opacity: 0, duration: 1, ease: "none" },
+              i - 1
+            );
+
+            // Text elements are pulled up sequentially from below the image exactly as scroll begins
+            tl.to(
+              elements,
+              { 
+                y: 0, 
+                opacity: 1, 
+                duration: 0.8, 
+                stagger: 0.05, 
+                ease: "none" 
+              },
+              i - 1 // pas baru discroll langsung ketarik
+            );
+          }
+        });
+      }
     }, sectionRef);
 
     return () => ctx.revert();
-  }, []);
-
-  // Re-animate cards whenever filter changes
-  useEffect(() => {
-    gsap.fromTo(
-      ".proj-card",
-      { opacity: 0, y: 30, scale: 0.97 },
-      { opacity: 1, y: 0, scale: 1, duration: 0.4, stagger: 0.08, ease: "power2.out" }
-    );
   }, [activeFilter]);
 
   return (
-    <section id="projects" ref={sectionRef} className="py-24 md:py-36 relative overflow-hidden">
+    <section id="projects" ref={sectionRef} className="pt-24 md:pt-36 relative bg-black">
       <style>{`
-        .proj-card {
-          will-change: transform, opacity;
-          transition: border-color 0.3s ease, box-shadow 0.3s ease;
-        }
-        .proj-card:hover {
-          border-color: rgba(29,205,159,0.25);
-          box-shadow: 0 0 40px rgba(29,205,159,0.08), 0 20px 60px rgba(0,0,0,0.4);
-        }
         .proj-num {
           font-family: 'JetBrains Mono', 'Fira Code', ui-monospace, monospace;
         }
@@ -207,13 +260,13 @@ export default function ProjectsSection() {
       {/* Faint background index */}
       <span
         aria-hidden="true"
-        className="absolute right-0 top-1/2 -translate-y-1/2 text-[22vw] font-black text-white/[0.02] select-none leading-none pointer-events-none"
+        className="absolute right-0 top-32 text-[22vw] font-black text-white/[0.02] select-none leading-none pointer-events-none"
         style={{ fontFamily: "'JetBrains Mono', monospace" }}
       >
         04
       </span>
 
-      <div className="section-container relative z-10">
+      <div className="section-container relative z-10 px-4 md:px-8 max-w-7xl mx-auto">
         {/* ── Header ── */}
         <div className="mb-14 md:mb-18">
           <div className="flex items-center gap-3 mb-4">
@@ -279,103 +332,88 @@ export default function ProjectsSection() {
             );
           })}
         </div>
+      </div>
 
-        {/* ── Projects Grid ── */}
-        <div className="proj-grid grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filteredProjects.map((project, index) => {
-            const accent = categoryColor[project.category] ?? "#1DCD9F";
-            return (
-              <div
-                key={`${project.title}-${index}`}
-                className="proj-card group flex flex-col rounded-xl bg-white/[0.02] border border-white/8 overflow-hidden"
-                onClick={(e) => { e.stopPropagation(); handleCardClick(index); }}
-              >
-                {/* Image */}
-                <div className="relative h-48 w-full overflow-hidden">
-                  <Lens zoomFactor={2} lensSize={150} isStatic={false} ariaLabel="Zoom Area">
-                    <div className="relative h-48 w-full">
-                      <div className="absolute inset-0 bg-primary/15 mix-blend-overlay z-10 group-hover:opacity-0 transition-opacity duration-500 pointer-events-none" />
-                      <Image
-                        src={project.image}
-                        alt={project.title}
-                        fill
-                        className="object-cover filter grayscale group-hover:grayscale-0 transition-all duration-700"
-                      />
-                    </div>
-                  </Lens>
+      {/* ── Projects Single Pinned Container (One Card Stack) ── */}
+      <div className="w-full max-w-7xl mx-auto px-4 md:px-8 mb-32">
+        <div className="proj-container relative w-full h-[75vh] md:h-[85vh] overflow-hidden rounded-2xl md:rounded-[2rem] border border-white/10 bg-[#050505]">
+        {filteredProjects.map((project, index) => {
+          const accent = categoryColor[project.category] ?? "#1DCD9F";
+          return (
+            <div
+              key={`${project.title}-${index}`}
+              className="proj-panel absolute inset-0 w-full h-full overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.8)]"
+              style={{
+                zIndex: filteredProjects.length - index,
+              }}
+            >
+              {/* Dark overlay for dimming effect via GSAP */}
+              <div className="proj-dimmer absolute inset-0 bg-black z-20 pointer-events-none" />
 
-                  {/* Category chip on image */}
-                  <span
-                    className="absolute top-3 left-3 z-20 text-[0.6rem] font-bold uppercase tracking-widest px-2 py-0.5 rounded-sm pointer-events-none"
-                    style={{
-                      backgroundColor: accent + "22",
-                      color: accent,
-                      border: `1px solid ${accent}44`,
-                      fontFamily: "'JetBrains Mono', monospace",
-                    }}
-                  >
-                    {project.category}
-                  </span>
-
-                  {/* Link buttons */}
-                  <div className={`absolute top-3 right-3 z-30 flex gap-2 transition-all duration-300 max-md:opacity-100 max-md:translate-y-0 ${
-                    tappedIndex === index
-                      ? "opacity-100 translate-y-0"
-                      : "opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0"
-                  }`}>
-                    {project.links.live && project.links.live !== "#" && (
-                      <a
-                        href={project.links.live}
-                        className="w-8 h-8 rounded-full bg-primary text-black flex items-center justify-center hover:scale-110 transition-transform shadow-[0_0_15px_rgba(29,205,159,0.4)]"
-                        aria-label="View live site"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        <FaArrowUpRightFromSquare className="w-3 h-3" aria-hidden="true" />
-                      </a>
-                    )}
-                    {project.links.github && project.links.github !== "#" && (
-                      <a
-                        href={project.links.github}
-                        className="w-8 h-8 rounded-full bg-primary text-black flex items-center justify-center hover:scale-110 transition-transform shadow-[0_0_15px_rgba(29,205,159,0.4)]"
-                        aria-label="View source code"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        <FaGithub className="w-4 h-4" aria-hidden="true" />
-                      </a>
-                    )}
-                  </div>
+              {/* Parallax Image Background */}
+              <div className="absolute inset-0 w-full h-[120%] -top-[10%] pointer-events-none">
+                  <Image
+                    src={project.image}
+                    alt={project.title}
+                    fill
+                    className="proj-image object-cover filter grayscale-[30%] transition-all duration-700"
+                  />
+                  {/* Dark overlay for text readability */}
+                  <div className="absolute inset-0 bg-black/50 transition-colors duration-700" />
+                  <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/40 to-transparent" />
                 </div>
 
-                {/* Content */}
-                <div className="p-5 flex flex-col flex-grow">
-                  {/* Index + Title */}
-                  <div className="flex items-baseline gap-3 mb-3">
+                {/* Content Overlay */}
+                <div className="relative z-10 w-full h-full px-6 md:px-16 py-12 flex flex-col justify-center">
+                  <div className="proj-content max-w-4xl">
                     <span
-                      className="proj-num text-primary/40 text-xs font-bold shrink-0"
+                      className="inline-block px-3 py-1 mb-6 text-xs font-mono tracking-widest uppercase rounded-sm border backdrop-blur-md"
+                      style={{ color: accent, borderColor: accent + "40", backgroundColor: accent + "10" }}
                     >
-                      {String(index + 1).padStart(2, "0")}
+                      {project.category}
                     </span>
-                    <h3 className="text-base font-bold text-white leading-snug group-hover:text-primary transition-colors duration-300">
+                    <h3 className="text-5xl md:text-8xl font-black text-white tracking-tight leading-[1] mb-6 drop-shadow-2xl">
                       {project.title}
                     </h3>
-                  </div>
+                    <p className="text-white/90 text-sm md:text-xl leading-relaxed mb-10 max-w-2xl drop-shadow-lg font-medium">
+                      {project.description}
+                    </p>
 
-                  <p className="text-white/50 text-xs leading-relaxed mb-5 flex-grow">
-                    {project.description}
-                  </p>
+                    {/* Tags */}
+                    <div className="flex flex-wrap gap-3 mb-10">
+                      {project.tags.map((tag) => (
+                        <span
+                          key={tag}
+                          className="text-xs md:text-sm font-mono text-white/80 bg-white/10 px-4 py-1.5 rounded-full border border-white/20 backdrop-blur-md"
+                        >
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
 
-                  {/* Tags */}
-                  <div className="flex flex-wrap gap-1.5 pt-4 border-t border-white/6">
-                    {project.tags.map((tag) => (
-                      <span
-                        key={tag}
-                        className="text-[0.6rem] font-mono text-primary/70 bg-primary/5 px-2 py-0.5 rounded-sm border border-primary/10"
-                      >
-                        {tag}
-                      </span>
-                    ))}
+                    {/* Links */}
+                    <div className="flex flex-wrap gap-4">
+                      {project.links.live && project.links.live !== "#" && (
+                        <a
+                          href={project.links.live}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="flex items-center gap-3 border border-white/40 px-6 py-3 text-xs md:text-sm font-mono tracking-widest text-white hover:bg-white hover:text-black transition-colors rounded-sm"
+                        >
+                          FIND OUT MORE <FaArrowUpRightFromSquare />
+                        </a>
+                      )}
+                      {project.links.github && project.links.github !== "#" && (
+                        <a
+                          href={project.links.github}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="flex items-center gap-3 border border-white/40 px-6 py-3 text-xs md:text-sm font-mono tracking-widest text-white hover:bg-white hover:text-black transition-colors rounded-sm"
+                        >
+                          GITHUB <FaGithub />
+                        </a>
+                      )}
+                    </div>
                   </div>
                 </div>
               </div>

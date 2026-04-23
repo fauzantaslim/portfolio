@@ -12,10 +12,12 @@ const BOOT_LINES = [
   "ready.",
 ];
 
+const COLUMNS = 10;
+
 export default function Preloader() {
   const preloaderRef = useRef<HTMLDivElement>(null);
-  const leftPanelRef = useRef<HTMLDivElement>(null);
-  const rightPanelRef = useRef<HTMLDivElement>(null);
+  const topStairsRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const bottomStairsRefs = useRef<(HTMLDivElement | null)[]>([]);
   const logoRef = useRef<HTMLDivElement>(null);
   const terminalRef = useRef<HTMLDivElement>(null);
   const progressBarRef = useRef<HTMLDivElement>(null);
@@ -25,13 +27,11 @@ export default function Preloader() {
 
   useEffect(() => {
     const preloader = preloaderRef.current;
-    const leftPanel = leftPanelRef.current;
-    const rightPanel = rightPanelRef.current;
     const logo = logoRef.current;
     const terminal = terminalRef.current;
     const progressBar = progressBarRef.current;
 
-    if (!preloader || !leftPanel || !rightPanel || !logo || !terminal || !progressBar) return;
+    if (!preloader || !logo || !terminal || !progressBar) return;
 
     document.body.style.overflow = "hidden";
 
@@ -76,16 +76,26 @@ export default function Preloader() {
       ease: "power2.in",
       stagger: 0.05,
     })
-    // Panels slide apart
+    // Double stairs animation (Top and Bottom separating)
     .to(
-      leftPanel,
-      { xPercent: -100, duration: 0.85, ease: "expo.inOut" },
-      "-=0.05"
+      topStairsRefs.current,
+      {
+        yPercent: -100,
+        duration: 0.8,
+        ease: "power4.inOut",
+        stagger: 0.05,
+      },
+      "-=0.1"
     )
     .to(
-      rightPanel,
-      { xPercent: 100, duration: 0.85, ease: "expo.inOut" },
-      "<"
+      bottomStairsRefs.current,
+      {
+        yPercent: 100,
+        duration: 0.8,
+        ease: "power4.inOut",
+        stagger: 0.05,
+      },
+      "<" // start exactly at the same time as the top stairs
     );
 
     return () => {
@@ -147,10 +157,7 @@ export default function Preloader() {
           box-shadow: 0 0 8px #1DCD9F88;
           transition: width 0.3s ease;
         }
-        .scanlines-preloader::after {
-          content: '';
-          position: absolute;
-          inset: 0;
+        .scanlines-overlay {
           background: repeating-linear-gradient(
             0deg,
             transparent,
@@ -158,25 +165,36 @@ export default function Preloader() {
             rgba(255,255,255,0.012) 3px,
             rgba(255,255,255,0.012) 4px
           );
-          pointer-events: none;
-          z-index: 1;
         }
       `}</style>
 
-      {/* Left Panel */}
-      <div
-        ref={leftPanelRef}
-        className="scanlines-preloader w-1/2 h-full bg-[#050505] relative"
-      />
+      {/* Stairs Container */}
+      <div className="absolute inset-0 z-20 flex">
+        {[...Array(COLUMNS)].map((_, i) => (
+          <div key={`col-${i}`} className="flex-1 relative h-full">
+            {/* Top stair */}
+            <div
+              ref={(el) => {
+                if (el) topStairsRefs.current[i] = el;
+              }}
+              className="absolute top-0 left-0 w-full h-[50.5%] bg-[#050505]"
+            />
+            {/* Bottom stair */}
+            <div
+              ref={(el) => {
+                if (el) bottomStairsRefs.current[i] = el;
+              }}
+              className="absolute bottom-0 left-0 w-full h-[50.5%] bg-[#050505]"
+            />
+          </div>
+        ))}
+      </div>
 
-      {/* Right Panel */}
-      <div
-        ref={rightPanelRef}
-        className="scanlines-preloader w-1/2 h-full bg-[#050505] relative"
-      />
+      {/* Scanlines Overlay */}
+      <div className="absolute inset-0 z-40 pointer-events-none scanlines-overlay" />
 
       {/* ── Centered overlay: Logo + Terminal ── */}
-      <div className="absolute inset-0 flex flex-col items-center justify-center gap-8">
+      <div className="absolute inset-0 z-50 flex flex-col items-center justify-center gap-8">
         {/* Logo */}
         <div
           ref={logoRef}

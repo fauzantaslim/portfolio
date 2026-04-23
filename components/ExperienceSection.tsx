@@ -81,8 +81,10 @@ export default function ExperienceSection() {
       const cards = gsap.utils.toArray<HTMLElement>(".exp-card");
       const dots  = gsap.utils.toArray<HTMLElement>(".timeline-dot");
 
-      gsap.set(cards[0], { yPercent: 0, opacity: 1, scale: 1 });
-      gsap.set(cards.slice(1), { yPercent: 120, opacity: 0, scale: 1 });
+      // Set transform origin so scaling down doesn't shift the top edge
+      gsap.set(cards, { transformOrigin: "top center" });
+      gsap.set(cards[0], { yPercent: 0, y: 0, opacity: 1, scale: 1 });
+      gsap.set(cards.slice(1), { yPercent: 120, y: 0, opacity: 0, scale: 1 });
       gsap.set(dots, { backgroundColor: "#1e1e1e" });
       gsap.set(dots[0], { backgroundColor: "#1dcd9f", scale: 1.2 });
 
@@ -105,16 +107,25 @@ export default function ExperienceSection() {
         const startTime = index * 2;
 
         if (index > 0) {
-          tl.to(card, { yPercent: 0, opacity: 1, duration: 1, ease: "power2.out" }, startTime);
+          // Slide in new card
+          tl.to(card, { yPercent: 0, y: 0, opacity: 1, duration: 1, ease: "power2.out" }, startTime);
           tl.to(dots[index], { backgroundColor: "#1dcd9f", scale: 1.2, duration: 0.1 }, startTime);
           tl.to(dots[index - 1], { scale: 1, duration: 0.1 }, startTime);
         }
 
-        if (index < cards.length - 1) {
+        // Push previous cards up into a visible stack
+        for (let j = 0; j < index; j++) {
+          const stackPos = index - j; 
           tl.to(
-            card,
-            { scale: 0.95, opacity: 0.4, yPercent: -5, duration: 1, ease: "power2.inOut" },
-            startTime + 2
+            cards[j],
+            {
+              y: -(stackPos * 70), // Push up by 70px to keep the header visible
+              scale: 1 - (stackPos * 0.04), // Shrink slightly to create depth
+              opacity: Math.max(1 - (stackPos * 0.3), 0.2), // Fade out gradually but keep visible
+              duration: 1,
+              ease: "power2.out"
+            },
+            startTime
           );
         }
       });
@@ -165,7 +176,7 @@ export default function ExperienceSection() {
 
         <div className="section-container relative z-10 w-full flex flex-col items-center flex-grow h-full">
           {/* Header */}
-          <div className="text-center mb-8 md:mb-10 shrink-0 z-50">
+          <div className="text-center mb-16 md:mb-24 shrink-0 z-50">
             <div className="flex items-center justify-center gap-3 mb-4">
               <div className="h-px w-12 bg-primary/60" />
               <span className="font-mono text-xs tracking-[0.25em] uppercase text-primary">
