@@ -14,37 +14,37 @@ type StackItem = {
 };
 
 const stack: StackItem[] = [
-  { slug: "typescript",      label: "TypeScript",    category: "LANG" },
-  { slug: "javascript",      label: "JavaScript",    category: "LANG" },
-  { slug: "dart",            label: "Dart",          category: "LANG" },
-  { slug: "php",             label: "PHP",           category: "LANG" },
-  { slug: "go",              label: "Go",            category: "LANG" },
-  { slug: "flutter",         label: "Flutter",       category: "FE"   },
-  { slug: "html5",           label: "HTML5",         category: "FE"   },
-  { slug: "css3",            label: "CSS3",          category: "FE"   },
-  { slug: "nodedotjs",       label: "Node.js",       category: "BE"   },
-  { slug: "express",         label: "Express",       category: "BE"   },
-  { slug: "laravel",         label: "Laravel",       category: "BE"   },
-  { slug: "dotnet",          label: ".NET",          category: "BE"   },
-  { slug: "firebase",        label: "Firebase",      category: "BE"   },
-  { slug: "jest",            label: "Jest",          category: "TEST" },
-  { slug: "playwright",      label: "Playwright",    category: "TEST" },
-  { slug: "docker",          label: "Docker",        category: "OPS"  },
-  { slug: "nginx",           label: "Nginx",         category: "OPS"  },
-  { slug: "git",             label: "Git",           category: "OPS"  },
-  { slug: "github",          label: "GitHub",        category: "OPS"  },
-  { slug: "jira",            label: "Jira",          category: "TOOL" },
-  { slug: "visualstudiocode",label: "VS Code",       category: "TOOL" },
-  { slug: "figma",           label: "Figma",         category: "TOOL" },
-  { slug: "postman",         label: "Postman",       category: "TOOL" },
+  { slug: "typescript", label: "TypeScript", category: "LANG" },
+  { slug: "javascript", label: "JavaScript", category: "LANG" },
+  { slug: "dart", label: "Dart", category: "LANG" },
+  { slug: "php", label: "PHP", category: "LANG" },
+  { slug: "go", label: "Go", category: "LANG" },
+  { slug: "flutter", label: "Flutter", category: "FE" },
+  { slug: "html5", label: "HTML5", category: "FE" },
+  { slug: "css3", label: "CSS3", category: "FE" },
+  { slug: "nodedotjs", label: "Node.js", category: "BE" },
+  { slug: "express", label: "Express", category: "BE" },
+  { slug: "laravel", label: "Laravel", category: "BE" },
+  { slug: "dotnet", label: ".NET", category: "BE" },
+  { slug: "firebase", label: "Firebase", category: "BE" },
+  { slug: "jest", label: "Jest", category: "TEST" },
+  { slug: "playwright", label: "Playwright", category: "TEST" },
+  { slug: "docker", label: "Docker", category: "OPS" },
+  { slug: "nginx", label: "Nginx", category: "OPS" },
+  { slug: "git", label: "Git", category: "OPS" },
+  { slug: "github", label: "GitHub", category: "OPS" },
+  { slug: "jira", label: "Jira", category: "TOOL" },
+  { slug: "visualstudiocode", label: "VS Code", category: "TOOL" },
+  { slug: "figma", label: "Figma", category: "TOOL" },
+  { slug: "postman", label: "Postman", category: "TOOL" },
 ];
 
 const categoryAccent: Record<StackItem["category"], string> = {
   LANG: "#22c55e",
-  FE:   "#38bdf8",
-  BE:   "#a78bfa",
+  FE: "#38bdf8",
+  BE: "#a78bfa",
   TEST: "#fb923c",
-  OPS:  "#f43f5e",
+  OPS: "#f43f5e",
   TOOL: "#facc15",
 };
 
@@ -99,7 +99,7 @@ export default function StackSection() {
   }, []);
 
   return (
-    <section id="stack" ref={sectionRef} className="py-24 md:py-32 relative">
+    <section id="stack" ref={sectionRef} className="py-24 md:py-32 relative bg-black z-20">
       {/* Subtle grid background behind tags */}
       <style>{`
         .stack-tag {

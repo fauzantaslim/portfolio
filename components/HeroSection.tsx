@@ -169,15 +169,15 @@ export default function HeroSection() {
         {/* Name */}
         <h1
           ref={nameRef}
-          className="mb-4 tracking-tight leading-[1.0]"
+          className="mb-4 [@media(max-height:500px)]:mb-2 tracking-tight leading-[1.0]"
         >
           <span
-            className="hero-name-line text-5xl md:text-7xl lg:text-[6rem] font-black text-white opacity-0"
+            className="hero-name-line text-5xl md:text-7xl lg:text-[6rem] [@media(max-height:500px)]:text-4xl font-black text-white opacity-0"
           >
             Fauzan Taslim
           </span>
           <span
-            className="hero-name-line text-5xl md:text-7xl lg:text-[6rem] font-black text-primary opacity-0"
+            className="hero-name-line text-5xl md:text-7xl lg:text-[6rem] [@media(max-height:500px)]:text-4xl font-black text-primary opacity-0"
             style={{ textShadow: "0 0 60px rgba(29,205,159,0.35)" }}
           >
             Hidayat
@@ -198,7 +198,7 @@ export default function HeroSection() {
 
         {/* Description */}
         <p
-          className="hero-desc max-w-xl mx-auto text-white/45 text-sm md:text-base leading-relaxed mb-10 opacity-0"
+          className="hero-desc max-w-xl mx-auto text-white/45 text-sm md:text-base [@media(max-height:500px)]:text-xs leading-relaxed mb-10 [@media(max-height:500px)]:mb-4 opacity-0"
           style={{ fontFamily: "'JetBrains Mono', monospace", lineHeight: 1.8 }}
         >
           Passionate about software excellence through comprehensive testing strategies,
@@ -206,14 +206,14 @@ export default function HeroSection() {
         </p>
 
         {/* CTA Buttons */}
-        <div className="flex items-center justify-center gap-3 flex-wrap mb-10">
+        <div className="flex items-center justify-center gap-3 flex-wrap mb-10 [@media(max-height:500px)]:mb-2">
           <a
             href="#contact"
             onClick={(e) => {
               e.preventDefault();
               document.querySelector("#contact")?.scrollIntoView({ behavior: "smooth" });
             }}
-            className="hero-btn hero-btn-primary group inline-flex items-center gap-2.5 px-7 py-3.5 bg-primary text-black font-bold rounded-lg opacity-0"
+            className="hero-btn hero-btn-primary group inline-flex items-center gap-2.5 px-7 py-3.5 [@media(max-height:500px)]:px-4 [@media(max-height:500px)]:py-2 bg-primary text-black font-bold rounded-lg opacity-0"
             aria-label="Contact me"
           >
             <FaEnvelope className="w-3.5 h-3.5" aria-hidden="true" />
@@ -223,7 +223,7 @@ export default function HeroSection() {
             href="/Fauzan Taslim Hidayat - CV Maret 2026.pdf"
             target="_blank"
             rel="noopener noreferrer"
-            className="hero-btn hero-btn-secondary group inline-flex items-center gap-2.5 px-7 py-3.5 border border-primary/25 text-primary rounded-lg opacity-0"
+            className="hero-btn hero-btn-secondary group inline-flex items-center gap-2.5 px-7 py-3.5 [@media(max-height:500px)]:px-4 [@media(max-height:500px)]:py-2 border border-primary/25 text-primary rounded-lg opacity-0"
             aria-label="Download CV"
           >
             <FaDownload className="w-3.5 h-3.5" aria-hidden="true" />
@@ -237,7 +237,7 @@ export default function HeroSection() {
       {/* Scroll indicator */}
       <div
         ref={scrollIndicatorRef}
-        className="absolute bottom-8 left-1/2 -translate-x-1/2 opacity-0"
+        className="absolute bottom-8 [@media(max-height:500px)]:bottom-2 left-1/2 -translate-x-1/2 opacity-0"
       >
         <a
           href="#about"

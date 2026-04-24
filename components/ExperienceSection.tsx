@@ -170,27 +170,27 @@ export default function ExperienceSection() {
       {/* Single container — pinned GSAP on all screen sizes */}
       <div
         ref={containerRef}
-        className="py-16 md:py-24 relative min-h-screen w-full flex flex-col items-center overflow-hidden"
+        className="py-16 md:py-24 [@media(max-height:500px)]:py-6 relative min-h-screen w-full flex flex-col items-center overflow-hidden"
       >
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-neutral-dark/20 to-transparent pointer-events-none" />
 
         <div className="section-container relative z-10 w-full flex flex-col items-center flex-grow h-full">
           {/* Header */}
-          <div className="text-center mb-16 md:mb-24 shrink-0 z-50">
-            <div className="flex items-center justify-center gap-3 mb-4">
+          <div className="text-center mb-16 md:mb-24 [@media(max-height:500px)]:mb-6 shrink-0 z-50">
+            <div className="flex items-center justify-center gap-3 mb-4 [@media(max-height:500px)]:mb-2">
               <div className="h-px w-12 bg-primary/60" />
               <span className="font-mono text-xs tracking-[0.25em] uppercase text-primary">
                 Experience
               </span>
               <div className="h-px w-12 bg-primary/60" />
             </div>
-            <h2 className="text-3xl md:text-5xl font-black tracking-tight">
+            <h2 className="text-3xl md:text-5xl [@media(max-height:500px)]:text-2xl font-black tracking-tight">
               Work <span className="text-primary">Experience</span>
             </h2>
           </div>
 
           {/* Main content — timeline left + cards right, on all screen sizes */}
-          <div className="relative w-full max-w-7xl mx-auto flex flex-row gap-4 md:gap-12 flex-grow h-[580px] md:h-[500px] px-2 md:px-0">
+          <div className="relative w-full max-w-7xl mx-auto flex flex-row gap-4 md:gap-12 flex-grow h-[70vh] min-h-[400px] max-h-[580px] md:h-[500px] px-2 md:px-0">
 
             {/* Timeline sidebar — visible on all screens */}
             <div className="flex flex-col items-center py-6 md:py-10 relative z-50 w-6 md:w-8 shrink-0">
@@ -217,19 +217,19 @@ export default function ExperienceSection() {
               {experiences.map((exp, index) => (
                 <div
                   key={index}
-                  className="exp-card absolute top-0 left-0 w-full h-full p-5 md:p-8 rounded-2xl bg-[#0a0a0a] border border-white/8 shadow-[0_-20px_60px_rgba(0,0,0,0.6)] flex flex-col"
+                  className="exp-card absolute top-0 left-0 w-full h-full p-5 md:p-8 [@media(max-height:500px)]:p-4 rounded-2xl bg-[#0a0a0a] border border-white/8 shadow-[0_-20px_60px_rgba(0,0,0,0.6)] flex flex-col"
                   style={{ zIndex: index + 1 }}
                 >
                   {/* Card header */}
-                  <div className="flex flex-col gap-2 mb-4 md:mb-5 shrink-0">
+                  <div className="flex flex-col gap-2 mb-4 md:mb-5 [@media(max-height:500px)]:mb-2 shrink-0">
                     <div className="flex items-start justify-between gap-2 flex-wrap">
                       <div>
-                        <h3 className="text-base md:text-2xl font-black text-white leading-tight mb-1">
+                        <h3 className="text-base md:text-2xl [@media(max-height:500px)]:text-sm font-black text-white leading-tight mb-1">
                           {exp.role}
                         </h3>
-                        <p className="text-primary font-semibold text-sm md:text-base">{exp.company}</p>
+                        <p className="text-primary font-semibold text-sm md:text-base [@media(max-height:500px)]:text-xs">{exp.company}</p>
                       </div>
-                      <span className="exp-type-badge shrink-0">{exp.type}</span>
+                      <span className="exp-type-badge shrink-0 [@media(max-height:500px)]:text-[0.5rem]">{exp.type}</span>
                     </div>
 
                     <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-white/45 border-b border-white/8 pb-3 md:pb-4 mt-1">
@@ -252,11 +252,11 @@ export default function ExperienceSection() {
 
                   {/* Description */}
                   <div className="flex-grow overflow-y-auto pr-1" style={{ scrollbarWidth: "none" }}>
-                    <ul className="space-y-2 md:space-y-3">
+                    <ul className="space-y-2 md:space-y-3 [@media(max-height:500px)]:space-y-1">
                       {exp.description.map((item, idx) => (
-                        <li key={idx} className="flex items-start gap-3">
+                        <li key={idx} className="flex items-start gap-3 [@media(max-height:500px)]:gap-2">
                           <span className="exp-bullet" aria-hidden="true" />
-                          <span className="text-white/60 text-xs md:text-sm leading-relaxed">{item}</span>
+                          <span className="text-white/60 text-xs md:text-sm [@media(max-height:500px)]:text-[10px] [@media(max-height:500px)]:leading-tight leading-relaxed">{item}</span>
                         </li>
                       ))}
                     </ul>

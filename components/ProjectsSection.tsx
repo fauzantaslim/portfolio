@@ -268,20 +268,20 @@ export default function ProjectsSection() {
 
       <div className="section-container relative z-10 px-4 md:px-8 max-w-7xl mx-auto">
         {/* ── Header ── */}
-        <div className="mb-14 md:mb-18">
-          <div className="flex items-center gap-3 mb-4">
+        <div className="mb-14 md:mb-18 [@media(max-height:500px)]:mb-4">
+          <div className="flex items-center gap-3 mb-4 [@media(max-height:500px)]:mb-2">
             <span className="proj-eyebrow font-mono text-xs tracking-[0.25em] uppercase text-primary">
               Selected Work
             </span>
             <div className="h-px flex-1 max-w-[80px] bg-primary/60" />
           </div>
-          <h2 className="proj-headline text-4xl md:text-6xl font-black tracking-tight leading-[1.05]">
+          <h2 className="proj-headline text-4xl md:text-6xl [@media(max-height:500px)]:text-2xl font-black tracking-tight leading-[1.05]">
             Featured <span className="text-primary">Projects</span>
           </h2>
         </div>
 
         {/* ── Filter bar — industrial chip style ── */}
-        <div className="proj-filters flex flex-wrap gap-2 mb-12">
+        <div className="proj-filters flex flex-wrap gap-2 mb-12 [@media(max-height:500px)]:mb-6">
           {categories.map((cat) => {
             const count =
               cat === "All"
@@ -364,27 +364,27 @@ export default function ProjectsSection() {
                 </div>
 
                 {/* Content Overlay */}
-                <div className="relative z-10 w-full h-full px-6 md:px-16 py-12 flex flex-col justify-center">
+                <div className="relative z-10 w-full h-full px-6 md:px-16 py-12 [@media(max-height:500px)]:py-4 [@media(max-height:500px)]:px-6 flex flex-col justify-center">
                   <div className="proj-content max-w-4xl">
                     <span
-                      className="inline-block px-3 py-1 mb-6 text-xs font-mono tracking-widest uppercase rounded-sm border backdrop-blur-md"
+                      className="inline-block px-3 py-1 mb-6 [@media(max-height:500px)]:mb-2 text-xs [@media(max-height:500px)]:text-[10px] font-mono tracking-widest uppercase rounded-sm border backdrop-blur-md"
                       style={{ color: accent, borderColor: accent + "40", backgroundColor: accent + "10" }}
                     >
                       {project.category}
                     </span>
-                    <h3 className="text-5xl md:text-8xl font-black text-white tracking-tight leading-[1] mb-6 drop-shadow-2xl">
+                    <h3 className="text-5xl md:text-8xl [@media(max-height:500px)]:text-3xl font-black text-white tracking-tight leading-[1] mb-6 [@media(max-height:500px)]:mb-2 drop-shadow-2xl">
                       {project.title}
                     </h3>
-                    <p className="text-white/90 text-sm md:text-xl leading-relaxed mb-10 max-w-2xl drop-shadow-lg font-medium">
+                    <p className="text-white/90 text-sm md:text-xl [@media(max-height:500px)]:text-[11px] [@media(max-height:500px)]:leading-snug leading-relaxed mb-10 [@media(max-height:500px)]:mb-4 max-w-2xl drop-shadow-lg font-medium">
                       {project.description}
                     </p>
 
                     {/* Tags */}
-                    <div className="flex flex-wrap gap-3 mb-10">
+                    <div className="flex flex-wrap gap-3 mb-10 [@media(max-height:500px)]:mb-4">
                       {project.tags.map((tag) => (
                         <span
                           key={tag}
-                          className="text-xs md:text-sm font-mono text-white/80 bg-white/10 px-4 py-1.5 rounded-full border border-white/20 backdrop-blur-md"
+                          className="text-xs md:text-sm [@media(max-height:500px)]:text-[9px] [@media(max-height:500px)]:px-2 [@media(max-height:500px)]:py-1 font-mono text-white/80 bg-white/10 px-4 py-1.5 rounded-full border border-white/20 backdrop-blur-md"
                         >
                           {tag}
                         </span>
@@ -392,13 +392,13 @@ export default function ProjectsSection() {
                     </div>
 
                     {/* Links */}
-                    <div className="flex flex-wrap gap-4">
+                    <div className="flex flex-wrap gap-4 [@media(max-height:500px)]:gap-2">
                       {project.links.live && project.links.live !== "#" && (
                         <a
                           href={project.links.live}
                           target="_blank"
                           rel="noreferrer"
-                          className="flex items-center gap-3 border border-white/40 px-6 py-3 text-xs md:text-sm font-mono tracking-widest text-white hover:bg-white hover:text-black transition-colors rounded-sm"
+                          className="flex items-center gap-3 border border-white/40 px-6 py-3 [@media(max-height:500px)]:px-3 [@media(max-height:500px)]:py-1.5 text-xs md:text-sm [@media(max-height:500px)]:text-[10px] font-mono tracking-widest text-white hover:bg-white hover:text-black transition-colors rounded-sm"
                         >
                           FIND OUT MORE <FaArrowUpRightFromSquare />
                         </a>
@@ -408,7 +408,7 @@ export default function ProjectsSection() {
                           href={project.links.github}
                           target="_blank"
                           rel="noreferrer"
-                          className="flex items-center gap-3 border border-white/40 px-6 py-3 text-xs md:text-sm font-mono tracking-widest text-white hover:bg-white hover:text-black transition-colors rounded-sm"
+                          className="flex items-center gap-3 border border-white/40 px-6 py-3 [@media(max-height:500px)]:px-3 [@media(max-height:500px)]:py-1.5 text-xs md:text-sm [@media(max-height:500px)]:text-[10px] font-mono tracking-widest text-white hover:bg-white hover:text-black transition-colors rounded-sm"
                         >
                           GITHUB <FaGithub />
                         </a>

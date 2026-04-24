@@ -26,7 +26,7 @@ const jsonLd = {
 
 export default function Home() {
   return (
-    <main className="flex min-h-screen flex-col bg-black overflow-hidden selection:bg-primary/30 selection:text-white">
+    <main className="min-h-screen bg-black overflow-x-hidden selection:bg-primary/30 selection:text-white">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}

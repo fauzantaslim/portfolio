@@ -2,7 +2,10 @@
 
 import { useEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Image from "next/image";
+
+gsap.registerPlugin(ScrollTrigger);
 
 const BOOT_LINES = [
   "initializing runtime...",
@@ -18,6 +21,8 @@ export default function Preloader() {
   const preloaderRef = useRef<HTMLDivElement>(null);
   const topStairsRefs = useRef<(HTMLDivElement | null)[]>([]);
   const bottomStairsRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const topBackdropRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const bottomBackdropRefs = useRef<(HTMLDivElement | null)[]>([]);
   const logoRef = useRef<HTMLDivElement>(null);
   const terminalRef = useRef<HTMLDivElement>(null);
   const progressBarRef = useRef<HTMLDivElement>(null);
@@ -65,6 +70,9 @@ export default function Preloader() {
         clearInterval(typeInterval);
         document.body.style.overflow = "";
         setIsVisible(false);
+        setTimeout(() => {
+          ScrollTrigger.refresh();
+        }, 100);
       },
     });
 
@@ -76,27 +84,48 @@ export default function Preloader() {
       ease: "power2.in",
       stagger: 0.05,
     })
-    // Double stairs animation (Top and Bottom separating)
-    .to(
-      topStairsRefs.current,
-      {
-        yPercent: -100,
-        duration: 0.8,
-        ease: "power4.inOut",
-        stagger: 0.05,
-      },
-      "-=0.1"
-    )
-    .to(
-      bottomStairsRefs.current,
-      {
-        yPercent: 100,
-        duration: 0.8,
-        ease: "power4.inOut",
-        stagger: 0.05,
-      },
-      "<" // start exactly at the same time as the top stairs
-    );
+      // Layer 1: Black Backdrop starts sliding
+      .to(
+        topBackdropRefs.current,
+        {
+          yPercent: -100,
+          duration: 0.8,
+          ease: "power4.inOut",
+          stagger: 0.05,
+        },
+        "-=0.1"
+      )
+      .to(
+        bottomBackdropRefs.current,
+        {
+          yPercent: 100,
+          duration: 0.8,
+          ease: "power4.inOut",
+          stagger: 0.05,
+        },
+        "<"
+      )
+      // Layer 2: Green Stairs starts sliding shortly after Layer 1
+      .to(
+        topStairsRefs.current,
+        {
+          yPercent: -100,
+          duration: 0.8,
+          ease: "power4.inOut",
+          stagger: 0.05,
+        },
+        "-=0.7"
+      )
+      .to(
+        bottomStairsRefs.current,
+        {
+          yPercent: 100,
+          duration: 0.8,
+          ease: "power4.inOut",
+          stagger: 0.05,
+        },
+        "<"
+      );
 
     return () => {
       clearInterval(typeInterval);
@@ -172,17 +201,30 @@ export default function Preloader() {
       <div className="absolute inset-0 z-20 flex">
         {[...Array(COLUMNS)].map((_, i) => (
           <div key={`col-${i}`} className="flex-1 relative h-full">
-            {/* Top stair */}
+            {/* Layer 2: Green Stairs (Transition layer) */}
             <div
               ref={(el) => {
                 if (el) topStairsRefs.current[i] = el;
               }}
-              className="absolute top-0 left-0 w-full h-[50.5%] bg-[#050505]"
+              className="absolute top-0 left-0 w-full h-[50.5%] bg-[#1DCD9F]"
             />
-            {/* Bottom stair */}
             <div
               ref={(el) => {
                 if (el) bottomStairsRefs.current[i] = el;
+              }}
+              className="absolute bottom-0 left-0 w-full h-[50.5%] bg-[#1DCD9F]"
+            />
+
+            {/* Layer 1: Black Backdrop (Main preloader background) */}
+            <div
+              ref={(el) => {
+                if (el) topBackdropRefs.current[i] = el;
+              }}
+              className="absolute top-0 left-0 w-full h-[50.5%] bg-[#050505]"
+            />
+            <div
+              ref={(el) => {
+                if (el) bottomBackdropRefs.current[i] = el;
               }}
               className="absolute bottom-0 left-0 w-full h-[50.5%] bg-[#050505]"
             />
