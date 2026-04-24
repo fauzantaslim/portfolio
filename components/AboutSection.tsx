@@ -22,11 +22,11 @@ function Tunnel({ opacity }: { opacity: number }) {
       {frames.map((frame, i) => (
         <mesh key={i} position={[0, 0, frame.z]} scale={frame.scale}>
           <boxGeometry args={[1, 1, 1]} />
-          <meshStandardMaterial 
-            color="#1DCD9F" 
-            transparent 
-            opacity={opacity * (1 - i / 35)} 
-            wireframe 
+          <meshStandardMaterial
+            color="#1DCD9F"
+            transparent
+            opacity={opacity * (1 - i / 35)}
+            wireframe
           />
         </mesh>
       ))}
@@ -39,7 +39,7 @@ function Scene({ scrollProgress }: { scrollProgress: number }) {
   const meshRef = useRef<THREE.Mesh>(null);
   const groupRef = useRef<THREE.Group>(null);
   const { camera, size } = useThree();
-  
+
   const isMobile = size.width < 768;
   const isTablet = size.width >= 768 && size.width < 1024;
 
@@ -47,12 +47,12 @@ function Scene({ scrollProgress }: { scrollProgress: number }) {
   // 0.0 - 0.2: Entering & Descent
   // 0.2 - 0.8: Content Reveal (Pinned focus)
   // 0.8 - 1.0: Quick Exit Traverse
-  
+
   const tunnelReveal = gsap.utils.clamp(0, 1, gsap.utils.mapRange(0, 0.2, 0, 1, scrollProgress));
   const headerReveal = gsap.utils.clamp(0, 1, gsap.utils.mapRange(0.2, 0.4, 0, 1, scrollProgress));
-  const photoReveal  = gsap.utils.clamp(0, 1, gsap.utils.mapRange(0.4, 0.6, 0, 1, scrollProgress));
-  const descReveal   = gsap.utils.clamp(0, 1, gsap.utils.mapRange(0.6, 0.8, 0, 1, scrollProgress));
-  const gridReveal   = gsap.utils.clamp(0, 1, gsap.utils.mapRange(0.8, 1.0, 0, 1, scrollProgress));
+  const photoReveal = gsap.utils.clamp(0, 1, gsap.utils.mapRange(0.4, 0.6, 0, 1, scrollProgress));
+  const descReveal = gsap.utils.clamp(0, 1, gsap.utils.mapRange(0.6, 0.8, 0, 1, scrollProgress));
+  const gridReveal = gsap.utils.clamp(0, 1, gsap.utils.mapRange(0.8, 1.0, 0, 1, scrollProgress));
 
   // Calculated values for 3D elements
   // Photo: Left to Right
@@ -84,7 +84,7 @@ function Scene({ scrollProgress }: { scrollProgress: number }) {
     const camProgress = Math.min(scrollProgress, 0.2);
     const camY = gsap.utils.mapRange(0, 0.2, 12, 0, camProgress);
     const camZ = gsap.utils.mapRange(0, 0.2, 15, -8, camProgress);
-    
+
     camera.position.set(0, camY, camZ);
     camera.lookAt(0, 0, camZ - 10);
 
@@ -101,15 +101,15 @@ function Scene({ scrollProgress }: { scrollProgress: number }) {
       <ambientLight intensity={0.5} />
       <pointLight position={[0, 5, 5]} intensity={2} color="#1DCD9F" />
       <pointLight position={[0, -5, -20]} intensity={1.5} color="#1DCD9F" />
-      
+
       <Tunnel opacity={tunnelOpacity} />
 
       <Float speed={1.5} rotationIntensity={0.2} floatIntensity={0.3}>
         <mesh ref={meshRef} position={[photoX, photoY, -18]} scale={photoScale}>
           <planeGeometry />
-          <meshStandardMaterial 
-            map={texture} 
-            transparent 
+          <meshStandardMaterial
+            map={texture}
+            transparent
             opacity={photoOpacity}
             roughness={0.4}
             metalness={0.2}
@@ -134,40 +134,38 @@ function Scene({ scrollProgress }: { scrollProgress: number }) {
               <span className="font-mono text-xs tracking-[0.25em] uppercase text-primary">About Me</span>
               <div className="h-px w-16 md:w-20 bg-primary/60" />
             </div>
-            
-            <h2 className="text-3xl md:text-5xl font-black leading-tight tracking-tight">
-              Obsessed with<br />
-              <span className="text-primary">quality</span> & craft.
-            </h2>
           </div>
 
-          <div 
-            className="space-y-3 md:space-y-4 text-white/70 text-xs md:text-sm leading-relaxed text-center md:text-left"
-            style={{ 
+          <div
+            className="space-y-3 md:space-y-4 text-white/70 text-xs md:text-sm leading-relaxed text-center md:text-left break-words"
+            style={{
               transform: `translateX(${descX}px)`,
-              opacity: descOpacity
+              opacity: descOpacity,
+              wordBreak: "break-word",
+              overflowWrap: "break-word",
             }}
           >
             <p>
-              I&apos;m a dedicated <span className="text-white font-semibold">Backend Developer</span> & <span className="text-primary font-semibold">SQE</span> with a passion for reliability.
+              <span className="sm:hidden">Backend dev pivoting into <span className="text-primary font-semibold">SQA</span>.</span>
+              <span className="hidden sm:inline">I&apos;m a <span className="text-white font-semibold">Backend Developer</span> with hands-on experience building REST APIs, actively transitioning into <span className="text-primary font-semibold">Software Quality Assurance</span>.</span>
             </p>
             <p className="hidden sm:block">
-              I specialize in comprehensive testing strategies that maintain high-quality standards throughout the lifecycle.
+              My dev background gives me an edge in QA — I understand systems from the inside, making me better at finding what breaks them.
             </p>
           </div>
 
-          <div 
+          <div
             className="hidden md:grid grid-cols-2 gap-4 mt-4"
-            style={{ 
+            style={{
               transform: `translateY(${gridY}px)`,
               opacity: gridOpacity
             }}
           >
             {[
-              { key: "Experience", val: "Backend & QA" },
-              { key: "Focus", val: "Quality Assurance" },
+              { key: "Background", val: "Backend Dev" },
+              { key: "Goal", val: "SQA" },
               { key: "Location", val: "Bogor, ID" },
-              { key: "Status", val: "Available" },
+              { key: "Status", val: "Open to Work" },
             ].map(({ key, val }) => (
               <div key={key} className="flex flex-col">
                 <span className="text-white/30 uppercase font-mono text-[0.6rem] tracking-wider">{key}</span>
@@ -224,9 +222,9 @@ export default function AboutSection() {
   }, []);
 
   return (
-    <section 
-      id="about" 
-      ref={sectionRef} 
+    <section
+      id="about"
+      ref={sectionRef}
       className="relative w-full h-screen bg-black overflow-hidden z-10"
     >
       <div className="absolute inset-0 z-0">
