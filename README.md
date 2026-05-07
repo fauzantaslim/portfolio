@@ -1,36 +1,136 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Fauzan Taslim Hidayat — Portfolio Website
 
-## Getting Started
+Personal portfolio website built with **Next.js 16**, **TypeScript**, and **Tailwind CSS v4**. Showcases my background as a Software Quality Engineer, including skills, experience, and projects — with smooth GSAP/Motion animations and a polished dark-themed UI.
 
-First, run the development server:
+🌐 **Live site:** [fauzantaslim.my.id](https://fauzantaslim.my.id)
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+---
+
+## ✨ Features
+
+- **Animated Preloader** — entrance animation before the page reveals
+- **Responsive Navbar** — smooth scroll navigation with active-section tracking
+- **Hero Section** — animated introduction with dynamic text
+- **About Section** — personal background and role summary
+- **Stack Section** — interactive icon cloud showcasing tech stack
+- **Experience Section** — GSAP scroll-pinned career timeline
+- **Projects Section** — highlighted work with descriptions and links
+- **Contact Section** — email and social links
+- **Footer** — clean footer with credits
+- **SEO-ready** — OpenGraph, Twitter Card, JSON-LD structured data, `robots.ts`, `sitemap.ts`
+
+---
+
+## 🛠 Tech Stack
+
+| Category        | Technology                            |
+|-----------------|---------------------------------------|
+| Framework       | [Next.js 16](https://nextjs.org) (App Router) |
+| Language        | TypeScript 5                          |
+| Styling         | Tailwind CSS v4                       |
+| Animations      | [GSAP 3](https://gsap.com) + [Motion](https://motion.dev) |
+| UI Components   | [shadcn/ui](https://ui.shadcn.com) + [Radix UI](https://www.radix-ui.com) |
+| Icons           | [React Icons](https://react-icons.github.io/react-icons/) |
+| Fonts           | Geist Sans & Geist Mono (via `next/font`) |
+| Utilities       | clsx, tailwind-merge, class-variance-authority |
+
+---
+
+## 📁 Project Structure
+
+```
+portofolio-website/
+├── app/
+│   ├── layout.tsx        # Root layout (metadata, fonts, preloader)
+│   ├── page.tsx          # Home page — assembles all sections
+│   ├── globals.css       # Global styles and CSS variables
+│   ├── not-found.tsx     # Custom 404 page
+│   ├── robots.ts         # robots.txt generation
+│   └── sitemap.ts        # sitemap.xml generation
+│
+├── components/
+│   ├── Preloader.tsx       # Page entrance animation
+│   ├── Navbar.tsx          # Navigation bar
+│   ├── HeroSection.tsx     # Hero / landing section
+│   ├── AboutSection.tsx    # About me section
+│   ├── StackSection.tsx    # Tech stack showcase (icon cloud)
+│   ├── ExperienceSection.tsx # Career timeline
+│   ├── ProjectsSection.tsx # Projects showcase
+│   ├── ContactSection.tsx  # Contact information
+│   ├── Footer.tsx          # Footer
+│   └── ui/
+│       ├── icon-cloud.tsx  # Interactive 3D icon cloud
+│       ├── lens.tsx        # Lens/magnifier UI effect
+│       ├── particles.tsx   # Particle background animation
+│       └── retro-grid.tsx  # Retro grid background
+│
+├── lib/
+│   └── utils.ts            # Utility functions (cn helper)
+│
+├── public/                 # Static assets (images, icons, SVGs)
+├── next.config.ts          # Next.js configuration
+├── tailwind.config.ts      # Tailwind CSS configuration
+├── tsconfig.json           # TypeScript configuration
+└── package.json
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+---
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 🚀 Getting Started
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### Prerequisites
 
-## Learn More
+- **Node.js** v18 or higher
+- **npm** (or yarn / pnpm / bun)
 
-To learn more about Next.js, take a look at the following resources:
+### Installation
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+1. **Clone the repository**
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+   ```bash
+   git clone https://github.com/fauzantaslim/portfolio.git
+   cd portfolio
+   ```
 
-## Deploy on Vercel
+2. **Install dependencies**
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+   ```bash
+   npm install
+   ```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+3. **Run the development server**
+
+   ```bash
+   npm run dev
+   ```
+
+4. Open [http://localhost:3000](http://localhost:3000) in your browser.
+
+---
+
+## 📦 Available Scripts
+
+| Script          | Description                            |
+|-----------------|----------------------------------------|
+| `npm run dev`   | Start the development server           |
+| `npm run build` | Build for production                   |
+| `npm run start` | Start the production server            |
+| `npm run lint`  | Run ESLint                             |
+
+---
+
+## 🌍 Deployment
+
+This project is optimized for deployment on **Vercel**.
+
+1. Push your code to GitHub.
+2. Import the repository at [vercel.com/new](https://vercel.com/new).
+3. Vercel will auto-detect Next.js and deploy automatically.
+
+> Make sure to update the `url` field in `app/page.tsx` (JSON-LD) and `app/layout.tsx` (OpenGraph) with your actual production domain before deploying.
+
+---
+
+## 📄 License
+
+This project is open source and available under the [MIT License](LICENSE).
