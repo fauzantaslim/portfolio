@@ -38,7 +38,7 @@ const experiences: {
       "Developed a REST API for a Hospital Asset Management System; designed a table database schema supporting the full asset management workflow.",
       "Built core business modules: asset lifecycle management, procurement workflow, inventory auditing (stock opname), and depreciation assets.",
       "Implemented role-based access control, user authentication, and security configurations for data protection.",
-      "Created and executed test scenarios per module; wrote automated integration tests to ensure system reliability.",
+      "Created and executed test scenarios for each module; wrote automated integration tests to ensure system reliability.",
       "Integrated push notifications (WhatsApp), QR code generation, API documentation, and Excel-based reporting.",
     ],
     tags: [

@@ -82,6 +82,66 @@ const projects = [
       live: "https://shorturl.at/smXcw",
     },
   },
+  {
+    title: "AxoMock",
+    description:
+      "Built a free API mocking platform that lets frontend developers get realistic mock data in seconds — no backend needed. Provides ready-to-use endpoints for users, posts, comments, and todos, complete with a visual Mock Builder, full documentation, and open-source codebase.",
+    image: "/axomock.png",
+    category: "Web",
+    tags: ["Node.js", "Express", "JavaScript", "EJS"],
+    links: {
+      github: "https://github.com/fauzantaslim/AxoMock",
+      live: "https://axomock.fauzantaslim.biz.id/",
+    },
+  },
+  {
+    title: "Finlogy",
+    description:
+      "Developed a financial education media platform covering personal finance, investment, and financial planning. Features a responsive multi-category article layout with a featured post system, dark/light mode toggle, and social media integration tailored for Indonesian readers.",
+    image: "/finlogy.png",
+    category: "Web",
+    tags: ["Laravel", "PHP", "MySQL", "Tailwind CSS", "Filament"],
+    links: {
+      live: "https://finlogy.fauzantaslim.biz.id/",
+      github: "https://github.com/fauzantaslim/finlogy",
+    },
+  },
+  {
+    title: "Goalpedia",
+    description:
+      "Built a comprehensive Indonesian football news and statistics portal. Covers the national team (Timnas), club news, competitions, player profiles, and live match updates. Designed with a clean editorial layout featuring hot news, featured stories, insight articles, and deep-dive statistics sections.",
+    image: "/goalpedia.png",
+    category: "Web",
+    tags: ["Laravel", "PHP", "MySQL", "Tailwind CSS", "Filament"],
+    links: {
+      live: "https://goalpedia.fauzantaslim.biz.id/",
+      github: "https://github.com/fauzantaslim/goalpedia",
+    },
+  },
+  {
+    title: "NusantaraTools",
+    description:
+      "Created a free all-in-one productivity platform for Indonesian users — students, workers, and everyday needs. Bundles essential daily tools including Split Bill calculator, Pomodoro timer, and Prayer Schedule (via GPS), all built with a fast, minimal, and mobile-friendly interface.",
+    image: "/nusantaratools.png",
+    category: "Web",
+    tags: ["Next.js", "TypeScript", "Tailwind CSS"],
+    links: {
+      live: "https://nusantaratools.my.id/",
+      github: "https://github.com/fauzantaslim/nusantara-tools",
+    },
+  },
+  {
+    title: "WarisanQ",
+    description:
+      "Developed an Islamic inheritance calculator (Faraidh & KHI) that accurately simulates heir distribution based on Mazhab Syafi'i and the Indonesian Islamic Law Compilation (KHI). Features transparent percentage breakdowns, estate (tirkah) input, and an automatic family tree diagram for visual clarity.",
+    image: "/warisanq.png",
+    category: "Web",
+    tags: ["Next.js", "TypeScript", "Tailwind CSS"],
+    links: {
+      live: "https://warisanq.web.id/",
+      github: "https://github.com/Resky89/WarisanQ-2.0",
+    },
+  },
 ];
 
 const categories = ["All", "Web", "API", "Manual Test", "Automation Test", "Bug Reporting"];
