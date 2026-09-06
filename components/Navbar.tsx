@@ -3,6 +3,8 @@
 import { useEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
 import Image from "next/image";
+import { useTheme } from "next-themes";
+import { FaSun, FaMoon } from "react-icons/fa6";
 
 const navLinks = [
   { label: "Home",       href: "#hero",       idx: "00" },
@@ -13,11 +15,48 @@ const navLinks = [
   { label: "Contact",    href: "#contact",    idx: "05" },
 ];
 
+function ThemeToggle() {
+  const { resolvedTheme, setTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => setMounted(true), []);
+
+  if (!mounted) {
+    return <div className="w-8 h-8" />;
+  }
+
+  const isDark = resolvedTheme === "dark";
+
+  return (
+    <button
+      onClick={() => setTheme(isDark ? "light" : "dark")}
+      className="theme-toggle-btn relative w-8 h-8 rounded-lg flex items-center justify-center"
+      aria-label={isDark ? "Switch to light mode" : "Switch to dark mode"}
+      title={isDark ? "Switch to light mode" : "Switch to dark mode"}
+    >
+      <span
+        className="absolute inset-0 rounded-lg border border-primary/20 hover:border-primary/50 hover:bg-primary/8 transition-all duration-200"
+      />
+      <span className="relative z-10 transition-all duration-300">
+        {isDark ? (
+          <FaSun className="w-3.5 h-3.5 text-primary" />
+        ) : (
+          <FaMoon className="w-3.5 h-3.5 text-primary" />
+        )}
+      </span>
+    </button>
+  );
+}
+
 export default function Navbar() {
   const navRef = useRef<HTMLElement>(null);
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileOpen, setIsMobileOpen] = useState(false);
   const [activeSection, setActiveSection] = useState("hero");
+  const { resolvedTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => setMounted(true), []);
 
   // Scroll + active section detection
   useEffect(() => {
@@ -61,6 +100,8 @@ export default function Navbar() {
     if (target) target.scrollIntoView({ behavior: "smooth" });
   };
 
+  const isLight = mounted && resolvedTheme === "light";
+
   return (
     <nav
       ref={navRef}
@@ -70,7 +111,9 @@ export default function Navbar() {
       <div
         className={`transition-all duration-500 ${
           isScrolled || isMobileOpen
-            ? "bg-black/80 backdrop-blur-xl border-b border-primary/10 py-3"
+            ? isLight
+              ? "bg-white/85 backdrop-blur-xl border-b border-black/8 py-3"
+              : "bg-black/80 backdrop-blur-xl border-b border-primary/10 py-3"
             : "bg-transparent py-5"
         }`}
       >
@@ -121,6 +164,9 @@ export default function Navbar() {
         .hamburger-line:nth-child(1) { top: 0px; }
         .hamburger-line:nth-child(2) { top: 7.25px; }
         .hamburger-line:nth-child(3) { top: 14.5px; }
+        .theme-toggle-btn {
+          transition: none;
+        }
       `}</style>
 
       <div className="section-container flex items-center justify-between">
@@ -143,12 +189,12 @@ export default function Navbar() {
             style={{ fontFamily: "'JetBrains Mono', monospace" }}
           >
             <span className="text-[#1DCD9F]">F</span>
-            <span className="text-white">auzan</span>
+            <span className="dark:text-white text-neutral-dark">auzan</span>
             <span className="text-[#1DCD9F]">.</span>
           </span>
         </a>
 
-        {/* Desktop Links */}
+        {/* Desktop Links + Theme Toggle */}
         <div className="hidden md:flex items-center gap-7">
           {navLinks.map((link) => {
             const isActive = activeSection === link.href.replace("#", "");
@@ -157,47 +203,52 @@ export default function Navbar() {
                 key={link.href}
                 href={link.href}
                 onClick={(e) => handleLinkClick(e, link.href)}
-                className={`nav-link-item uppercase flex items-center gap-1.5 text-neutral-light hover:text-primary transition-colors duration-200 ${
+                className={`nav-link-item uppercase dark:text-neutral-light text-neutral-gray hover:text-primary transition-colors duration-200 ${
                   isActive ? "active" : ""
                 }`}
               >
-                <span className="nav-idx text-primary/40">{link.idx}</span>
                 {link.label}
               </a>
             );
           })}
+
+          {/* Theme Toggle */}
+          <ThemeToggle />
         </div>
 
-        {/* Mobile Toggle */}
-        <button
-          onClick={() => setIsMobileOpen(!isMobileOpen)}
-          className="md:hidden p-2 relative z-50"
-          aria-label="Toggle menu"
-          aria-expanded={isMobileOpen}
-        >
-          <span className="hamburger-btn">
-            <span
-              className="hamburger-line"
-              style={{
-                transform: isMobileOpen
-                  ? "translateY(7.25px) rotate(45deg)"
-                  : "none",
-              }}
-            />
-            <span
-              className="hamburger-line"
-              style={{ opacity: isMobileOpen ? 0 : 1, transform: "none" }}
-            />
-            <span
-              className="hamburger-line"
-              style={{
-                transform: isMobileOpen
-                  ? "translateY(-7.25px) rotate(-45deg)"
-                  : "none",
-              }}
-            />
-          </span>
-        </button>
+        {/* Mobile: Theme Toggle + Hamburger */}
+        <div className="md:hidden flex items-center gap-2">
+          <ThemeToggle />
+          <button
+            onClick={() => setIsMobileOpen(!isMobileOpen)}
+            className="p-2 relative z-50"
+            aria-label="Toggle menu"
+            aria-expanded={isMobileOpen}
+          >
+            <span className="hamburger-btn">
+              <span
+                className="hamburger-line"
+                style={{
+                  transform: isMobileOpen
+                    ? "translateY(7.25px) rotate(45deg)"
+                    : "none",
+                }}
+              />
+              <span
+                className="hamburger-line"
+                style={{ opacity: isMobileOpen ? 0 : 1, transform: "none" }}
+              />
+              <span
+                className="hamburger-line"
+                style={{
+                  transform: isMobileOpen
+                    ? "translateY(-7.25px) rotate(-45deg)"
+                    : "none",
+                }}
+              />
+            </span>
+          </button>
+        </div>
       </div>
       </div> {/* end header bar */}
 
@@ -207,7 +258,7 @@ export default function Navbar() {
           isMobileOpen ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
         }`}
       >
-        <div className="section-container glass flex flex-col gap-1 py-6 border-t border-white/8 mt-2 shadow-2xl">
+        <div className="section-container glass flex flex-col gap-1 py-6 border-t border-primary/10 mt-2 shadow-2xl">
           {navLinks.map((link) => {
             const isActive = activeSection === link.href.replace("#", "");
             return (
@@ -216,11 +267,10 @@ export default function Navbar() {
                 href={link.href}
                 onClick={(e) => handleLinkClick(e, link.href)}
                 className={`flex items-center gap-3 py-2.5 text-sm transition-colors duration-200 ${
-                  isActive ? "text-primary" : "text-white/60 hover:text-white"
+                  isActive ? "text-primary" : "dark:text-white/60 text-black/60 hover:text-primary"
                 }`}
                 style={{ fontFamily: "'JetBrains Mono', monospace" }}
               >
-                <span className="text-primary/40 text-xs">{link.idx}</span>
                 <span className="uppercase tracking-wider text-xs">{link.label}</span>
                 {isActive && (
                   <span className="ml-auto w-1.5 h-1.5 rounded-full bg-primary" />

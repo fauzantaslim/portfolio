@@ -151,7 +151,7 @@ export default function AboutSection() {
   const words = headline.split(" ");
 
   return (
-    <section id="about" ref={sectionRef} className="py-24 md:py-36 relative overflow-hidden bg-black">
+    <section id="about" ref={sectionRef} className="py-24 md:py-36 relative overflow-hidden bg-background">
       <style>{`
         .split-parent { overflow: hidden; display: inline-block; }
         .split-word { display: inline-block; will-change: transform; }
@@ -179,11 +179,6 @@ export default function AboutSection() {
 
       <div className="noise-overlay" />
 
-      <span aria-hidden="true"
-        className="about-bg-number absolute right-4 top-1/4 text-[25vw] font-black text-white/[0.03] select-none leading-none pointer-events-none z-0"
-        style={{ fontFamily: "'JetBrains Mono', monospace" }}>
-        02
-      </span>
 
       <div className="section-container relative z-10" ref={containerRef}>
         {/* Header */}
@@ -192,7 +187,7 @@ export default function AboutSection() {
             <span className="about-eyebrow font-mono text-xs tracking-[0.3em] uppercase text-primary">About Me</span>
             <div className="about-accent-line h-px flex-1 max-w-[100px] bg-primary/40" />
           </div>
-          <h2 className="text-4xl md:text-7xl font-black leading-[1] tracking-tighter">
+          <h2 className="text-4xl md:text-7xl font-black leading-[1] tracking-tighter text-foreground">
             {words.map((word, i) => (
               <span key={i} className="split-parent mr-[0.2em]">
                 <span className={`split-word ${word.toLowerCase() === 'quality' ? 'text-primary' : ''}`}>
@@ -208,7 +203,7 @@ export default function AboutSection() {
           {/* Left: Image */}
           <div className="lg:col-span-5 relative about-img-container" ref={imageWrapperRef}>
             <div className="about-img-frame absolute -top-4 -left-4 w-full h-full border border-primary/20 rounded-2xl z-0" />
-            <div className="about-img-wrapper about-scanline relative w-full aspect-[4/5] rounded-2xl overflow-hidden border border-white/10 z-10 shadow-2xl">
+            <div className="about-img-wrapper about-scanline relative w-full aspect-[4/5] rounded-2xl overflow-hidden dark:border dark:border-white/10 border border-black/10 z-10 shadow-2xl">
               {/* Curtain Reveal */}
               <div className="about-curtain absolute inset-0 bg-primary z-[5]" />
               
@@ -230,18 +225,18 @@ export default function AboutSection() {
           {/* Right: Content */}
           <div className="lg:col-span-7 flex flex-col gap-12">
             <div className="about-body-wrap space-y-6">
-              <p className="about-body-p text-white/80 leading-relaxed text-lg md:text-xl font-light">
-                I am a <span className="text-white font-medium border-b border-primary/30">Backend Developer</span> & <span className="text-primary font-medium">Software Quality Engineer</span> dedicated to the craft of robust digital systems.
+              <p className="about-body-p text-foreground/80 leading-relaxed text-lg md:text-xl font-light">
+                I am a <span className="text-foreground font-medium border-b border-primary/30">Backend Developer</span> & <span className="text-primary font-medium">Software Quality Engineer</span> dedicated to the craft of robust digital systems.
               </p>
-              <p className="about-body-p text-white/60 leading-relaxed text-base md:text-lg">
-                My philosophy is simple: <span className="italic text-white/80">Quality is not an act, it is a habit.</span> I specialize in building scalable backends and designing rigorous testing frameworks that ensure excellence is built-in from the first line of code.
+              <p className="about-body-p text-foreground/60 leading-relaxed text-base md:text-lg">
+                My philosophy is simple: <span className="italic text-foreground/80">Quality is not an act, it is a habit.</span> I specialize in building scalable backends and designing rigorous testing frameworks that ensure excellence is built-in from the first line of code.
               </p>
-              <p className="about-body-p text-white/60 leading-relaxed text-base md:text-lg">
+              <p className="about-body-p text-foreground/60 leading-relaxed text-base md:text-lg">
                 Whether I&apos;m architecting APIs or automating complex integration suites, my focus remains on performance, security, and maintainability.
               </p>
             </div>
 
-            <div className="w-full h-px bg-white/10" />
+            <div className="w-full h-px bg-foreground/10" />
 
             {/* Quick info grid */}
             <div className="about-info-grid grid grid-cols-2 gap-x-12 gap-y-8">
@@ -258,7 +253,7 @@ export default function AboutSection() {
                   >
                     {key}
                   </span>
-                  <span className="text-white/90 text-sm md:text-base font-medium group-hover:text-primary transition-colors duration-300">
+                  <span className="text-foreground/90 text-sm md:text-base font-medium group-hover:text-primary transition-colors duration-300">
                     {val}
                   </span>
                 </div>

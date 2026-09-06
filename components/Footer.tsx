@@ -140,7 +140,7 @@ export default function Footer() {
   return (
     <footer
       ref={footerRef}
-      className="relative bg-black min-h-[480px] flex items-center justify-center overflow-hidden border-t border-white/8"
+      className="relative bg-background min-h-[480px] flex items-center justify-center overflow-hidden dark:border-t dark:border-white/8 border-t border-black/8"
     >
       <style>{`
         .footer-link {
@@ -207,8 +207,8 @@ export default function Footer() {
         className="absolute inset-0 flex items-center justify-center pointer-events-none select-none z-[1]"
       >
         <span
-          className="text-[18vw] font-black text-white/[0.025] leading-none tracking-tight"
-          style={{ fontFamily: "'JetBrains Mono', monospace" }}
+          className="text-[18vw] font-black leading-none tracking-tight"
+          style={{ fontFamily: "'JetBrains Mono', monospace", color: "var(--bg-number)" }}
         >
           FAUZAN.
         </span>
@@ -239,12 +239,12 @@ export default function Footer() {
               style={{ fontFamily: "'JetBrains Mono', monospace" }}
             >
               <span className="text-[#1DCD9F]">F</span>
-              <span className="text-white group-hover:text-[#1DCD9F] transition-colors duration-300">auzan</span>
+              <span className="text-foreground group-hover:text-[#1DCD9F] transition-colors duration-300">auzan</span>
               <span className="text-[#1DCD9F]">.</span>
             </span>
           </a>
           <p
-            className="text-white/30 max-w-xs text-center leading-relaxed"
+            className="text-foreground/30 max-w-xs text-center leading-relaxed"
             style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "0.62rem", letterSpacing: "0.08em" }}
           >
             Backend Developer &amp; Software Quality Engineer<br />
@@ -261,13 +261,12 @@ export default function Footer() {
             <a
               key={link.href}
               href={link.href}
-              className="footer-link text-white/45 flex items-center gap-1.5"
+              className="footer-link text-foreground/45"
               onClick={(e) => {
                 e.preventDefault();
                 document.querySelector(link.href)?.scrollIntoView({ behavior: "smooth" });
               }}
             >
-              <span className="text-primary/30" style={{ fontSize: "0.52rem" }}>{link.idx}</span>
               {link.label}
             </a>
           ))}
@@ -280,7 +279,7 @@ export default function Footer() {
         <div className="w-full max-w-2xl flex flex-col md:flex-row items-center justify-between gap-6">
           {/* Copyright */}
           <p
-            className="text-white/25 order-2 md:order-1"
+            className="text-foreground/25 order-2 md:order-1"
             style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "0.62rem", letterSpacing: "0.06em" }}
           >
             &copy; {currentYear} Fauzan Taslim Hidayat. All rights reserved.
@@ -320,7 +319,7 @@ export default function Footer() {
         {/* Back to top */}
         <button
           onClick={scrollToTop}
-          className="back-to-top text-white/30 px-4 py-2 rounded-lg"
+          className="back-to-top text-foreground/30 px-4 py-2 rounded-lg"
           aria-label="Back to top"
         >
           ↑ &nbsp;back to top

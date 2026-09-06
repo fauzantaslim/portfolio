@@ -99,7 +99,7 @@ export default function StackSection() {
   }, []);
 
   return (
-    <section id="stack" ref={sectionRef} className="py-24 md:py-32 relative bg-black z-20">
+    <section id="stack" ref={sectionRef} className="py-24 md:py-32 relative bg-background z-20">
       {/* Subtle grid background behind tags */}
       <style>{`
         .stack-tag {
@@ -116,8 +116,8 @@ export default function StackSection() {
             0deg,
             transparent,
             transparent 3px,
-            rgba(255,255,255,0.015) 3px,
-            rgba(255,255,255,0.015) 4px
+            rgba(128,128,128,0.015) 3px,
+            rgba(128,128,128,0.015) 4px
           );
           pointer-events: none;
           opacity: 0;
@@ -146,7 +146,7 @@ export default function StackSection() {
           <p className="stack-title text-primary font-mono text-sm tracking-widest uppercase mb-3">
             Tech Stack
           </p>
-          <h2 className="stack-title text-3xl md:text-5xl font-bold">
+          <h2 className="stack-title text-3xl md:text-5xl font-bold text-foreground">
             Technologies I <span className="text-primary">Use</span>
           </h2>
         </div>
@@ -201,7 +201,7 @@ export default function StackSection() {
                 </span>
                 {/* Label */}
                 <span
-                  className="text-white/70 group-hover:text-white/95 transition-colors duration-200"
+                  className="dark:text-white/70 text-black/70 group-hover:dark:text-white/95 group-hover:text-black/95 transition-colors duration-200"
                   style={{ fontSize: "0.78rem", letterSpacing: "0.03em" }}
                 >
                   {label}

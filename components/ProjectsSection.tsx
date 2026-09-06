@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState, useCallback } from "react";
+import { useEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { FaArrowUpRightFromSquare, FaGithub } from "react-icons/fa6";
@@ -158,10 +158,11 @@ export default function ProjectsSection() {
   const sectionRef = useRef<HTMLDivElement>(null);
   const [activeFilter, setActiveFilter] = useState("All");
 
-  const filteredProjects =
+  const filteredProjects = (
     activeFilter === "All"
       ? projects
-      : projects.filter((p) => p.category === activeFilter);
+      : projects.filter((p) => p.category === activeFilter)
+  ).slice().reverse();
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -304,7 +305,7 @@ export default function ProjectsSection() {
   }, [activeFilter]);
 
   return (
-    <section id="projects" ref={sectionRef} className="pt-24 md:pt-36 relative bg-black">
+    <section id="projects" ref={sectionRef} className="pt-24 md:pt-36 relative bg-background">
       <style>{`
         .proj-num {
           font-family: 'JetBrains Mono', 'Fira Code', ui-monospace, monospace;
@@ -317,14 +318,6 @@ export default function ProjectsSection() {
         }
       `}</style>
 
-      {/* Faint background index */}
-      <span
-        aria-hidden="true"
-        className="absolute right-0 top-32 text-[22vw] font-black text-white/[0.02] select-none leading-none pointer-events-none"
-        style={{ fontFamily: "'JetBrains Mono', monospace" }}
-      >
-        04
-      </span>
 
       <div className="section-container relative z-10 px-4 md:px-8 max-w-7xl mx-auto">
         {/* ── Header ── */}
@@ -335,7 +328,7 @@ export default function ProjectsSection() {
             </span>
             <div className="h-px flex-1 max-w-[80px] bg-primary/60" />
           </div>
-          <h2 className="proj-headline text-4xl md:text-6xl [@media(max-height:500px)]:text-2xl font-black tracking-tight leading-[1.05]">
+          <h2 className="proj-headline text-4xl md:text-6xl [@media(max-height:500px)]:text-2xl font-black tracking-tight leading-[1.05] text-foreground">
             Featured <span className="text-primary">Projects</span>
           </h2>
         </div>
@@ -359,19 +352,19 @@ export default function ProjectsSection() {
                   border: `1px solid ${isActive ? accent : accent + "28"}`,
                   backgroundColor: isActive ? accent + "18" : accent + "08",
                   borderRadius: "4px",
-                  color: isActive ? accent : "#ffffff80",
+                  color: isActive ? accent : "var(--text-muted)",
                   boxShadow: isActive ? `0 0 12px ${accent}33` : "none",
                 }}
                 onMouseEnter={(e) => {
                   if (!isActive) {
                     (e.currentTarget as HTMLElement).style.borderColor = accent + "55";
-                    (e.currentTarget as HTMLElement).style.color = "#ffffffcc";
+                    (e.currentTarget as HTMLElement).style.color = "var(--foreground)";
                   }
                 }}
                 onMouseLeave={(e) => {
                   if (!isActive) {
                     (e.currentTarget as HTMLElement).style.borderColor = accent + "28";
-                    (e.currentTarget as HTMLElement).style.color = "#ffffff80";
+                    (e.currentTarget as HTMLElement).style.color = "var(--text-muted)";
                   }
                 }}
               >
@@ -396,7 +389,7 @@ export default function ProjectsSection() {
 
       {/* ── Projects Single Pinned Container (One Card Stack) ── */}
       <div className="w-full max-w-7xl mx-auto px-4 md:px-8 mb-32">
-        <div className="proj-container relative w-full h-[75vh] md:h-[85vh] overflow-hidden rounded-2xl md:rounded-[2rem] border border-white/10 bg-[#050505]">
+        <div className="proj-container relative w-full h-[75vh] md:h-[85vh] overflow-hidden rounded-2xl md:rounded-[2rem] dark:border-white/10 border-black/10 border dark:bg-[#050505] bg-gray-100">
         {filteredProjects.map((project, index) => {
           const accent = categoryColor[project.category] ?? "#1DCD9F";
           return (

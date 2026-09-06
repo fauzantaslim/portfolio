@@ -99,13 +99,13 @@ export default function ContactSection() {
   };
 
   const inputBase = `
-    w-full bg-transparent border-b text-white text-sm py-3 outline-none
-    transition-colors duration-200 placeholder:text-white/20
+    w-full bg-transparent border-b text-foreground text-sm py-3 outline-none
+    transition-colors duration-200 dark:placeholder:text-white/20 placeholder:text-black/30
     font-mono
   `;
 
   return (
-    <section id="contact" ref={sectionRef} className="py-24 md:py-36 relative overflow-hidden">
+    <section id="contact" ref={sectionRef} className="py-24 md:py-36 relative overflow-hidden bg-background">
       <style>{`
         .contact-form-panel {
           position: relative;
@@ -121,7 +121,7 @@ export default function ContactSection() {
           transition: background 0.2s ease, border-color 0.2s ease;
         }
         .contact-link-item:hover {
-          background: rgba(255,255,255,0.03);
+          background: var(--border-faint);
         }
         .field-label {
           font-family: 'JetBrains Mono', ui-monospace, monospace;
@@ -152,14 +152,6 @@ export default function ContactSection() {
         .submit-btn:not(:disabled):hover::after { opacity: 1; }
       `}</style>
 
-      {/* Faint bg index */}
-      <span
-        aria-hidden="true"
-        className="absolute right-0 top-1/2 -translate-y-1/2 text-[22vw] font-black text-white/[0.02] select-none leading-none pointer-events-none"
-        style={{ fontFamily: "'JetBrains Mono', monospace" }}
-      >
-        05
-      </span>
 
       <div className="section-container relative z-10">
         {/* Header */}
@@ -170,7 +162,7 @@ export default function ContactSection() {
             </span>
             <div className="h-px flex-1 max-w-[80px] bg-primary/60" />
           </div>
-          <h2 className="contact-headline text-4xl md:text-6xl font-black tracking-tight leading-[1.05]">
+          <h2 className="contact-headline text-4xl md:text-6xl font-black tracking-tight leading-[1.05] text-foreground">
             Let&apos;s <span className="text-primary">connect</span><br />
             &amp; collaborate.
           </h2>
@@ -179,7 +171,7 @@ export default function ContactSection() {
         <div className="grid lg:grid-cols-12 gap-12 lg:gap-20 items-start max-w-5xl">
           {/* Left: Info */}
           <div className="lg:col-span-5 space-y-10">
-            <p className="text-white/55 leading-relaxed text-[0.95rem]">
+            <p className="text-foreground/55 leading-relaxed text-[0.95rem]">
               Whether you have a question about my QA processes, want to discuss a potential
               collaboration, or just want to say hi — my inbox is always open.
             </p>
@@ -188,7 +180,7 @@ export default function ContactSection() {
               {contactLinks.map(({ icon: Icon, label, value, href, accent }) => {
                 const inner = (
                   <div
-                    className="contact-link-item flex items-center gap-4 p-3 rounded-lg border border-white/6 cursor-default"
+                    className="contact-link-item flex items-center gap-4 p-3 rounded-lg dark:border dark:border-white/6 border border-black/6 cursor-default"
                   >
                     <div
                       className="w-9 h-9 rounded-lg flex items-center justify-center shrink-0"
@@ -198,16 +190,16 @@ export default function ContactSection() {
                     </div>
                     <div>
                       <p
-                        className="text-white/35 mb-0.5"
+                        className="text-foreground/35 mb-0.5"
                         style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "0.58rem", letterSpacing: "0.1em", textTransform: "uppercase" }}
                       >
                         {label}
                       </p>
-                      <p className="text-white text-sm font-medium">{value}</p>
+                      <p className="text-foreground text-sm font-medium">{value}</p>
                     </div>
                     {href && (
                       <span
-                        className="ml-auto text-white/20 text-xs"
+                        className="ml-auto text-foreground/20 text-xs"
                         style={{ fontFamily: "'JetBrains Mono', monospace" }}
                       >
                         ↗
@@ -228,7 +220,7 @@ export default function ContactSection() {
           </div>
 
           {/* Right: Form */}
-          <div className="contact-form-panel lg:col-span-7 p-8 rounded-2xl bg-white/[0.02] border border-white/8">
+          <div className="contact-form-panel lg:col-span-7 p-8 rounded-2xl dark:bg-white/[0.02] bg-black/[0.02] dark:border dark:border-white/8 border border-black/8">
             {isSubmitted ? (
               <div className="flex flex-col items-center justify-center py-16 text-center gap-4">
                 <div
@@ -237,21 +229,21 @@ export default function ContactSection() {
                 >
                   <span className="text-primary text-2xl">✓</span>
                 </div>
-                <p className="text-white font-bold text-lg">Message sent!</p>
-                <p className="text-white/40 text-sm font-mono">I&apos;ll get back to you soon.</p>
+                <p className="text-foreground font-bold text-lg">Message sent!</p>
+                <p className="text-foreground/40 text-sm font-mono">I&apos;ll get back to you soon.</p>
               </div>
             ) : (
               <form onSubmit={handleSubmit} className="space-y-8" noValidate>
                 {/* Name */}
                 <div className="space-y-2">
-                  <label htmlFor="name" className={`field-label ${focused === "name" ? "text-primary" : "text-white/35"} transition-colors duration-200`}>
+                  <label htmlFor="name" className={`field-label ${focused === "name" ? "text-primary" : "text-foreground/35"} transition-colors duration-200`}>
                     Name
                   </label>
                   <input
                     type="text"
                     id="name"
                     required
-                    className={`${inputBase} ${focused === "name" ? "border-primary" : "border-white/12"}`}
+                    className={`${inputBase} ${focused === "name" ? "border-primary" : "dark:border-white/12 border-black/12"}`}
                     placeholder="Your name"
                     value={formState.name}
                     onFocus={() => setFocused("name")}
@@ -263,14 +255,14 @@ export default function ContactSection() {
 
                 {/* Email */}
                 <div className="space-y-2">
-                  <label htmlFor="email" className={`field-label ${focused === "email" ? "text-primary" : "text-white/35"} transition-colors duration-200`}>
+                  <label htmlFor="email" className={`field-label ${focused === "email" ? "text-primary" : "text-foreground/35"} transition-colors duration-200`}>
                     Email
                   </label>
                   <input
                     type="email"
                     id="email"
                     required
-                    className={`${inputBase} ${focused === "email" ? "border-primary" : "border-white/12"}`}
+                    className={`${inputBase} ${focused === "email" ? "border-primary" : "dark:border-white/12 border-black/12"}`}
                     placeholder="your@email.com"
                     value={formState.email}
                     onFocus={() => setFocused("email")}
@@ -282,14 +274,14 @@ export default function ContactSection() {
 
                 {/* Message */}
                 <div className="space-y-2">
-                  <label htmlFor="message" className={`field-label ${focused === "message" ? "text-primary" : "text-white/35"} transition-colors duration-200`}>
+                  <label htmlFor="message" className={`field-label ${focused === "message" ? "text-primary" : "text-foreground/35"} transition-colors duration-200`}>
                     Message
                   </label>
                   <textarea
                     id="message"
                     required
                     rows={5}
-                    className={`${inputBase} resize-none border-b ${focused === "message" ? "border-primary" : "border-white/12"}`}
+                    className={`${inputBase} resize-none border-b ${focused === "message" ? "border-primary" : "dark:border-white/12 border-black/12"}`}
                     placeholder="What's on your mind?"
                     value={formState.message}
                     onFocus={() => setFocused("message")}

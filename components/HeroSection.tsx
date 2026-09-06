@@ -93,7 +93,7 @@ export default function HeroSection() {
     <section
       ref={sectionRef}
       id="hero"
-      className="relative min-h-screen flex items-center justify-center overflow-hidden bg-black"
+      className="relative min-h-screen flex items-center justify-center overflow-hidden bg-background"
     >
       <style>{`
         @keyframes cursor-pulse {
@@ -146,11 +146,15 @@ export default function HeroSection() {
         .scroll-indicator:hover { color: #1DCD9F; }
       `}</style>
 
-      {/* RetroGrid — kept intact */}
-      <RetroGrid />
+      {/* RetroGrid — color-scheme aware */}
+      <RetroGrid
+        lightLineColor="rgba(0,0,0,0.25)"
+        darkLineColor="rgba(255,255,255,0.2)"
+        opacity={0.5}
+      />
 
       {/* Subtle vignette for depth */}
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_60%_at_50%_50%,transparent_40%,rgba(0,0,0,0.7)_100%)] pointer-events-none z-[1]" />
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_60%_at_50%_50%,transparent_40%,rgba(0,0,0,0.5)_100%)] dark:bg-[radial-gradient(ellipse_80%_60%_at_50%_50%,transparent_40%,rgba(0,0,0,0.7)_100%)] pointer-events-none z-[1]" />
 
       {/* Content */}
       <div className="section-container relative z-10 text-center flex flex-col items-center">
@@ -172,7 +176,7 @@ export default function HeroSection() {
           className="mb-4 [@media(max-height:500px)]:mb-2 tracking-tight leading-[1.0]"
         >
           <span
-            className="hero-name-line text-5xl md:text-7xl lg:text-[6rem] [@media(max-height:500px)]:text-4xl font-black text-white opacity-0"
+            className="hero-name-line text-5xl md:text-7xl lg:text-[6rem] [@media(max-height:500px)]:text-4xl font-black text-foreground opacity-0"
           >
             Fauzan Taslim
           </span>
@@ -187,7 +191,7 @@ export default function HeroSection() {
         {/* Role — single clear title */}
         <div className="hero-role-wrap mb-6 flex items-center justify-center opacity-0">
           <span
-            className="inline-flex items-center gap-2 text-white/50 text-sm md:text-base tracking-widest"
+            className="inline-flex items-center gap-2 text-foreground/50 text-sm md:text-base tracking-widest"
             style={{ fontFamily: "'JetBrains Mono', ui-monospace, monospace" }}
           >
             <span className="text-primary/50">[</span>
@@ -198,11 +202,11 @@ export default function HeroSection() {
 
         {/* Description */}
         <p
-          className="hero-desc max-w-xl mx-auto text-white/45 text-sm md:text-base [@media(max-height:500px)]:text-xs leading-relaxed mb-10 [@media(max-height:500px)]:mb-4 opacity-0"
+          className="hero-desc max-w-xl mx-auto text-foreground/45 text-sm md:text-base [@media(max-height:500px)]:text-xs leading-relaxed mb-10 [@media(max-height:500px)]:mb-4 opacity-0"
           style={{ fontFamily: "'JetBrains Mono', monospace", lineHeight: 1.8 }}
         >
-          Passionate about software excellence through comprehensive testing strategies,
-          automation frameworks, and continuous quality improvement.
+          I break things on purpose — so users don&apos;t have to.
+          Also I build backends. Sometimes both happen at the same time.
         </p>
 
         {/* CTA Buttons */}
@@ -245,12 +249,12 @@ export default function HeroSection() {
             e.preventDefault();
             document.querySelector("#about")?.scrollIntoView({ behavior: "smooth" });
           }}
-          className="scroll-indicator flex flex-col items-center gap-2 text-white/30"
+          className="scroll-indicator flex flex-col items-center gap-2 text-foreground/30"
           aria-label="Scroll to About section"
         >
           Scroll
           <div
-            className="w-5 h-8 rounded-full border border-white/20 flex items-start justify-center pt-1.5"
+            className="w-5 h-8 rounded-full border dark:border-white/20 border-black/20 flex items-start justify-center pt-1.5"
           >
             <FaArrowDown className="w-2 h-2 text-primary" aria-hidden="true" />
           </div>
