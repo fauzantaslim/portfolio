@@ -140,6 +140,7 @@ export default function Preloader() {
       ref={preloaderRef}
       className="fixed inset-0 z-[9999] flex pointer-events-none"
       aria-hidden="true"
+      suppressHydrationWarning
     >
       <style>{`
         @keyframes cursor-blink {

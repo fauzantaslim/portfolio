@@ -58,7 +58,7 @@ export default async function ProjectDetailPage({
 }) {
   const { slug } = await params;
   const project = getProjectBySlug(slug);
-  if (!project) notFound();
+  if (!project) return notFound();
 
   /* JSON-LD structured data */
   const jsonLd = {

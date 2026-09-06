@@ -324,7 +324,7 @@ export const projects: Project[] = [
       "Open-source and peer-reviewed calculation logic",
       "Mobile-first responsive design",
     ],
-    images: ["/warisanq.png"],
+    images: ["/warisanq.png", "/warisanq2.png","/warisanq3.png", "/warisanq4.png", "/warisanq5.png", "/warisanq6.png"],
     category: "Web",
     tags: ["Next.js", "TypeScript", "Tailwind CSS"],
     links: {
