@@ -27,14 +27,8 @@ export default function ProjectImageSlider({ images, title }: ProjectImageSlider
   // Bind Fancybox after mount (client-only)
   useEffect(() => {
     Fancybox.bind(`[data-fancybox="${galleryId}"]`, {
-      Images: { zoom: true },
-      Toolbar: {
-        display: {
-          left: ["infobar"],
-          middle: [],
-          right: ["slideshow", "fullscreen", "download", "close"],
-        },
-      },
+      groupAttr: "data-fancybox",
+      dragToClose: false,
     });
 
     return () => {
