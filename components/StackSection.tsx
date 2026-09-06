@@ -99,7 +99,7 @@ export default function StackSection() {
   }, []);
 
   return (
-    <section id="stack" ref={sectionRef} className="py-24 md:py-32 relative bg-background z-20">
+    <section id="stack" aria-labelledby="stack-heading" ref={sectionRef} className="py-24 md:py-32 relative bg-background z-20">
       {/* Subtle grid background behind tags */}
       <style>{`
         .stack-tag {
@@ -146,7 +146,7 @@ export default function StackSection() {
           <p className="stack-title text-primary font-mono text-sm tracking-widest uppercase mb-3">
             Tech Stack
           </p>
-          <h2 className="stack-title text-3xl md:text-5xl font-bold text-foreground">
+          <h2 id="stack-heading" className="stack-title text-3xl md:text-5xl font-bold text-foreground">
             Technologies I <span className="text-primary">Use</span>
           </h2>
         </div>
@@ -189,12 +189,14 @@ export default function StackSection() {
                     `${accent}08`;
                 }}
               >
-                {/* Category badge */}
+                {/* Category badge - use higher contrast text */}
                 <span
                   className="cat-badge"
                   style={{
                     backgroundColor: `${accent}22`,
                     color: accent,
+                    fontWeight: 800,
+                    textShadow: `0 0 8px ${accent}80`,
                   }}
                 >
                   {category}
@@ -211,8 +213,8 @@ export default function StackSection() {
           })}
         </div>
 
-        {/* Legend */}
-        <div className="flex flex-wrap justify-center gap-x-5 gap-y-2 mt-8 opacity-40">
+        {/* Legend - use visible opacity (not 40%) for contrast compliance */}
+        <div className="flex flex-wrap justify-center gap-x-5 gap-y-2 mt-8 opacity-60">
           {(Object.entries(categoryAccent) as [StackItem["category"], string][]).map(
             ([cat, color]) => (
               <span
@@ -222,6 +224,7 @@ export default function StackSection() {
                   fontFamily: "'JetBrains Mono', monospace",
                   color,
                   letterSpacing: "0.06em",
+                  fontWeight: 700,
                 }}
               >
                 <span

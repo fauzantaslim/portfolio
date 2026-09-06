@@ -75,9 +75,11 @@
   --particles-color: #000000;
 }
 
-/* Smooth scrolling */
-html {
-  scroll-behavior: smooth;
+/* Smooth scrolling — only when user hasn't requested reduced motion (WCAG 2.3.3) */
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
 }
 
 body {
@@ -190,4 +192,51 @@ body {
 /* Exclude animation-heavy elements from the blanket transition */
 .gsap-no-transition, [data-gsap] {
   transition: none !important;
+}
+
+/* ── Skip Link (WCAG 2.4.1) ── */
+.skip-link {
+  position: absolute;
+  top: -40px;
+  left: 0;
+  z-index: 9999;
+  padding: 8px 16px;
+  background: #1DCD9F;
+  color: #000;
+  font-weight: bold;
+  font-size: 0.85rem;
+  border-radius: 0 0 4px 0;
+  transition: top 0.2s;
+  text-decoration: none;
+}
+
+.skip-link:focus {
+  top: 0;
+}
+
+/* ── Focus visible (WCAG 2.4.7) ── */
+:focus {
+  outline: none;
+}
+:focus-visible {
+  outline: 2px solid #1DCD9F;
+  outline-offset: 3px;
+  border-radius: 3px;
+}
+
+/* Account for sticky navbar when scrolling to focused anchor (WCAG 2.4.11) */
+:target,
+:focus {
+  scroll-margin-top: 80px;
+}
+
+/* ── Reduced motion (WCAG 2.3.3) ── */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }

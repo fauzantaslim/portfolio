@@ -3,146 +3,13 @@
 import { useEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { FaArrowUpRightFromSquare, FaGithub } from "react-icons/fa6";
+import { FaArrowUpRightFromSquare, FaGithub, FaBookOpen } from "react-icons/fa6";
 import Image from "next/image";
+import Link from "next/link";
+import { projects } from "@/lib/projects-data";
+
 
 gsap.registerPlugin(ScrollTrigger);
-
-const projects = [
-  {
-    title: "Articles Website",
-    description:
-      "Build a web application for Islamic news articles with a focus on user experience and accessibility. Designed a responsive layout and implemented key features such as article browsing, search, and categorization.",
-    image: "/religi-id.png",
-    category: "Web",
-    tags: ["Laravel", "PHP", "MySQL", "Tailwind CSS"],
-    links: {
-      github: "#",
-      live: "https://religi.id",
-    },
-  },
-  {
-    title: "SIMARU API",
-    description:
-      "Built a RESTful API for a Hospital Asset Management System with a focus on reliability and scalability. Designed a database schema and implemented key modules such as asset lifecycle management, procurement, inventory auditing, and depreciation tracking.",
-    image: "/simaru.png",
-    category: "API",
-    tags: ["TypeScript", "Express", "MySQL", "Sequelize"],
-    links: {
-      github: "https://github.com/fauzantaslim/api-simaru",
-      live: "#",
-    },
-  },
-  {
-    title: "Asia Tiga Utama",
-    description:
-      "Build a company profile website for Asia Tiga Utama with a focus on user experience. Designed a responsive layout and implemented key features: company info, services, blog, portfolio, gallery, and contact.",
-    image: "/asia-tiga-utama.png",
-    category: "Web",
-    tags: ["Laravel", "PHP", "MySQL", "Tailwind CSS", "Filament"],
-    links: {
-      live: "https://evenly.fauzantaslim.biz.id/",
-      github: "https://github.com/fauzantaslim/asia-tiga-utama-company-profile",
-    },
-  },
-  {
-    title: "Finance Tracker API",
-    description:
-      "Build a RESTful API for a Finance Tracker App with modular architecture, JWT auth, and structured endpoints for transaction management.",
-    image: "/finance-tracker.png",
-    category: "API",
-    tags: ["TypeScript", "Express", "MySQL", "Knex"],
-    links: {
-      github:
-        "https://github.com/fauzantaslim/finance-tracker-app/tree/main/backend-finance-tracker",
-      live: "#",
-    },
-  },
-  {
-    title: "Finance Tracker Web",
-    description:
-      "Build a Finance Tracker App with a focus on user experience. Implemented transaction tracking, budget management, and expense visualization with smooth interactive UI.",
-    image: "/finance-tracker.png",
-    category: "Web",
-    tags: ["React", "Tailwind CSS", "Framer Motion"],
-    links: {
-      github:
-        "https://github.com/fauzantaslim/finance-tracker-app/tree/main/finance-tracker-react",
-      live: "#",
-    },
-  },
-  {
-    title: "Manual Test SIMARU Web",
-    description:
-      "Write a manual test case for SIMARU Web",
-    image: "/simaru.png",
-    category: "Manual Test",
-    tags: ["Manual Test", "Test Case"],
-    links: {
-      live: "https://shorturl.at/smXcw",
-    },
-  },
-  {
-    title: "AxoMock",
-    description:
-      "Built a free API mocking platform that lets frontend developers get realistic mock data in seconds — no backend needed. Provides ready-to-use endpoints for users, posts, comments, and todos, complete with a visual Mock Builder, full documentation, and open-source codebase.",
-    image: "/axomock.png",
-    category: "Web",
-    tags: ["Node.js", "Express", "JavaScript", "EJS"],
-    links: {
-      github: "https://github.com/fauzantaslim/AxoMock",
-      live: "https://axomock.fauzantaslim.biz.id/",
-    },
-  },
-  {
-    title: "Finlogy",
-    description:
-      "Developed a financial education media platform covering personal finance, investment, and financial planning. Features a responsive multi-category article layout with a featured post system, dark/light mode toggle, and social media integration tailored for Indonesian readers.",
-    image: "/finlogy.png",
-    category: "Web",
-    tags: ["Laravel", "PHP", "MySQL", "Tailwind CSS", "Filament"],
-    links: {
-      live: "https://finlogy.fauzantaslim.biz.id/",
-      github: "https://github.com/fauzantaslim/finlogy",
-    },
-  },
-  {
-    title: "Goalpedia",
-    description:
-      "Built a comprehensive Indonesian football news and statistics portal. Covers the national team (Timnas), club news, competitions, player profiles, and live match updates. Designed with a clean editorial layout featuring hot news, featured stories, insight articles, and deep-dive statistics sections.",
-    image: "/goalpedia.png",
-    category: "Web",
-    tags: ["Laravel", "PHP", "MySQL", "Tailwind CSS", "Filament"],
-    links: {
-      live: "https://goalpedia.fauzantaslim.biz.id/",
-      github: "https://github.com/fauzantaslim/goalpedia",
-    },
-  },
-  {
-    title: "NusantaraTools",
-    description:
-      "Created a free all-in-one productivity platform for Indonesian users — students, workers, and everyday needs. Bundles essential daily tools including Split Bill calculator, Pomodoro timer, and Prayer Schedule (via GPS), all built with a fast, minimal, and mobile-friendly interface.",
-    image: "/nusantaratools.png",
-    category: "Web",
-    tags: ["Next.js", "TypeScript", "Tailwind CSS"],
-    links: {
-      live: "https://nusantaratools.my.id/",
-      github: "https://github.com/fauzantaslim/nusantara-tools",
-    },
-  },
-  {
-    title: "WarisanQ",
-    description:
-      "Developed an Islamic inheritance calculator (Faraidh & KHI) that accurately simulates heir distribution based on Mazhab Syafi'i and the Indonesian Islamic Law Compilation (KHI). Features transparent percentage breakdowns, estate (tirkah) input, and an automatic family tree diagram for visual clarity.",
-    image: "/warisanq.png",
-    category: "Web",
-    tags: ["Next.js", "TypeScript", "Tailwind CSS"],
-    links: {
-      live: "https://warisanq.web.id/",
-      github: "https://github.com/Resky89/WarisanQ-2.0",
-    },
-  },
-];
 
 const categories = ["All", "Web", "API", "Manual Test", "Automation Test", "Bug Reporting"];
 
@@ -305,7 +172,7 @@ export default function ProjectsSection() {
   }, [activeFilter]);
 
   return (
-    <section id="projects" ref={sectionRef} className="pt-24 md:pt-36 relative bg-background">
+    <section id="projects" aria-labelledby="projects-heading" ref={sectionRef} className="pt-24 md:pt-36 relative bg-background">
       <style>{`
         .proj-num {
           font-family: 'JetBrains Mono', 'Fira Code', ui-monospace, monospace;
@@ -328,13 +195,17 @@ export default function ProjectsSection() {
             </span>
             <div className="h-px flex-1 max-w-[80px] bg-primary/60" />
           </div>
-          <h2 className="proj-headline text-4xl md:text-6xl [@media(max-height:500px)]:text-2xl font-black tracking-tight leading-[1.05] text-foreground">
+          <h2 id="projects-heading" className="proj-headline text-4xl md:text-6xl [@media(max-height:500px)]:text-2xl font-black tracking-tight leading-[1.05] text-foreground">
             Featured <span className="text-primary">Projects</span>
           </h2>
         </div>
 
         {/* ── Filter bar — industrial chip style ── */}
-        <div className="proj-filters flex flex-wrap gap-2 mb-12 [@media(max-height:500px)]:mb-6">
+        <div 
+          className="proj-filters flex flex-wrap gap-2 mb-12 [@media(max-height:500px)]:mb-6"
+          role="group"
+          aria-label="Filter projects by category"
+        >
           {categories.map((cat) => {
             const count =
               cat === "All"
@@ -347,6 +218,7 @@ export default function ProjectsSection() {
               <button
                 key={cat}
                 onClick={() => setActiveFilter(cat)}
+                aria-pressed={isActive}
                 className="proj-filter-btn inline-flex items-center gap-2 px-3 py-1.5 uppercase cursor-pointer"
                 style={{
                   border: `1px solid ${isActive ? accent : accent + "28"}`,
@@ -406,7 +278,7 @@ export default function ProjectsSection() {
               {/* Parallax Image Background */}
               <div className="absolute inset-0 w-full h-[120%] -top-[10%] pointer-events-none">
                   <Image
-                    src={project.image}
+                    src={project.images[0]}
                     alt={project.title}
                     fill
                     className="proj-image object-cover filter grayscale-[30%] transition-all duration-700"
@@ -429,7 +301,7 @@ export default function ProjectsSection() {
                       {project.title}
                     </h3>
                     <p className="text-white/90 text-sm md:text-xl [@media(max-height:500px)]:text-[11px] [@media(max-height:500px)]:leading-snug leading-relaxed mb-10 [@media(max-height:500px)]:mb-4 max-w-2xl drop-shadow-lg font-medium">
-                      {project.description}
+                      {project.shortDescription}
                     </p>
 
                     {/* Tags */}
@@ -451,6 +323,7 @@ export default function ProjectsSection() {
                           href={project.links.live}
                           target="_blank"
                           rel="noreferrer"
+                          aria-label={`Find out more about ${project.title} — opens live site`}
                           className="flex items-center gap-3 border border-white/40 px-6 py-3 [@media(max-height:500px)]:px-3 [@media(max-height:500px)]:py-1.5 text-xs md:text-sm [@media(max-height:500px)]:text-[10px] font-mono tracking-widest text-white hover:bg-white hover:text-black transition-colors rounded-sm"
                         >
                           FIND OUT MORE <FaArrowUpRightFromSquare />
@@ -461,11 +334,19 @@ export default function ProjectsSection() {
                           href={project.links.github}
                           target="_blank"
                           rel="noreferrer"
+                          aria-label={`View ${project.title} source on GitHub`}
                           className="flex items-center gap-3 border border-white/40 px-6 py-3 [@media(max-height:500px)]:px-3 [@media(max-height:500px)]:py-1.5 text-xs md:text-sm [@media(max-height:500px)]:text-[10px] font-mono tracking-widest text-white hover:bg-white hover:text-black transition-colors rounded-sm"
                         >
                           GITHUB <FaGithub />
                         </a>
                       )}
+                      <Link
+                        href={`/projects/${project.slug}`}
+                        className="flex items-center gap-3 border border-primary/50 bg-primary/10 px-6 py-3 [@media(max-height:500px)]:px-3 [@media(max-height:500px)]:py-1.5 text-xs md:text-sm [@media(max-height:500px)]:text-[10px] font-mono tracking-widest text-primary hover:bg-primary hover:text-black transition-colors rounded-sm"
+                        aria-label={`View details for ${project.title}`}
+                      >
+                        VIEW DETAILS <FaBookOpen />
+                      </Link>
                     </div>
                   </div>
                 </div>

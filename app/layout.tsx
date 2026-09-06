@@ -23,7 +23,7 @@ export const viewport: Viewport = {
 export const metadata: Metadata = {
   title: "Fauzan Taslim Hidayat | Portfolio",
   description:
-    "Fauzan Taslim Hidayat | Portfolio",
+    "Fauzan Taslim Hidayat | Portfolio | Software Quality Engineer & Backend Developer based in Bogor, Indonesia. Specializing in test automation, QA strategy, REST API development, and CI/CD pipelines. Open to new opportunities.",
   icons: {
     icon: "/logo-fauzan.svg",
     shortcut: "/logo-fauzan.svg",
@@ -31,28 +31,43 @@ export const metadata: Metadata = {
   },
   keywords: [
     "Software Quality Engineer",
-    "QA",
+    "QA Engineer",
     "Test Automation",
+    "Backend Developer",
     "Fauzan Taslim Hidayat",
     "Portfolio",
     "Software Tester",
     "Jakarta",
+    "Bogor",
+    "REST API",
+    "CI/CD",
   ],
   authors: [{ name: "Fauzan Taslim Hidayat" }],
   creator: "Fauzan Taslim Hidayat",
+  alternates: {
+    canonical: "https://fauzantaslim.my.id",
+  },
   openGraph: {
-    title: "Fauzan Taslim Hidayat | Software Quality Engineer",
-    description: "Portfolio of Fauzan Taslim Hidayat — Software Quality Engineer specializing in test automation, CI/CD, and quality assurance.",
-    url: "https://fauzantaslim.my.id", // Recommend updating this to the actual domain
+    title: "Fauzan Taslim Hidayat | Software Quality Engineer & Backend Dev",
+    description: "Portfolio of Fauzan Taslim Hidayat — SQE specializing in test automation, QA strategy, and REST API development. Based in Bogor, Indonesia.",
+    url: "https://fauzantaslim.my.id",
     siteName: "Fauzan Taslim Hidayat | Portfolio",
-    locale: "id_ID",
+    locale: "en_US",
     type: "website",
+    images: [
+      {
+        url: "https://fauzantaslim.my.id/ojan.png",
+        width: 1200,
+        height: 630,
+        alt: "Fauzan Taslim Hidayat — Software Quality Engineer Portfolio",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
     title: "Fauzan Taslim Hidayat | Software Quality Engineer",
-    description: "Fauzan Taslim Hidayat | Portfolio",
-    creator: "@yourtwitterhandle", // Update with actual or remove
+    description: "SQE & Backend Developer portfolio — test automation, QA strategy, REST API. Based in Bogor, Indonesia.",
+    images: ["https://fauzantaslim.my.id/ojan.png"],
   },
   robots: {
     index: true,
@@ -78,7 +93,16 @@ export default function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       suppressHydrationWarning
     >
+      <head>
+        {/* Preconnect to external icon CDN for faster StackSection loads */}
+        <link rel="preconnect" href="https://cdn.simpleicons.org" />
+        <link rel="dns-prefetch" href="https://cdn.simpleicons.org" />
+      </head>
       <body className="min-h-screen bg-background text-foreground" suppressHydrationWarning>
+        {/* Skip link for keyboard users (WCAG 2.4.1) */}
+        <a href="#main-content" className="skip-link">
+          Skip to main content
+        </a>
         <ThemeProvider
           attribute="class"
           defaultTheme="dark"

@@ -181,10 +181,13 @@ export default function Preloader() {
         }
         .progress-fill {
           height: 100%;
+          width: 100%;
           background: #1DCD9F;
           border-radius: 1px;
           box-shadow: 0 0 8px #1DCD9F88;
-          transition: width 0.3s ease;
+          transform-origin: left center;
+          transform: scaleX(0);
+          transition: transform 0.3s ease;
         }
         .scanlines-overlay {
           background: repeating-linear-gradient(
@@ -291,7 +294,11 @@ export default function Preloader() {
               </span>
             </div>
             <div className="progress-track">
-              <div ref={progressBarRef} className="progress-fill" style={{ width: `${progress}%` }} />
+              <div
+                ref={progressBarRef}
+                className="progress-fill"
+                style={{ transform: `scaleX(${progress / 100})` }}
+              />
             </div>
           </div>
 

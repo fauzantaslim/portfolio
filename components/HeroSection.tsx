@@ -93,6 +93,7 @@ export default function HeroSection() {
     <section
       ref={sectionRef}
       id="hero"
+      aria-labelledby="hero-heading"
       className="relative min-h-screen flex items-center justify-center overflow-hidden bg-background"
     >
       <style>{`
@@ -172,6 +173,7 @@ export default function HeroSection() {
 
         {/* Name */}
         <h1
+          id="hero-heading"
           ref={nameRef}
           className="mb-4 [@media(max-height:500px)]:mb-2 tracking-tight leading-[1.0]"
         >

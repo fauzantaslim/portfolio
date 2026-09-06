@@ -77,6 +77,15 @@ export default function Navbar() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  // ESC key closes mobile menu (WCAG 2.1.2 — No Keyboard Trap)
+  useEffect(() => {
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape" && isMobileOpen) setIsMobileOpen(false);
+    };
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, [isMobileOpen]);
+
   // Entrance: stagger links + logo
   useEffect(() => {
     if (!navRef.current) return;
@@ -106,6 +115,7 @@ export default function Navbar() {
     <nav
       ref={navRef}
       className="fixed top-0 left-0 right-0 z-50"
+      aria-label="Main navigation"
     >
       {/* Header bar with its own solid background */}
       <div
@@ -203,6 +213,7 @@ export default function Navbar() {
                 key={link.href}
                 href={link.href}
                 onClick={(e) => handleLinkClick(e, link.href)}
+                aria-current={isActive ? "page" : undefined}
                 className={`nav-link-item uppercase dark:text-neutral-light text-neutral-gray hover:text-primary transition-colors duration-200 ${
                   isActive ? "active" : ""
                 }`}
@@ -222,8 +233,9 @@ export default function Navbar() {
           <button
             onClick={() => setIsMobileOpen(!isMobileOpen)}
             className="p-2 relative z-50"
-            aria-label="Toggle menu"
+            aria-label={isMobileOpen ? "Close menu" : "Open menu"}
             aria-expanded={isMobileOpen}
+            aria-controls="mobile-nav-menu"
           >
             <span className="hamburger-btn">
               <span
@@ -254,6 +266,10 @@ export default function Navbar() {
 
       {/* Mobile Menu */}
       <div
+        id="mobile-nav-menu"
+        role="dialog"
+        aria-label="Mobile navigation menu"
+        aria-modal="false"
         className={`md:hidden transition-all duration-500 overflow-hidden ${
           isMobileOpen ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
         }`}

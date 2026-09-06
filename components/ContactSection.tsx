@@ -105,7 +105,12 @@ export default function ContactSection() {
   `;
 
   return (
-    <section id="contact" ref={sectionRef} className="py-24 md:py-36 relative overflow-hidden bg-background">
+    <section
+      ref={sectionRef}
+      id="contact"
+      aria-labelledby="contact-heading"
+      className="relative min-h-[90vh] py-20 lg:py-32 overflow-hidden border-t dark:border-white/10 border-black/10 bg-background"
+    >
       <style>{`
         .contact-form-panel {
           position: relative;
@@ -162,7 +167,7 @@ export default function ContactSection() {
             </span>
             <div className="h-px flex-1 max-w-[80px] bg-primary/60" />
           </div>
-          <h2 className="contact-headline text-4xl md:text-6xl font-black tracking-tight leading-[1.05] text-foreground">
+          <h2 id="contact-heading" className="contact-headline text-4xl md:text-6xl font-black tracking-tight leading-[1.05] text-foreground">
             Let&apos;s <span className="text-primary">connect</span><br />
             &amp; collaborate.
           </h2>
@@ -209,7 +214,7 @@ export default function ContactSection() {
                 );
 
                 return href ? (
-                  <a key={label} href={href} target="_blank" rel="noopener noreferrer" className="block">
+                  <a key={label} href={href} aria-label={`Send email or visit ${label} profile`} target="_blank" rel="noopener noreferrer" className="block">
                     {inner}
                   </a>
                 ) : (
@@ -221,6 +226,10 @@ export default function ContactSection() {
 
           {/* Right: Form */}
           <div className="contact-form-panel lg:col-span-7 p-8 rounded-2xl dark:bg-white/[0.02] bg-black/[0.02] dark:border dark:border-white/8 border border-black/8">
+            <div aria-live="polite" className="sr-only">
+              {isSubmitted ? "Your message has been sent successfully. I will get back to you soon." : ""}
+              {isSubmitting ? "Sending your message..." : ""}
+            </div>
             {isSubmitted ? (
               <div className="flex flex-col items-center justify-center py-16 text-center gap-4">
                 <div

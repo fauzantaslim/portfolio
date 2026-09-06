@@ -151,7 +151,7 @@ export default function AboutSection() {
   const words = headline.split(" ");
 
   return (
-    <section id="about" ref={sectionRef} className="py-24 md:py-36 relative overflow-hidden bg-background">
+    <section id="about" aria-labelledby="about-heading" ref={sectionRef} className="py-24 md:py-36 relative overflow-hidden bg-background">
       <style>{`
         .split-parent { overflow: hidden; display: inline-block; }
         .split-word { display: inline-block; will-change: transform; }
@@ -187,7 +187,7 @@ export default function AboutSection() {
             <span className="about-eyebrow font-mono text-xs tracking-[0.3em] uppercase text-primary">About Me</span>
             <div className="about-accent-line h-px flex-1 max-w-[100px] bg-primary/40" />
           </div>
-          <h2 className="text-4xl md:text-7xl font-black leading-[1] tracking-tighter text-foreground">
+          <h2 id="about-heading" className="text-4xl md:text-7xl font-black leading-[1] tracking-tighter text-foreground">
             {words.map((word, i) => (
               <span key={i} className="split-parent mr-[0.2em]">
                 <span className={`split-word ${word.toLowerCase() === 'quality' ? 'text-primary' : ''}`}>

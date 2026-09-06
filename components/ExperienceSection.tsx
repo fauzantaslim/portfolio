@@ -135,7 +135,7 @@ export default function ExperienceSection() {
   }, []);
 
   return (
-    <section id="experience" className="relative z-20 bg-background">
+    <section id="experience" aria-labelledby="experience-heading" className="relative z-20 bg-background">
       <style>{`
         .exp-tag {
           font-family: 'JetBrains Mono', 'Fira Code', ui-monospace, monospace;
@@ -184,7 +184,7 @@ export default function ExperienceSection() {
               </span>
               <div className="h-px w-12 bg-primary/60" />
             </div>
-            <h2 className="text-3xl md:text-5xl [@media(max-height:500px)]:text-2xl font-black tracking-tight text-foreground">
+            <h2 id="experience-heading" className="text-3xl md:text-5xl [@media(max-height:500px)]:text-2xl font-black tracking-tight text-foreground">
               Work <span className="text-primary">Experience</span>
             </h2>
           </div>
@@ -232,19 +232,19 @@ export default function ExperienceSection() {
                       <span className="exp-type-badge shrink-0 [@media(max-height:500px)]:text-[0.5rem]">{exp.type}</span>
                     </div>
 
-                    <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-foreground/45 dark:border-b dark:border-white/8 border-b border-black/8 pb-3 md:pb-4 mt-1">
+                    <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-foreground/65 dark:border-b dark:border-white/8 border-b border-black/8 pb-3 md:pb-4 mt-1">
                       <span
                         className="flex items-center gap-1.5 text-xs"
                         style={{ fontFamily: "'JetBrains Mono', monospace" }}
                       >
-                        <FaCalendarDays className="w-3 h-3 text-primary/60" />
+                        <FaCalendarDays className="w-3 h-3 text-primary/70" />
                         {exp.period}
                       </span>
                       <span
                         className="flex items-center gap-1.5 text-xs"
                         style={{ fontFamily: "'JetBrains Mono', monospace" }}
                       >
-                        <FaLocationDot className="w-3 h-3 text-primary/60" />
+                        <FaLocationDot className="w-3 h-3 text-primary/70" />
                         {exp.location}
                       </span>
                     </div>
