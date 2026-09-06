@@ -1,9 +1,28 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import dynamic from "next/dynamic";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { IconCloud } from "@/components/ui/icon-cloud";
+
+// Lazy-load the Three.js icon cloud — defers heavy WebGL bundle from critical path
+const IconCloud = dynamic(
+  () => import("@/components/ui/icon-cloud").then((m) => m.IconCloud),
+  {
+    ssr: false,
+    loading: () => (
+      <div
+        className="w-full max-w-lg aspect-square flex items-center justify-center"
+        aria-hidden="true"
+      >
+        <div
+          className="w-48 h-48 rounded-full border border-primary/20 animate-pulse"
+          style={{ background: "radial-gradient(circle, rgba(29,205,159,0.06) 0%, transparent 70%)" }}
+        />
+      </div>
+    ),
+  }
+);
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -151,7 +170,7 @@ export default function StackSection() {
           </h2>
         </div>
 
-        {/* Icon Cloud */}
+        {/* Icon Cloud — lazy loaded, deferred from critical path */}
         <div className="stack-cloud flex justify-center mb-14">
           <div className="relative w-full max-w-lg aspect-square flex items-center justify-center">
             <IconCloud images={images} />
