@@ -20,6 +20,6 @@ Persistence is not involved. Every task leaves the tree compiling.
 ## About Section Decode: `docs/spec-about-section-decode.md`
 
 - [x] 1. Custom Scramble Hook/Utility
-- [ ] 2. Apply Decode to Headline & Image Reveal
+- [x] 2. Apply Decode to Headline & Image Reveal
 - [ ] 3. Terminal Reveal for Body
 - [ ] 4. Polish & A11y (reduced motion, screen readers)

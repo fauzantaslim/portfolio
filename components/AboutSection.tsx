@@ -4,6 +4,7 @@ import { useEffect, useRef } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Image from "next/image";
+import { createScrambleTween } from "@/lib/scramble";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -68,14 +69,19 @@ export default function AboutSection() {
         transformOrigin: "left center",
         duration: 0.8,
         ease: "power3.inOut",
-      }, "-=0.4")
-      .from(".split-word", {
-        y: "100%",
-        skewY: 7,
-        stagger: 0.05,
-        duration: 1,
-        ease: "expo.out",
-      }, "-=0.6");
+      }, "-=0.4");
+
+      // Hide text initially to prevent FOUC of the real text
+      gsap.set(".split-word", { opacity: 0 });
+      tl.set(".split-word", { opacity: 1 }, "-=0.4");
+
+      const wordEls = gsap.utils.toArray<HTMLElement>(".split-word");
+      wordEls.forEach((word, i) => {
+        tl.add(createScrambleTween(word, {
+          duration: 1.2,
+          chars: "01",
+        }), `<${i * 0.15}`);
+      });
 
       // 3. Image Reveal (Curtain + Scale)
       const imgTl = gsap.timeline({
@@ -96,6 +102,15 @@ export default function AboutSection() {
         xPercent: 10,
         duration: 1.5,
         ease: "expo.out",
+      }, "-=1.1")
+      .to(".about-img-wrapper", {
+        x: 4,
+        skewX: 2,
+        duration: 0.05,
+        repeat: 5,
+        yoyo: true,
+        ease: "steps(1)",
+        clearProps: "x,skewX"
       }, "-=1.1")
       .from(".about-img-frame", {
         opacity: 0,
