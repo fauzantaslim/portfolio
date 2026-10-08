@@ -2,12 +2,11 @@
 
 import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Image from "next/image";
 import Link from "next/link";
 import { projects } from "@/lib/projects-data";
 
-import { Observer } from "gsap/Observer";
+import { ScrollTrigger, Observer } from "gsap/all";
 
 gsap.registerPlugin(ScrollTrigger, Observer);
 
@@ -101,7 +100,7 @@ export default function ProjectsSection() {
       isDesktop: "(min-width: 768px)",
       reduceMotion: "(prefers-reduced-motion: reduce)"
     }, (context) => {
-      const { isMobile, isShort, reduceMotion } = context.conditions as any;
+      const { isMobile, isShort, reduceMotion } = context.conditions as Record<string, boolean>;
       
       layoutState.current = {
         VISIBLE_LAYERS: isShort ? 2 : 3,
@@ -249,7 +248,7 @@ export default function ProjectsSection() {
       dragMinimum: 5,
       onPress: (self) => {
         dragState.current.hasDragged = false;
-        dragState.current.startX = self.x;
+        dragState.current.startX = self.x || 0;
       },
       onDragStart: () => {
         dragState.current.isDragging = true;
@@ -259,7 +258,7 @@ export default function ProjectsSection() {
         if (animatingRef.current || !dragState.current.isDragging) return;
         const cards = getCards(stackRef.current);
         if (cards.length < 2) return;
-        const dx = self.x - dragState.current.startX;
+        const dx = (self.x || 0) - dragState.current.startX;
         const front = cards[activeRef.current];
         if (front) {
           gsap.set(front, { x: dx, rotation: dx * 0.04 });
@@ -274,8 +273,8 @@ export default function ProjectsSection() {
         const cards = getCards(stackRef.current);
         if (cards.length < 2) return;
 
-        const dx = self.x - dragState.current.startX;
-        const velocity = self.velocityX;
+        const dx = (self.x || 0) - dragState.current.startX;
+        const velocity = self.velocityX || 0;
         
         if (dx < -40 || velocity < -200) {
           goTo(1, -110);
@@ -470,7 +469,6 @@ export default function ProjectsSection() {
                 const layer = (index - activeIndex + filteredProjects.length) % filteredProjects.length;
                 const isFront = layer === 0;
                 const accent = categoryColor[project.category] ?? "#1DCD9F";
-                const initial = getCardPose(index);
 
                 return (
                   <Link
@@ -487,9 +485,7 @@ export default function ProjectsSection() {
                       left: "5%",
                       top: "5%",
                       transformOrigin: "center center",
-                      transform: `translate(${initial.xPercent}%, ${initial.yPercent}%) scale(${initial.scale})`,
-                      opacity: initial.opacity,
-                      zIndex: filteredProjects.length - index,
+                      opacity: 0,
                     }}
                   >
                     <Image
@@ -503,7 +499,7 @@ export default function ProjectsSection() {
                     <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-transparent" />
                     <div
                       className="proj-card-dim absolute inset-0 bg-black pointer-events-none"
-                      style={{ opacity: getDimFor(index) }}
+                      style={{ opacity: 0 }}
                     />
                     <span
                       className="absolute top-4 left-4 md:top-6 md:left-6 inline-block px-3 py-1 text-[10px] md:text-xs font-mono tracking-widest uppercase rounded-sm border backdrop-blur-md"

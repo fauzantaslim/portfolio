@@ -121,6 +121,6 @@ screens of forced scroll; the user wants control over browsing and a fixed secti
   roles, `aria-live` counter, focus style, `prefers-reduced-motion` fallback, "drag / swipe"
   hint. Done when: keyboard reaches only the front card, screen-reader text announces position,
   and reduced-motion users get no flying cards.
-- [ ] **7. Cleanup.** Remove dead imports/styles/classes left by the old pinned version; keep or
+- [x] **7. Cleanup.** Remove dead imports/styles/classes left by the old pinned version; keep or
   drop header ScrollTrigger per the open question. Done when: `npm run lint` and `npm run build`
   pass and no unused code from the old implementation remains.

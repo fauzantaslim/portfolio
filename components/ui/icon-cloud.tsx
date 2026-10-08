@@ -120,7 +120,8 @@ export function IconCloud({ icons, images }: IconCloudProps) {
         id: i,
       })
     }
-    setIconPositions(newIcons)
+    const timer = setTimeout(() => setIconPositions(newIcons), 0)
+    return () => clearTimeout(timer)
   }, [icons, images])
 
   // Handle mouse events

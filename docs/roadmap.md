@@ -15,4 +15,4 @@ Persistence is not involved. Every task leaves the tree compiling.
 - [x] 4. Filter transition + 0/1/2-card edge cases
 - [x] 5. Responsive pass (`gsap.matchMedia`, mobile, tablet, short landscape)
 - [x] 6. Accessibility + reduced motion (`inert`, aria-live, hint)
-- [ ] 7. Cleanup of the old pinned implementation
+- [x] 7. Cleanup of the old pinned implementation

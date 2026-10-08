@@ -47,7 +47,8 @@ export default function Footer() {
   const [color, setColor] = useState("#ffffff");
 
   useEffect(() => {
-    setColor(resolvedTheme === "light" ? "#000000" : "#ffffff");
+    const timer = setTimeout(() => setColor(resolvedTheme === "light" ? "#000000" : "#ffffff"), 0);
+    return () => clearTimeout(timer);
   }, [resolvedTheme]);
 
   useEffect(() => {
