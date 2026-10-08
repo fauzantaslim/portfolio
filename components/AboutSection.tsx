@@ -132,17 +132,26 @@ export default function AboutSection() {
         },
       });
 
-      // 4. Staggered Content
+      // 4. Staggered Content (Terminal Reveal)
       gsap.from(".about-body-p", {
         opacity: 0,
-        y: 30,
-        stagger: 0.2,
-        duration: 0.8,
-        ease: "power3.out",
+        x: -10, // slight offset to snap from
+        stagger: 0.3,
+        duration: 0.05,
+        ease: "steps(1)", // snap into view instantly
         scrollTrigger: {
           trigger: ".about-body-wrap",
           start: "top 80%",
         },
+      });
+
+      // Blinking cursor
+      gsap.to(".terminal-cursor", {
+        opacity: 1,
+        repeat: -1,
+        yoyo: true,
+        duration: 0.4,
+        ease: "steps(1)",
       });
 
       gsap.from(".about-info-item", {
@@ -248,6 +257,7 @@ export default function AboutSection() {
               </p>
               <p className="about-body-p text-foreground/60 leading-relaxed text-base md:text-lg">
                 Whether I&apos;m architecting APIs or automating complex integration suites, my focus remains on performance, security, and maintainability.
+                <span className="terminal-cursor inline-block w-[0.6em] h-[1.1em] bg-primary/80 ml-2 -mb-0.5 opacity-0" />
               </p>
             </div>
 

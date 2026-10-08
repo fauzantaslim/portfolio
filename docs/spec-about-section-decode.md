@@ -14,5 +14,5 @@ The current portfolio aesthetic leans heavily into a clean, modern developer vib
 ## Tasks
 - [x] 1. Custom Scramble Hook/Utility
 - [x] 2. Apply Decode to Headline & Image Reveal
-- [ ] 3. Terminal Reveal for Body
+- [x] 3. Terminal Reveal for Body
 - [ ] 4. Polish & A11y (reduced motion, screen readers)
