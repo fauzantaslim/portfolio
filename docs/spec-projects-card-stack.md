@@ -101,7 +101,7 @@ screens of forced scroll; the user wants control over browsing and a fixed secti
   Done when: Projects section renders the stack at desktop and mobile widths, no pinning/long
   scroll, filter chips work, clicking the front card opens its detail page, `npm run lint`
   passes.
-- [ ] **2. Advance animation + keyboard.** GSAP `goTo(direction)` that animates the front card
+- [x] **2. Advance animation + keyboard.** GSAP `goTo(direction)` that animates the front card
   out and shifts layers, loops, ignores input while animating; wire `ArrowLeft`/`ArrowRight`.
   Cleanup via `gsap.context`. Touch-points: `components/ProjectsSection.tsx`.
   Done when: arrow keys cycle through all projects and loop with smooth motion, and rapid key

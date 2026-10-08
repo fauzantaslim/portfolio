@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Image from "next/image";
@@ -13,9 +13,32 @@ gsap.registerPlugin(ScrollTrigger);
 const categories = ["All", "Web", "API", "Manual Test", "Automation Test", "Bug Reporting"];
 
 const VISIBLE_LAYERS = 3;
-const LAYER_OFFSET = 5; // % of stack size, per layer, up-right
-const LAYER_SCALE_STEP = 0.06;
+const CARD_SIZE = 90; // % of stack size (matches card width/height below)
+const LAYER_OFFSET_X = 6; // % of card width to shift right
+const LAYER_OFFSET_Y = 8; // % of card height to shift up
+const LAYER_SCALE_STEP = 0.05;
+const DIM_STEP = 0.4;
+const FLY_OUT = 0.4;
+const FLY_IN = 0.5;
+const SHIFT = 0.5;
 const pad = (n: number) => String(n).padStart(2, "0");
+
+const poseAtDepth = (depth: number, opacity: number) => {
+  return {
+    x: 0,
+    y: 0,
+    rotation: 0,
+    xPercent: depth * LAYER_OFFSET_X,
+    yPercent: -depth * LAYER_OFFSET_Y,
+    scale: 1 - depth * LAYER_SCALE_STEP,
+    opacity,
+  };
+};
+const cardPose = (layer: number) =>
+  poseAtDepth(Math.min(layer, VISIBLE_LAYERS - 1), layer < VISIBLE_LAYERS ? 1 : 0);
+const dimFor = (layer: number) => Math.min(layer, VISIBLE_LAYERS - 1) * DIM_STEP;
+const getCards = (root: HTMLElement | null) =>
+  Array.from(root?.querySelectorAll<HTMLElement>(".proj-card") ?? []);
 
 const categoryColor: Record<string, string> = {
   Web: "#22c55e",
@@ -27,6 +50,12 @@ const categoryColor: Record<string, string> = {
 
 export default function ProjectsSection() {
   const sectionRef = useRef<HTMLDivElement>(null);
+  const stackWrapRef = useRef<HTMLDivElement>(null);
+  const stackRef = useRef<HTMLDivElement>(null);
+  const ctxRef = useRef<gsap.Context | null>(null);
+  const tlRef = useRef<gsap.core.Timeline | null>(null);
+  const animatingRef = useRef(false);
+  const activeRef = useRef(0);
   const [activeFilter, setActiveFilter] = useState("All");
   const [activeIndex, setActiveIndex] = useState(0);
 
@@ -35,6 +64,105 @@ export default function ProjectsSection() {
       ? projects
       : projects.filter((p) => p.category === activeFilter)
   ).slice().reverse();
+
+  useLayoutEffect(() => {
+    tlRef.current?.kill();
+    animatingRef.current = false;
+    activeRef.current = 0;
+    const cards = getCards(stackRef.current);
+    cards.forEach((card, i) => {
+      gsap.set(card, { ...cardPose(i), zIndex: cards.length - i });
+      const dim = card.querySelector(".proj-card-dim");
+      if (dim) gsap.set(dim, { opacity: dimFor(i) });
+    });
+  }, [activeFilter]);
+
+  const goTo = useCallback((dir: 1 | -1) => {
+    const cards = getCards(stackRef.current);
+    const n = cards.length;
+    const ctx = ctxRef.current;
+    if (n < 2 || animatingRef.current || !ctx) return;
+
+    animatingRef.current = true;
+    const from = activeRef.current;
+    const to = (from + dir + n) % n;
+    activeRef.current = to;
+    setActiveIndex(to);
+
+    ctx.add(() => {
+      const tl = gsap.timeline({
+        onComplete: () => {
+          animatingRef.current = false;
+        },
+      });
+      tlRef.current = tl;
+
+      cards.forEach((card, i) => {
+        const layer = (i - to + n) % n;
+        const pose = cardPose(layer);
+        const z = n - layer;
+        const dim = card.querySelector(".proj-card-dim");
+        const isOutgoing = dir === 1 && i === from;
+        const isIncoming = dir === -1 && i === to;
+
+        if (isOutgoing) {
+          tl.set(card, { zIndex: n + 1 }, 0)
+            .to(card, { xPercent: -110, rotation: -10, opacity: 0, duration: FLY_OUT, ease: "power2.in" }, 0)
+            .set(card, { ...pose, opacity: 0, zIndex: z }, FLY_OUT)
+            .to(card, { opacity: pose.opacity, duration: 0.3, ease: "power1.out" }, FLY_OUT);
+          if (dim) tl.set(dim, { opacity: dimFor(layer) }, FLY_OUT);
+          return;
+        }
+
+        if (isIncoming) {
+          gsap.set(card, { zIndex: n + 1, x: 0, y: 0, xPercent: -110, yPercent: 0, scale: 1, rotation: -10, opacity: 0 });
+          tl.to(card, { ...pose, duration: FLY_IN, ease: "power3.out" }, 0).set(card, { zIndex: z }, FLY_IN);
+        } else {
+          const prevLayer = (i - from + n) % n;
+          const entersStack = prevLayer >= VISIBLE_LAYERS && layer < VISIBLE_LAYERS;
+          const leavesStack = prevLayer < VISIBLE_LAYERS && layer >= VISIBLE_LAYERS;
+          tl.set(card, { zIndex: z }, 0);
+          if (entersStack) {
+            tl.fromTo(card, poseAtDepth(VISIBLE_LAYERS, 0), { ...pose, duration: FLY_IN, ease: "power3.out" }, 0);
+          } else if (leavesStack) {
+            tl.to(card, { ...poseAtDepth(VISIBLE_LAYERS, 0), duration: SHIFT, ease: "power3.in" }, 0)
+              .set(card, pose, SHIFT);
+          } else {
+            tl.to(card, { ...pose, duration: SHIFT, ease: "power3.out" }, 0);
+          }
+        }
+        if (dim) tl.to(dim, { opacity: dimFor(layer), duration: SHIFT, ease: "power3.out" }, 0);
+      });
+    });
+  }, []);
+
+  useEffect(() => {
+    const wrap = stackWrapRef.current;
+    if (!wrap) return;
+
+    let inView = false;
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        inView = entry.isIntersecting;
+      },
+      { threshold: 0.3 }
+    );
+    io.observe(wrap);
+
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (!inView || e.defaultPrevented || e.altKey || e.ctrlKey || e.metaKey || e.shiftKey) return;
+      if (e.key !== "ArrowLeft" && e.key !== "ArrowRight") return;
+      const el = e.target as HTMLElement | null;
+      if (el && (el.isContentEditable || /^(INPUT|TEXTAREA|SELECT)$/.test(el.tagName))) return;
+      goTo(e.key === "ArrowRight" ? 1 : -1);
+    };
+    window.addEventListener("keydown", onKeyDown);
+
+    return () => {
+      io.disconnect();
+      window.removeEventListener("keydown", onKeyDown);
+    };
+  }, [goTo]);
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -76,8 +204,13 @@ export default function ProjectsSection() {
         }
       );
     }, sectionRef);
+    ctxRef.current = ctx;
 
-    return () => ctx.revert();
+    return () => {
+      tlRef.current?.kill();
+      ctxRef.current = null;
+      ctx.revert();
+    };
   }, []);
 
   return (
@@ -180,7 +313,7 @@ export default function ProjectsSection() {
       </div>
 
       {/* ── Project card stack ── */}
-      <div className="w-full max-w-7xl mx-auto px-4 md:px-8 mb-32 [@media(max-height:500px)]:mb-12">
+      <div ref={stackWrapRef} className="w-full max-w-7xl mx-auto px-4 md:px-8 mb-32 [@media(max-height:500px)]:mb-12">
         {filteredProjects.length === 0 ? (
           <div className="proj-stack-size mx-auto flex items-center justify-center rounded-2xl border border-dashed border-black/15 dark:border-white/15">
             <p className="proj-num text-xs tracking-widest uppercase text-[var(--text-muted)]">
@@ -189,12 +322,12 @@ export default function ProjectsSection() {
           </div>
         ) : (
           <>
-            <div className="proj-stack proj-stack-size relative mx-auto">
+            <div key={activeFilter} ref={stackRef} className="proj-stack proj-stack-size relative mx-auto">
               {filteredProjects.map((project, index) => {
                 const layer = (index - activeIndex + filteredProjects.length) % filteredProjects.length;
-                const depth = Math.min(layer, VISIBLE_LAYERS - 1);
                 const isFront = layer === 0;
                 const accent = categoryColor[project.category] ?? "#1DCD9F";
+                const initial = cardPose(index);
 
                 return (
                   <Link
@@ -204,15 +337,14 @@ export default function ProjectsSection() {
                     tabIndex={isFront ? 0 : -1}
                     className={`proj-card absolute block overflow-hidden rounded-2xl md:rounded-3xl border border-black/10 dark:border-white/10 bg-gray-200 dark:bg-[#0a0a0a] shadow-[0_20px_50px_rgba(0,0,0,0.45)] ${isFront ? "" : "pointer-events-none"}`}
                     style={{
-                      width: "90%",
-                      height: "90%",
-                      left: `${depth * LAYER_OFFSET}%`,
-                      bottom: `${depth * LAYER_OFFSET}%`,
-                      transformOrigin: "bottom left",
-                      transform: `scale(${1 - depth * LAYER_SCALE_STEP})`,
-                      filter: `brightness(${1 - depth * 0.2})`,
-                      opacity: layer < VISIBLE_LAYERS ? 1 : 0,
-                      zIndex: filteredProjects.length - layer,
+                      width: `${CARD_SIZE}%`,
+                      height: `${CARD_SIZE}%`,
+                      left: "5%",
+                      top: "5%",
+                      transformOrigin: "center center",
+                      transform: `translate(${initial.xPercent}%, ${initial.yPercent}%) scale(${initial.scale})`,
+                      opacity: initial.opacity,
+                      zIndex: filteredProjects.length - index,
                     }}
                   >
                     <Image
@@ -223,6 +355,10 @@ export default function ProjectsSection() {
                       className="object-cover"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-transparent" />
+                    <div
+                      className="proj-card-dim absolute inset-0 bg-black pointer-events-none"
+                      style={{ opacity: dimFor(index) }}
+                    />
                     <span
                       className="absolute top-4 left-4 md:top-6 md:left-6 inline-block px-3 py-1 text-[10px] md:text-xs font-mono tracking-widest uppercase rounded-sm border backdrop-blur-md"
                       style={{ color: accent, borderColor: accent + "40", backgroundColor: accent + "10" }}
