@@ -114,7 +114,7 @@ screens of forced scroll; the user wants control over browsing and a fixed secti
 - [x] **4. Filter transition + edge cases.** Animated rebuild on filter change (kill tweens
   first), 1-card mode (drag/keys/hint off), 2-card layout, 0-card empty state.
   Done when: every filter chip gives a correct stack or empty state without console errors.
-- [ ] **5. Responsive pass.** `gsap.matchMedia()` offsets/ratios for mobile portrait, tablet,
+- [x] **5. Responsive pass.** `gsap.matchMedia()` offsets/ratios for mobile portrait, tablet,
   desktop, and short landscape (`max-height: 500px`); recompute on resize/orientation.
   Done when: no clipping or overflow from 320px wide to ultrawide and in short landscape.
 - [ ] **6. Accessibility + reduced motion.** `inert`/`aria-hidden` on non-front cards, region

@@ -13,31 +13,12 @@ gsap.registerPlugin(ScrollTrigger, Observer);
 
 const categories = ["All", "Web", "API", "Manual Test", "Automation Test", "Bug Reporting"];
 
-const VISIBLE_LAYERS = 3;
-const CARD_SIZE = 90; // % of stack size (matches card width/height below)
-const LAYER_OFFSET_X = 6; // % of card width to shift right
-const LAYER_OFFSET_Y = 8; // % of card height to shift up
-const LAYER_SCALE_STEP = 0.05;
 const DIM_STEP = 0.4;
 const FLY_OUT = 0.4;
 const FLY_IN = 0.5;
 const SHIFT = 0.5;
 const pad = (n: number) => String(n).padStart(2, "0");
 
-const poseAtDepth = (depth: number, opacity: number) => {
-  return {
-    x: 0,
-    y: 0,
-    rotation: 0,
-    xPercent: depth * LAYER_OFFSET_X,
-    yPercent: -depth * LAYER_OFFSET_Y,
-    scale: 1 - depth * LAYER_SCALE_STEP,
-    opacity,
-  };
-};
-const cardPose = (layer: number) =>
-  poseAtDepth(Math.min(layer, VISIBLE_LAYERS - 1), layer < VISIBLE_LAYERS ? 1 : 0);
-const dimFor = (layer: number) => Math.min(layer, VISIBLE_LAYERS - 1) * DIM_STEP;
 const getCards = (root: HTMLElement | null) =>
   Array.from(root?.querySelectorAll<HTMLElement>(".proj-card") ?? []);
 
@@ -60,6 +41,76 @@ export default function ProjectsSection() {
   const dragState = useRef({ isDragging: false, startX: 0, hasDragged: false });
   const [activeFilter, setActiveFilter] = useState("All");
   const [activeIndex, setActiveIndex] = useState(0);
+
+  const layoutState = useRef({
+    VISIBLE_LAYERS: 3,
+    LAYER_OFFSET_X: 6,
+    LAYER_OFFSET_Y: 8,
+    LAYER_SCALE_STEP: 0.05
+  });
+
+  const getPoseAtDepth = useCallback((depth: number, opacity: number) => {
+    const l = layoutState.current;
+    return {
+      x: 0,
+      y: 0,
+      rotation: 0,
+      xPercent: depth * l.LAYER_OFFSET_X,
+      yPercent: -depth * l.LAYER_OFFSET_Y,
+      scale: 1 - depth * l.LAYER_SCALE_STEP,
+      opacity,
+    };
+  }, []);
+
+  const getCardPose = useCallback((layer: number) => {
+    const l = layoutState.current;
+    return getPoseAtDepth(Math.min(layer, l.VISIBLE_LAYERS - 1), layer < l.VISIBLE_LAYERS ? 1 : 0);
+  }, [getPoseAtDepth]);
+
+  const getDimFor = useCallback((layer: number) => {
+    const l = layoutState.current;
+    return Math.min(layer, l.VISIBLE_LAYERS - 1) * DIM_STEP;
+  }, []);
+
+  const reLayout = useCallback(() => {
+    if (animatingRef.current) return;
+    const cards = getCards(stackRef.current);
+    if (!cards.length) return;
+    
+    cards.forEach((card, i) => {
+      const layer = (i - activeRef.current + cards.length) % cards.length;
+      const pose = getCardPose(layer);
+      const z = cards.length - layer;
+      
+      gsap.to(card, { ...pose, zIndex: z, duration: 0.4, ease: "power2.out", overwrite: "auto" });
+      
+      const dim = card.querySelector(".proj-card-dim");
+      if (dim) gsap.to(dim, { opacity: getDimFor(layer), duration: 0.4, overwrite: "auto" });
+    });
+  }, [getCardPose, getDimFor]);
+
+  useLayoutEffect(() => {
+    const mm = gsap.matchMedia();
+    
+    mm.add({
+      isMobile: "(max-width: 767px)",
+      isShort: "(max-height: 500px)",
+      isDesktop: "(min-width: 768px)"
+    }, (context) => {
+      const { isMobile, isShort } = context.conditions as { isMobile: boolean, isShort: boolean };
+      
+      layoutState.current = {
+        VISIBLE_LAYERS: isShort ? 2 : 3,
+        LAYER_OFFSET_X: isMobile ? 4 : 6,
+        LAYER_OFFSET_Y: isMobile ? 5 : (isShort ? 3 : 8),
+        LAYER_SCALE_STEP: isMobile ? 0.04 : 0.05
+      };
+
+      reLayout();
+    });
+
+    return () => mm.revert();
+  }, [reLayout]);
 
   const onClickCapture = useCallback((e: React.MouseEvent) => {
     if (dragState.current.hasDragged) {
@@ -93,7 +144,7 @@ export default function ProjectsSection() {
     tlRef.current = tl;
 
     cards.forEach((card, i) => {
-      const pose = cardPose(i);
+      const pose = getCardPose(i);
       const z = cards.length - i;
       const dim = card.querySelector(".proj-card-dim");
       
@@ -106,7 +157,7 @@ export default function ProjectsSection() {
       if (dim) {
         tl.fromTo(dim, 
           { opacity: 0 },
-          { opacity: dimFor(i), duration: 0.6, ease: "power2.out" },
+          { opacity: getDimFor(i), duration: 0.6, ease: "power2.out" },
           i * 0.12
         );
       }
@@ -135,7 +186,7 @@ export default function ProjectsSection() {
 
       cards.forEach((card, i) => {
         const layer = (i - to + n) % n;
-        const pose = cardPose(layer);
+        const pose = getCardPose(layer);
         const z = n - layer;
         const dim = card.querySelector(".proj-card-dim");
         const isOutgoing = dir === 1 && i === from;
@@ -148,7 +199,7 @@ export default function ProjectsSection() {
             .to(card, { xPercent: xOut, rotation: rotOut, opacity: 0, duration: FLY_OUT, ease: "power2.in" }, 0)
             .set(card, { ...pose, opacity: 0, zIndex: z }, FLY_OUT)
             .to(card, { opacity: pose.opacity, duration: 0.3, ease: "power1.out" }, FLY_OUT);
-          if (dim) tl.set(dim, { opacity: dimFor(layer) }, FLY_OUT);
+          if (dim) tl.set(dim, { opacity: getDimFor(layer) }, FLY_OUT);
           return;
         }
 
@@ -157,19 +208,19 @@ export default function ProjectsSection() {
           tl.to(card, { ...pose, duration: FLY_IN, ease: "power3.out" }, 0).set(card, { zIndex: z }, FLY_IN);
         } else {
           const prevLayer = (i - from + n) % n;
-          const entersStack = prevLayer >= VISIBLE_LAYERS && layer < VISIBLE_LAYERS;
-          const leavesStack = prevLayer < VISIBLE_LAYERS && layer >= VISIBLE_LAYERS;
+          const entersStack = prevLayer >= layoutState.current.VISIBLE_LAYERS && layer < layoutState.current.VISIBLE_LAYERS;
+          const leavesStack = prevLayer < layoutState.current.VISIBLE_LAYERS && layer >= layoutState.current.VISIBLE_LAYERS;
           tl.set(card, { zIndex: z }, 0);
           if (entersStack) {
-            tl.fromTo(card, poseAtDepth(VISIBLE_LAYERS, 0), { ...pose, duration: FLY_IN, ease: "power3.out" }, 0);
+            tl.fromTo(card, getPoseAtDepth(layoutState.current.VISIBLE_LAYERS, 0), { ...pose, duration: FLY_IN, ease: "power3.out" }, 0);
           } else if (leavesStack) {
-            tl.to(card, { ...poseAtDepth(VISIBLE_LAYERS, 0), duration: SHIFT, ease: "power3.in" }, 0)
+            tl.to(card, { ...getPoseAtDepth(layoutState.current.VISIBLE_LAYERS, 0), duration: SHIFT, ease: "power3.in" }, 0)
               .set(card, pose, SHIFT);
           } else {
             tl.to(card, { ...pose, duration: SHIFT, ease: "power3.out" }, 0);
           }
         }
-        if (dim) tl.to(dim, { opacity: dimFor(layer), duration: SHIFT, ease: "power3.out" }, 0);
+        if (dim) tl.to(dim, { opacity: getDimFor(layer), duration: SHIFT, ease: "power3.out" }, 0);
       });
     });
   }, []);
@@ -414,7 +465,7 @@ export default function ProjectsSection() {
                 const layer = (index - activeIndex + filteredProjects.length) % filteredProjects.length;
                 const isFront = layer === 0;
                 const accent = categoryColor[project.category] ?? "#1DCD9F";
-                const initial = cardPose(index);
+                const initial = getCardPose(index);
 
                 return (
                   <Link
@@ -425,8 +476,8 @@ export default function ProjectsSection() {
                     tabIndex={isFront ? 0 : -1}
                     className={`proj-card absolute block select-none overflow-hidden rounded-2xl md:rounded-3xl border border-black/10 dark:border-white/10 bg-gray-200 dark:bg-[#0a0a0a] shadow-[0_20px_50px_rgba(0,0,0,0.45)] ${isFront ? "" : "pointer-events-none"}`}
                     style={{
-                      width: `${CARD_SIZE}%`,
-                      height: `${CARD_SIZE}%`,
+                      width: `90%`,
+                      height: `90%`,
                       left: "5%",
                       top: "5%",
                       transformOrigin: "center center",
@@ -446,7 +497,7 @@ export default function ProjectsSection() {
                     <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-transparent" />
                     <div
                       className="proj-card-dim absolute inset-0 bg-black pointer-events-none"
-                      style={{ opacity: dimFor(index) }}
+                      style={{ opacity: getDimFor(index) }}
                     />
                     <span
                       className="absolute top-4 left-4 md:top-6 md:left-6 inline-block px-3 py-1 text-[10px] md:text-xs font-mono tracking-widest uppercase rounded-sm border backdrop-blur-md"
