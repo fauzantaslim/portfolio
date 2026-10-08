@@ -117,7 +117,7 @@ screens of forced scroll; the user wants control over browsing and a fixed secti
 - [x] **5. Responsive pass.** `gsap.matchMedia()` offsets/ratios for mobile portrait, tablet,
   desktop, and short landscape (`max-height: 500px`); recompute on resize/orientation.
   Done when: no clipping or overflow from 320px wide to ultrawide and in short landscape.
-- [ ] **6. Accessibility + reduced motion.** `inert`/`aria-hidden` on non-front cards, region
+- [x] **6. Accessibility + reduced motion.** `inert`/`aria-hidden` on non-front cards, region
   roles, `aria-live` counter, focus style, `prefers-reduced-motion` fallback, "drag / swipe"
   hint. Done when: keyboard reaches only the front card, screen-reader text announces position,
   and reduced-motion users get no flying cards.
