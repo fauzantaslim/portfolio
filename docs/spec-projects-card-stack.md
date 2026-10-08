@@ -106,12 +106,12 @@ screens of forced scroll; the user wants control over browsing and a fixed secti
   Cleanup via `gsap.context`. Touch-points: `components/ProjectsSection.tsx`.
   Done when: arrow keys cycle through all projects and loop with smooth motion, and rapid key
   presses cause no glitches or stacked tweens.
-- [ ] **3. Swipe/drag.** Add drag/swipe (Draggable or Observer, choose after reading both) with
+- [x] **3. Swipe/drag.** Add drag/swipe (Draggable or Observer, choose after reading both) with
   distance/velocity threshold and spring-back, `touch-action: pan-y`, and guard so a drag never
   triggers the card link. Touch-points: `components/ProjectsSection.tsx`.
   Done when: swiping with mouse and touch advances/goes back, short drags spring back, vertical
   page scroll still works on touch, and a plain click still opens the detail page.
-- [ ] **4. Filter transition + edge cases.** Animated rebuild on filter change (kill tweens
+- [x] **4. Filter transition + edge cases.** Animated rebuild on filter change (kill tweens
   first), 1-card mode (drag/keys/hint off), 2-card layout, 0-card empty state.
   Done when: every filter chip gives a correct stack or empty state without console errors.
 - [ ] **5. Responsive pass.** `gsap.matchMedia()` offsets/ratios for mobile portrait, tablet,

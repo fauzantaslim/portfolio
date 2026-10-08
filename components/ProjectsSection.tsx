@@ -7,8 +7,9 @@ import Image from "next/image";
 import Link from "next/link";
 import { projects } from "@/lib/projects-data";
 
+import { Observer } from "gsap/Observer";
 
-gsap.registerPlugin(ScrollTrigger);
+gsap.registerPlugin(ScrollTrigger, Observer);
 
 const categories = ["All", "Web", "API", "Manual Test", "Automation Test", "Bug Reporting"];
 
@@ -56,8 +57,16 @@ export default function ProjectsSection() {
   const tlRef = useRef<gsap.core.Timeline | null>(null);
   const animatingRef = useRef(false);
   const activeRef = useRef(0);
+  const dragState = useRef({ isDragging: false, startX: 0, hasDragged: false });
   const [activeFilter, setActiveFilter] = useState("All");
   const [activeIndex, setActiveIndex] = useState(0);
+
+  const onClickCapture = useCallback((e: React.MouseEvent) => {
+    if (dragState.current.hasDragged) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+  }, []);
 
   const filteredProjects = (
     activeFilter === "All"
@@ -67,17 +76,44 @@ export default function ProjectsSection() {
 
   useLayoutEffect(() => {
     tlRef.current?.kill();
-    animatingRef.current = false;
     activeRef.current = 0;
     const cards = getCards(stackRef.current);
+    
+    if (cards.length === 0) {
+      animatingRef.current = false;
+      return;
+    }
+
+    animatingRef.current = true;
+    const tl = gsap.timeline({
+      onComplete: () => {
+        animatingRef.current = false;
+      }
+    });
+    tlRef.current = tl;
+
     cards.forEach((card, i) => {
-      gsap.set(card, { ...cardPose(i), zIndex: cards.length - i });
+      const pose = cardPose(i);
+      const z = cards.length - i;
       const dim = card.querySelector(".proj-card-dim");
-      if (dim) gsap.set(dim, { opacity: dimFor(i) });
+      
+      tl.fromTo(card, 
+        { ...pose, yPercent: pose.yPercent - 40, opacity: 0, zIndex: z },
+        { ...pose, opacity: pose.opacity, duration: 0.6, ease: "back.out(1.2)" },
+        i * 0.12
+      );
+      
+      if (dim) {
+        tl.fromTo(dim, 
+          { opacity: 0 },
+          { opacity: dimFor(i), duration: 0.6, ease: "power2.out" },
+          i * 0.12
+        );
+      }
     });
   }, [activeFilter]);
 
-  const goTo = useCallback((dir: 1 | -1) => {
+  const goTo = useCallback((dir: 1 | -1, customFlyOutX?: number) => {
     const cards = getCards(stackRef.current);
     const n = cards.length;
     const ctx = ctxRef.current;
@@ -106,8 +142,10 @@ export default function ProjectsSection() {
         const isIncoming = dir === -1 && i === to;
 
         if (isOutgoing) {
+          const xOut = customFlyOutX !== undefined ? customFlyOutX : (dir === 1 ? -110 : 110);
+          const rotOut = customFlyOutX !== undefined ? (customFlyOutX > 0 ? 10 : -10) : (dir === 1 ? -10 : 10);
           tl.set(card, { zIndex: n + 1 }, 0)
-            .to(card, { xPercent: -110, rotation: -10, opacity: 0, duration: FLY_OUT, ease: "power2.in" }, 0)
+            .to(card, { xPercent: xOut, rotation: rotOut, opacity: 0, duration: FLY_OUT, ease: "power2.in" }, 0)
             .set(card, { ...pose, opacity: 0, zIndex: z }, FLY_OUT)
             .to(card, { opacity: pose.opacity, duration: 0.3, ease: "power1.out" }, FLY_OUT);
           if (dim) tl.set(dim, { opacity: dimFor(layer) }, FLY_OUT);
@@ -149,6 +187,54 @@ export default function ProjectsSection() {
     );
     io.observe(wrap);
 
+    const obs = Observer.create({
+      target: wrap,
+      type: "touch,pointer",
+      dragMinimum: 5,
+      onPress: (self) => {
+        dragState.current.hasDragged = false;
+        dragState.current.startX = self.x;
+      },
+      onDragStart: () => {
+        dragState.current.isDragging = true;
+        dragState.current.hasDragged = true;
+      },
+      onDrag: (self) => {
+        if (animatingRef.current || !dragState.current.isDragging) return;
+        const cards = getCards(stackRef.current);
+        if (cards.length < 2) return;
+        const dx = self.x - dragState.current.startX;
+        const front = cards[activeRef.current];
+        if (front) {
+          gsap.set(front, { x: dx, rotation: dx * 0.04 });
+        }
+      },
+      onDragEnd: (self) => {
+        if (!dragState.current.isDragging) return;
+        dragState.current.isDragging = false;
+        
+        if (animatingRef.current) return;
+        
+        const cards = getCards(stackRef.current);
+        if (cards.length < 2) return;
+
+        const dx = self.x - dragState.current.startX;
+        const velocity = self.velocityX;
+        
+        if (dx < -40 || velocity < -200) {
+          goTo(1, -110);
+        } else if (dx > 40 || velocity > 200) {
+          goTo(1, 110);
+        } else {
+          const cards = getCards(stackRef.current);
+          const front = cards[activeRef.current];
+          if (front) {
+            gsap.to(front, { x: 0, rotation: 0, duration: 0.4, ease: "power3.out" });
+          }
+        }
+      }
+    });
+
     const onKeyDown = (e: KeyboardEvent) => {
       if (!inView || e.defaultPrevented || e.altKey || e.ctrlKey || e.metaKey || e.shiftKey) return;
       if (e.key !== "ArrowLeft" && e.key !== "ArrowRight") return;
@@ -160,6 +246,7 @@ export default function ProjectsSection() {
 
     return () => {
       io.disconnect();
+      obs.kill();
       window.removeEventListener("keydown", onKeyDown);
     };
   }, [goTo]);
@@ -227,11 +314,11 @@ export default function ProjectsSection() {
         }
         .proj-stack-size {
           width: 100%;
-          max-width: 56rem;
           aspect-ratio: 4 / 5;
+          touch-action: pan-y;
         }
         @media (min-width: 768px) {
-          .proj-stack-size { aspect-ratio: 16 / 10; }
+          .proj-stack-size { aspect-ratio: 16 / 9; }
         }
       `}</style>
 
@@ -313,7 +400,7 @@ export default function ProjectsSection() {
       </div>
 
       {/* ── Project card stack ── */}
-      <div ref={stackWrapRef} className="w-full max-w-7xl mx-auto px-4 md:px-8 mb-32 [@media(max-height:500px)]:mb-12">
+      <div ref={stackWrapRef} onClickCapture={onClickCapture} className="w-full max-w-7xl mx-auto px-4 md:px-8 mb-32 [@media(max-height:500px)]:mb-12">
         {filteredProjects.length === 0 ? (
           <div className="proj-stack-size mx-auto flex items-center justify-center rounded-2xl border border-dashed border-black/15 dark:border-white/15">
             <p className="proj-num text-xs tracking-widest uppercase text-[var(--text-muted)]">
@@ -333,9 +420,10 @@ export default function ProjectsSection() {
                   <Link
                     key={project.slug}
                     href={`/projects/${project.slug}`}
+                    draggable={false}
                     aria-label={`View details for ${project.title}`}
                     tabIndex={isFront ? 0 : -1}
-                    className={`proj-card absolute block overflow-hidden rounded-2xl md:rounded-3xl border border-black/10 dark:border-white/10 bg-gray-200 dark:bg-[#0a0a0a] shadow-[0_20px_50px_rgba(0,0,0,0.45)] ${isFront ? "" : "pointer-events-none"}`}
+                    className={`proj-card absolute block select-none overflow-hidden rounded-2xl md:rounded-3xl border border-black/10 dark:border-white/10 bg-gray-200 dark:bg-[#0a0a0a] shadow-[0_20px_50px_rgba(0,0,0,0.45)] ${isFront ? "" : "pointer-events-none"}`}
                     style={{
                       width: `${CARD_SIZE}%`,
                       height: `${CARD_SIZE}%`,
@@ -351,8 +439,9 @@ export default function ProjectsSection() {
                       src={project.images[0]}
                       alt=""
                       fill
+                      draggable={false}
                       sizes="(min-width: 768px) 60vw, 90vw"
-                      className="object-cover"
+                      className="object-cover pointer-events-none"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-transparent" />
                     <div
