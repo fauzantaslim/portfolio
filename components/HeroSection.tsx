@@ -76,6 +76,14 @@ export default function HeroSection() {
       "-=0.2"
     );
 
+    // Giant Cursor reveal
+    tl.fromTo(
+      ".hero-giant-cursor",
+      { opacity: 0, x: 50, y: -50, scale: 0.8, rotation: 15 },
+      { opacity: 1, x: 0, y: 0, scale: 1, rotation: 0, duration: 1, ease: "back.out(1.7)" },
+      "-=0.5"
+    );
+
     // Continuous bounce
     gsap.to(scrollIndicatorRef.current, {
       y: 8,
@@ -94,7 +102,7 @@ export default function HeroSection() {
       ref={sectionRef}
       id="hero"
       aria-labelledby="hero-heading"
-      className="relative min-h-screen flex items-center justify-center overflow-hidden bg-background"
+      className="relative min-h-screen flex items-center justify-center bg-background"
     >
       <style>{`
         @keyframes cursor-pulse {
@@ -159,6 +167,13 @@ export default function HeroSection() {
 
       {/* Content */}
       <div className="section-container relative z-10 text-center flex flex-col items-center">
+
+        {/* Giant Cursor for the Scroll Journey */}
+        <div className="hero-giant-cursor absolute -top-12 right-4 md:right-1/4 z-[100] pointer-events-none drop-shadow-[0_0_20px_rgba(29,205,159,0.4)] opacity-0">
+          <svg width="100" height="100" viewBox="0 0 24 24" fill="currentColor" className="text-primary -rotate-12" stroke="white" strokeWidth="1.5">
+            <path d="M4 2l7 19 3-9 9-3L4 2z" />
+          </svg>
+        </div>
 
         {/* Eyebrow + accent line */}
         <div className="flex items-center justify-center gap-3 mb-6">
