@@ -15,4 +15,4 @@ The current portfolio aesthetic leans heavily into a clean, modern developer vib
 - [x] 1. Custom Scramble Hook/Utility
 - [x] 2. Apply Decode to Headline & Image Reveal
 - [x] 3. Terminal Reveal for Body
-- [ ] 4. Polish & A11y (reduced motion, screen readers)
+- [x] 4. Polish & A11y (reduced motion, screen readers)

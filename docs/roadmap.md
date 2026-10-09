@@ -22,4 +22,11 @@ Persistence is not involved. Every task leaves the tree compiling.
 - [x] 1. Custom Scramble Hook/Utility
 - [x] 2. Apply Decode to Headline & Image Reveal
 - [x] 3. Terminal Reveal for Body
-- [ ] 4. Polish & A11y (reduced motion, screen readers)
+- [x] 4. Polish & A11y (reduced motion, screen readers)
+
+## Hero Cursor Journey: `docs/spec-hero-cursor-journey.md`
+
+- [ ] 1. Add Giant Cursor to Hero Section
+- [ ] 2. Setup Cross-Section ScrollTrigger
+- [ ] 3. Implement the Glitch Effect
+- [ ] 4. Polish Handoff & Edge Cases
