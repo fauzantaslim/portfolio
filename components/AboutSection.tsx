@@ -17,7 +17,7 @@ export default function AboutSection() {
     const ctx = gsap.context(() => {
       const mm = gsap.matchMedia();
 
-      mm.add("(min-width: 1024px)", () => {
+      mm.add("(min-width: 1024px) and (prefers-reduced-motion: no-preference)", () => {
         // Desktop: Interactive Mouse Tilt
         const onMouseMove = (e: MouseEvent) => {
           if (!imageWrapperRef.current) return;
@@ -37,13 +37,21 @@ export default function AboutSection() {
         return () => window.removeEventListener("mousemove", onMouseMove);
       });
 
-      // Global Animations
-      const tl = gsap.timeline({
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: "top 80%",
-        },
+      // Fallback for reduced motion
+      mm.add("(prefers-reduced-motion: reduce)", () => {
+        gsap.set(".about-curtain", { scaleX: 0 });
+        gsap.set(".split-word", { opacity: 1 });
+        gsap.set(".terminal-cursor", { opacity: 1 });
       });
+
+      // Global Animations
+      mm.add("(prefers-reduced-motion: no-preference)", () => {
+        const tl = gsap.timeline({
+          scrollTrigger: {
+            trigger: sectionRef.current,
+            start: "top 80%",
+          },
+        });
 
       // 1. Background Number Parallax
       gsap.to(".about-bg-number", {
@@ -154,16 +162,17 @@ export default function AboutSection() {
         ease: "steps(1)",
       });
 
-      gsap.from(".about-info-item", {
-        opacity: 0,
-        y: 20,
-        stagger: 0.1,
-        duration: 0.6,
-        ease: "power2.out",
-        scrollTrigger: {
-          trigger: ".about-info-grid",
-          start: "top 85%",
-        },
+        gsap.from(".about-info-item", {
+          opacity: 0,
+          y: 20,
+          stagger: 0.1,
+          duration: 0.6,
+          ease: "power2.out",
+          scrollTrigger: {
+            trigger: ".about-info-grid",
+            start: "top 85%",
+          },
+        });
       });
 
     }, sectionRef);
@@ -211,9 +220,9 @@ export default function AboutSection() {
             <span className="about-eyebrow font-mono text-xs tracking-[0.3em] uppercase text-primary">About Me</span>
             <div className="about-accent-line h-px flex-1 max-w-[100px] bg-primary/40" />
           </div>
-          <h2 id="about-heading" className="text-4xl md:text-7xl font-black leading-[1] tracking-tighter text-foreground">
+          <h2 id="about-heading" aria-label={headline} className="text-4xl md:text-7xl font-black leading-[1] tracking-tighter text-foreground">
             {words.map((word, i) => (
-              <span key={i} className="split-parent mr-[0.2em]">
+              <span key={i} aria-hidden="true" className="split-parent mr-[0.2em]">
                 <span className={`split-word ${word.toLowerCase() === 'quality' ? 'text-primary' : ''}`}>
                   {word}
                 </span>
