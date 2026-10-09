@@ -97,6 +97,69 @@ export default function HeroSection() {
     return () => { tl.kill(); };
   }, []);
 
+  // Cursor Journey Animation
+  useEffect(() => {
+    let ctx: gsap.Context;
+
+    const initJourney = () => {
+      const target = document.querySelector('.terminal-cursor');
+      const cursor = document.querySelector('.hero-giant-cursor');
+      if (!target || !cursor) return false;
+
+      ctx = gsap.context(() => {
+        // Fallback for reduced motion: skip this complex animation
+        const mm = gsap.matchMedia();
+        mm.add("(prefers-reduced-motion: no-preference)", () => {
+          
+          const journeyTl = gsap.timeline({
+            scrollTrigger: {
+              trigger: document.body,
+              start: "top top",
+              end: () => {
+                // End animation exactly when the target reaches the center of the viewport
+                const targetRect = target.getBoundingClientRect();
+                const targetAbsoluteY = targetRect.top + window.scrollY;
+                return `${targetAbsoluteY} center`;
+              },
+              scrub: 1,
+              invalidateOnRefresh: true,
+            }
+          });
+
+          journeyTl.to(cursor, {
+            x: () => {
+              const targetX = target.getBoundingClientRect().left + window.scrollX;
+              const cursorX = cursor.getBoundingClientRect().left + window.scrollX - (gsap.getProperty(cursor, "x") as number);
+              // Offset slightly so the pointer tip hits the target
+              return targetX - cursorX - 4; 
+            },
+            y: () => {
+              const targetY = target.getBoundingClientRect().top + window.scrollY;
+              const cursorY = cursor.getBoundingClientRect().top + window.scrollY - (gsap.getProperty(cursor, "y") as number);
+              // Target center
+              return targetY - cursorY + 12;
+            },
+            scale: 0.15,
+            rotation: 0,
+            ease: "power1.inOut",
+          });
+        });
+      });
+
+      return true;
+    };
+
+    // Since AboutSection is dynamic, poll for it
+    if (!initJourney()) {
+      const interval = setInterval(() => {
+        if (initJourney()) clearInterval(interval);
+      }, 500);
+      return () => clearInterval(interval);
+    }
+
+    return () => ctx?.revert();
+  }, []);
+
   return (
     <section
       ref={sectionRef}

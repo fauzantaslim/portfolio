@@ -26,7 +26,7 @@ Persistence is not involved. Every task leaves the tree compiling.
 
 ## Hero Cursor Journey: `docs/spec-hero-cursor-journey.md`
 
-- [ ] 1. Add Giant Cursor to Hero Section
-- [ ] 2. Setup Cross-Section ScrollTrigger
+- [x] 1. Add Giant Cursor to Hero Section
+- [x] 2. Setup Cross-Section ScrollTrigger
 - [ ] 3. Implement the Glitch Effect
 - [ ] 4. Polish Handoff & Edge Cases

@@ -16,7 +16,7 @@ The user requested Option A ("Glitch & Snap"). We need an animation that spans a
 4. **The Handoff**: Once it lands perfectly on the terminal cursor's location, the giant cursor's opacity hits 0, and the actual `.terminal-cursor` (which was hidden) becomes visible and starts its infinite blink.
 
 ## Tasks
-- [ ] 1. Add Giant Cursor to Hero Section (static markup and styling).
-- [ ] 2. Setup Cross-Section ScrollTrigger (move and scale the cursor to match `.terminal-cursor` position).
+- [x] 1. Add Giant Cursor to Hero Section (static markup and styling).
+- [x] 2. Setup Cross-Section ScrollTrigger (move and scale the cursor to match `.terminal-cursor` position).
 - [ ] 3. Implement the Glitch Effect (during the final 20% of the scroll journey).
 - [ ] 4. Polish Handoff & Edge Cases (handle responsive resize, reduced motion fallback, and lazy-loading DOM refresh).
