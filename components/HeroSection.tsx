@@ -2,8 +2,12 @@
 
 import { useEffect, useRef } from "react";
 import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { FaEnvelope, FaDownload, FaArrowDown } from "react-icons/fa6";
 import { RetroGrid } from "@/components/ui/retro-grid";
+import { portraitProgress, PORTRAIT_CURSOR_HEIGHT, CURSOR_ARROW_RATIO } from "@/lib/portrait-progress";
+
+gsap.registerPlugin(ScrollTrigger);
 
 export default function HeroSection() {
   const sectionRef = useRef<HTMLDivElement>(null);
@@ -97,67 +101,87 @@ export default function HeroSection() {
     return () => { tl.kill(); };
   }, []);
 
-  // Cursor Journey Animation
+  // Cursor Journey: giant cursor flies to the About photo, shatters into shards, becomes the photo.
   useEffect(() => {
-    let ctx: gsap.Context;
+    let ctx: gsap.Context | undefined;
+    let interval: ReturnType<typeof setInterval> | undefined;
 
     const initJourney = () => {
-      const target = document.querySelector('.terminal-cursor');
-      const cursor = document.querySelector('.hero-giant-cursor');
-      if (!target || !cursor) return false;
+      const wrapper = document.querySelector<HTMLElement>(".about-img-wrapper");
+      const cursor = document.querySelector<HTMLElement>(".hero-giant-cursor");
+      // AboutSection is lazy-loaded and decides asynchronously whether shards run (data-shard).
+      if (!wrapper || !cursor || wrapper.dataset.shard === "pending") return false;
+      const hasShards = wrapper.dataset.shard === "on";
+
+      // Layout-based (ignores GSAP transforms) centres in page coordinates.
+      const cursorCenter = () => {
+        const parent = cursor.offsetParent as HTMLElement;
+        const p = parent.getBoundingClientRect();
+        return {
+          x: p.left + window.scrollX + cursor.offsetLeft + cursor.offsetWidth / 2,
+          y: p.top + window.scrollY + cursor.offsetTop + cursor.offsetHeight / 2,
+        };
+      };
+      const wrapperCenter = () => {
+        const r = wrapper.getBoundingClientRect();
+        return { x: r.left + window.scrollX + r.width / 2, y: r.top + window.scrollY + r.height / 2 };
+      };
 
       ctx = gsap.context(() => {
-        // Fallback for reduced motion: skip this complex animation
         const mm = gsap.matchMedia();
+        // Reduced motion: no journey at all (the real photo is already visible).
         mm.add("(prefers-reduced-motion: no-preference)", () => {
-          
-          const journeyTl = gsap.timeline({
+          const tl = gsap.timeline({
+            defaults: { ease: "none" },
             scrollTrigger: {
               trigger: document.body,
               start: "top top",
-              end: () => {
-                // End animation exactly when the target reaches the center of the viewport
-                const targetRect = target.getBoundingClientRect();
-                const targetAbsoluteY = targetRect.top + window.scrollY;
-                return `${targetAbsoluteY} center`;
-              },
+              // Ends exactly where the About grid pins (photo centre at 45% of the viewport).
+              endTrigger: wrapper,
+              end: "center 45%",
               scrub: 1,
               invalidateOnRefresh: true,
-            }
+            },
           });
 
-          journeyTl.to(cursor, {
-            x: () => {
-              const targetX = target.getBoundingClientRect().left + window.scrollX;
-              const cursorX = cursor.getBoundingClientRect().left + window.scrollX - (gsap.getProperty(cursor, "x") as number);
-              // Offset slightly so the pointer tip hits the target
-              return targetX - cursorX - 4; 
-            },
-            y: () => {
-              const targetY = target.getBoundingClientRect().top + window.scrollY;
-              const cursorY = cursor.getBoundingClientRect().top + window.scrollY - (gsap.getProperty(cursor, "y") as number);
-              // Target center
-              return targetY - cursorY + 12;
-            },
-            scale: 0.15,
+          // 1. Travel: cursor grows to the size of the shard cursor inside the photo box.
+          tl.to(cursor, {
+            x: () => wrapperCenter().x - cursorCenter().x,
+            y: () => wrapperCenter().y - cursorCenter().y,
+            scale: () => (PORTRAIT_CURSOR_HEIGHT * wrapper.offsetHeight) / (cursor.offsetWidth * CURSOR_ARROW_RATIO),
             rotation: 0,
             ease: "power1.inOut",
-          });
+            duration: 0.66,
+          }, 0);
+
+          // 2. Handoff: DOM cursor -> WebGL shards shaped like the cursor.
+          tl.to(".hero-cursor-svg", { opacity: 0, duration: 0.03 }, 0.66);
+
+          if (hasShards) {
+            tl.to(".about-shard-canvas", { opacity: 1, duration: 0.03 }, 0.66);
+            // 3. Shards disperse and settle into the photo.
+            tl.to(portraitProgress, { value: 1, duration: 0.29 }, 0.66);
+            // 4. Crossfade shards -> real photo (keeps grayscale hover etc.).
+            tl.to(".about-shard-canvas", { opacity: 0, duration: 0.07 }, 0.93);
+            tl.to(".about-photo-layer", { opacity: 1, duration: 0.07 }, 0.93);
+          }
         });
       });
 
       return true;
     };
 
-    // Since AboutSection is dynamic, poll for it
     if (!initJourney()) {
-      const interval = setInterval(() => {
+      interval = setInterval(() => {
         if (initJourney()) clearInterval(interval);
-      }, 500);
-      return () => clearInterval(interval);
+      }, 300);
     }
 
-    return () => ctx?.revert();
+    return () => {
+      clearInterval(interval);
+      ctx?.revert();
+      portraitProgress.value = 0;
+    };
   }, []);
 
   return (
@@ -165,7 +189,7 @@ export default function HeroSection() {
       ref={sectionRef}
       id="hero"
       aria-labelledby="hero-heading"
-      className="relative min-h-screen flex items-center justify-center bg-background"
+      className="relative z-20 min-h-screen flex items-center justify-center bg-background"
     >
       <style>{`
         @keyframes cursor-pulse {
@@ -233,7 +257,7 @@ export default function HeroSection() {
 
         {/* Giant Cursor for the Scroll Journey */}
         <div className="hero-giant-cursor absolute -top-12 right-4 md:right-1/4 z-[100] pointer-events-none drop-shadow-[0_0_20px_rgba(29,205,159,0.4)] opacity-0">
-          <svg width="100" height="100" viewBox="0 0 24 24" fill="currentColor" className="text-primary -rotate-12" stroke="white" strokeWidth="1.5">
+          <svg viewBox="0 0 24 24" fill="currentColor" className="hero-cursor-svg block h-28 w-28 md:h-40 md:w-40 text-primary -rotate-12" stroke="white" strokeWidth="1.5">
             <path d="M4 2l7 19 3-9 9-3L4 2z" />
           </svg>
         </div>

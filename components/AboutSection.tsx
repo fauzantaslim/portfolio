@@ -1,47 +1,79 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Image from "next/image";
+import dynamic from "next/dynamic";
 import { createScrambleTween } from "@/lib/scramble";
 
 gsap.registerPlugin(ScrollTrigger);
+
+// three.js is heavy: only fetched when the shard effect is actually going to run.
+const ShardPortrait = dynamic(() => import("@/components/ui/shard-portrait"), { ssr: false });
+
+const PORTRAIT_SRC = "/ojan.png";
+const PORTRAIT_OPTIMIZED_SRC = `/_next/image?url=${encodeURIComponent(PORTRAIT_SRC)}&w=640&q=75`;
+
+function canUseShardEffect() {
+  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return false;
+  try {
+    const gl = document.createElement("canvas").getContext("webgl2") ?? document.createElement("canvas").getContext("webgl");
+    return !!gl;
+  } catch {
+    return false;
+  }
+}
+
+/** Colour every character starts in before it "lights up" (reads as dark gray on dark and light gray on light). */
+const CHAR_DIM_COLOR = "rgba(113,113,122,0.4)";
+
+/** Splits text into per-character spans (grouped by word so wrapping stays natural). */
+function Chars({ text }: { text: string }) {
+  const words = text.split(" ");
+  return (
+    <>
+      <span className="sr-only">{text}</span>
+      <span aria-hidden="true">
+        {words.map((word, i) => (
+          <span key={i}>
+            <span className="inline-block whitespace-nowrap">
+              {[...word].map((char, j) => (
+                <span key={j} className="about-char">{char}</span>
+              ))}
+            </span>
+            {i < words.length - 1 ? " " : null}
+          </span>
+        ))}
+      </span>
+    </>
+  );
+}
 
 export default function AboutSection() {
   const sectionRef = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const imageWrapperRef = useRef<HTMLDivElement>(null);
+  // "pending" until we know; the Hero cursor journey waits for this to settle.
+  const [shard, setShard] = useState<"pending" | "on" | "off">("pending");
+
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- browser capability check, must run client-side after mount
+    setShard(canUseShardEffect() ? "on" : "off");
+  }, []);
 
   useEffect(() => {
     const ctx = gsap.context(() => {
       const mm = gsap.matchMedia();
 
-      mm.add("(min-width: 1024px) and (prefers-reduced-motion: no-preference)", () => {
-        // Desktop: Interactive Mouse Tilt
-        const onMouseMove = (e: MouseEvent) => {
-          if (!imageWrapperRef.current) return;
-          const { left, top, width, height } = imageWrapperRef.current.getBoundingClientRect();
-          const x = (e.clientX - (left + width / 2)) / (width / 2);
-          const y = (e.clientY - (top + height / 2)) / (height / 2);
-
-          gsap.to(".about-img-container", {
-            rotationY: x * 8,
-            rotationX: -y * 8,
-            duration: 0.6,
-            ease: "power2.out",
-          });
-        };
-
-        window.addEventListener("mousemove", onMouseMove);
-        return () => window.removeEventListener("mousemove", onMouseMove);
-      });
+      // (Removed interactive mouse tilt per request so the image stays still)
 
       // Fallback for reduced motion
       mm.add("(prefers-reduced-motion: reduce)", () => {
         gsap.set(".about-curtain", { scaleX: 0 });
         gsap.set(".split-word", { opacity: 1 });
         gsap.set(".terminal-cursor", { opacity: 1 });
+        gsap.set(".about-body-wrap", { opacity: 1, y: 0 });
       });
 
       // Global Animations
@@ -140,19 +172,6 @@ export default function AboutSection() {
         },
       });
 
-      // 4. Staggered Content (Terminal Reveal)
-      gsap.from(".about-body-p", {
-        opacity: 0,
-        x: -10, // slight offset to snap from
-        stagger: 0.3,
-        duration: 0.05,
-        ease: "steps(1)", // snap into view instantly
-        scrollTrigger: {
-          trigger: ".about-body-wrap",
-          start: "top 80%",
-        },
-      });
-
       // Blinking cursor
       gsap.to(".terminal-cursor", {
         opacity: 1,
@@ -161,16 +180,57 @@ export default function AboutSection() {
         duration: 0.4,
         ease: "steps(1)",
       });
+      });
 
-        gsap.from(".about-info-item", {
-          opacity: 0,
-          y: 20,
-          stagger: 0.1,
-          duration: 0.6,
-          ease: "power2.out",
+      // 4. Body copy reveal. Desktop: the grid is pinned exactly where the Hero journey ends
+      // (photo centre at 45% of the viewport) and the text is scrubbed in while pinned.
+      mm.add("(min-width: 1024px) and (prefers-reduced-motion: no-preference)", () => {
+        // Hide text initially
+        gsap.set(".about-body-wrap", { opacity: 0, y: 30 });
+
+        const textTl = gsap.timeline({
+          defaults: { ease: "power2.out" },
           scrollTrigger: {
-            trigger: ".about-info-grid",
-            start: "top 85%",
+            trigger: ".about-grid",
+            start: "center 45%",
+            end: () => `+=${Math.round(window.innerHeight * 0.9)}`,
+            pin: true,
+            scrub: 0.6,
+            anticipatePin: 1,
+            invalidateOnRefresh: true,
+            onEnter: () => gsap.to(".about-body-wrap", { opacity: 1, y: 0, duration: 1, ease: "power3.out" }),
+            onLeaveBack: () => gsap.to(".about-body-wrap", { opacity: 0, y: 30, duration: 0.4, ease: "power2.in" }),
+          },
+        });
+        textTl
+          .to({}, { duration: 0.15 }) // delay so fade-in completes partially while text is still gray
+          .from(".about-char", { color: CHAR_DIM_COLOR, clearProps: "color", stagger: 0.04, duration: 0.2, ease: "none" })
+          .from(".about-link", { opacity: 0, y: 12, duration: 0.5 }, "-=0.1")
+          .to({}, { duration: 0.6 }); // short hold so the full text can be read before release
+      });
+
+      // Mobile/tablet: stacked layout is taller than the viewport, so no pin: colour in while scrolling past.
+      mm.add("(max-width: 1023px) and (prefers-reduced-motion: no-preference)", () => {
+        gsap.set(".about-body-wrap", { opacity: 0, y: 30 });
+
+        ScrollTrigger.create({
+          trigger: ".about-body-wrap",
+          start: "top 85%",
+          onEnter: () => gsap.to(".about-body-wrap", { opacity: 1, y: 0, duration: 1, ease: "power3.out" }),
+          onLeaveBack: () => gsap.to(".about-body-wrap", { opacity: 0, y: 30, duration: 0.4, ease: "power2.in" }),
+        });
+
+        gsap.from(".about-char", {
+          color: CHAR_DIM_COLOR,
+          clearProps: "color",
+          stagger: 0.04,
+          duration: 0.2,
+          ease: "none",
+          scrollTrigger: {
+            trigger: ".about-body-wrap",
+            start: "top 60%",
+            end: "bottom 45%",
+            scrub: 0.6,
           },
         });
       });
@@ -232,23 +292,40 @@ export default function AboutSection() {
         </div>
 
         {/* Two-column */}
-        <div className="grid lg:grid-cols-12 gap-12 lg:gap-24 items-center">
+        <div className="about-grid grid lg:grid-cols-12 gap-12 lg:gap-24 items-center">
           {/* Left: Image */}
           <div className="lg:col-span-5 relative about-img-container" ref={imageWrapperRef}>
             <div className="about-img-frame absolute -top-4 -left-4 w-full h-full border border-primary/20 rounded-2xl z-0" />
-            <div className="about-img-wrapper about-scanline relative w-full aspect-[4/5] rounded-2xl overflow-hidden dark:border dark:border-white/10 border border-black/10 z-10 shadow-2xl">
-              {/* Curtain Reveal */}
-              <div className="about-curtain absolute inset-0 bg-primary z-[5]" />
+            <div
+              data-shard={shard}
+              className="about-img-wrapper about-scanline relative w-full aspect-[4/5] rounded-2xl overflow-hidden dark:border dark:border-white/10 border border-black/10 z-10 shadow-2xl bg-[#04120f]"
+            >
+              {/* Curtain Reveal (replaced by the shard effect when it is active) */}
+              <div className="about-curtain absolute inset-0 bg-primary z-[5]" style={{ display: shard === "on" ? "none" : undefined }} />
               
               <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent z-[2]" />
               
-              <Image 
-                src="/ojan.png" 
-                alt="Fauzan Taslim Hidayat" 
-                fill
-                priority
-                className="about-profile-img object-cover filter grayscale hover:grayscale-0 transition-all duration-1000 z-[1] scale-110" 
-              />
+              {/* Real photo: hidden while shards are active, crossfaded in at the end of the journey */}
+              <div className="about-photo-layer absolute inset-0 z-[1]" style={{ opacity: shard === "on" ? 0 : 1 }}>
+                <Image 
+                  src={PORTRAIT_SRC} 
+                  alt="Fauzan Taslim Hidayat" 
+                  fill
+                  priority
+                  className="about-profile-img object-cover filter grayscale hover:grayscale-0 transition-all duration-1000 scale-110" 
+                />
+              </div>
+
+              {/* WebGL shards (cursor -> photo). Opacity is driven by the Hero scroll timeline. */}
+              {shard === "on" && (
+                <div className="about-shard-canvas absolute inset-0 z-[6] pointer-events-none opacity-0">
+                  <ShardPortrait
+                    src={PORTRAIT_OPTIMIZED_SRC}
+                    fallbackSrc={PORTRAIT_SRC}
+                    onError={() => setShard("off")}
+                  />
+                </div>
+              )}
               
               <span className="absolute top-4 left-4 w-8 h-8 border-t-2 border-l-2 border-primary/50 z-[4]" />
               <span className="absolute bottom-4 right-4 w-8 h-8 border-b-2 border-r-2 border-primary/50 z-[4]" />
@@ -256,45 +333,20 @@ export default function AboutSection() {
           </div>
 
           {/* Right: Content */}
-          <div className="lg:col-span-7 flex flex-col gap-12">
+          <div className="lg:col-span-7 flex flex-col gap-10">
             <div className="about-body-wrap space-y-6">
-              <p className="about-body-p text-foreground/80 leading-relaxed text-lg md:text-xl font-light">
-                I am a <span className="text-foreground font-medium border-b border-primary/30">Backend Developer</span> & <span className="text-primary font-medium">Software Quality Engineer</span> dedicated to the craft of robust digital systems.
+              <p className="text-foreground/90 leading-snug text-2xl md:text-4xl font-light tracking-tight">
+                <Chars text="I'm Fauzan Taslim Hidayat, a" />{" "}
+                <span className="text-primary font-medium"><Chars text="Software Development Engineer in Test" /></span>{" "}
+                <Chars text="in Bogor." />
               </p>
-              <p className="about-body-p text-foreground/60 leading-relaxed text-base md:text-lg">
-                My philosophy is simple: <span className="italic text-foreground/80">Quality is not an act, it is a habit.</span> I specialize in building scalable backends and designing rigorous testing frameworks that ensure excellence is built-in from the first line of code.
-              </p>
-              <p className="about-body-p text-foreground/60 leading-relaxed text-base md:text-lg">
-                Whether I&apos;m architecting APIs or automating complex integration suites, my focus remains on performance, security, and maintainability.
+              <p className="text-foreground/55 leading-relaxed text-base md:text-xl font-light max-w-xl">
+                <Chars text="I walk into the fragile, the untested and the almost-shipped, then break it on purpose so users never have to." />
                 <span className="terminal-cursor inline-block w-[0.6em] h-[1.1em] bg-primary/80 ml-2 -mb-0.5 opacity-0" />
               </p>
             </div>
 
-            <div className="w-full h-px bg-foreground/10" />
-
-            {/* Quick info grid */}
-            <div className="about-info-grid grid grid-cols-2 gap-x-12 gap-y-8">
-              {[
-                { key: "Expertise", val: "Backend & QA" },
-                { key: "Philosophy", val: "Clean Code" },
-                { key: "Based In", val: "Bogor, ID" },
-                { key: "Availability", val: "Full-time / Freelance" },
-              ].map(({ key, val }) => (
-                <div key={key} className="about-info-item group">
-                  <span
-                    className="text-primary/50 uppercase block mb-1"
-                    style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "0.65rem", letterSpacing: "0.2em" }}
-                  >
-                    {key}
-                  </span>
-                  <span className="text-foreground/90 text-sm md:text-base font-medium group-hover:text-primary transition-colors duration-300">
-                    {val}
-                  </span>
-                </div>
-              ))}
-            </div>
-
-            <div className="flex items-center gap-4 group cursor-pointer">
+            <div className="about-link flex items-center gap-4 group cursor-pointer">
               <span
                 className="font-mono text-primary uppercase tracking-[0.3em] text-[0.7rem]"
               >

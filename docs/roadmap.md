@@ -28,5 +28,6 @@ Persistence is not involved. Every task leaves the tree compiling.
 
 - [x] 1. Add Giant Cursor to Hero Section
 - [x] 2. Setup Cross-Section ScrollTrigger
-- [ ] 3. Implement the Glitch Effect
-- [ ] 4. Polish Handoff & Edge Cases
+- [x] 3. Shard portrait WebGL component (three.js)
+- [x] 4. Wire up About canvas/photo layers + retarget Hero timeline
+- [x] 5. Polish (resize, mobile, pause offscreen, reduced motion)
