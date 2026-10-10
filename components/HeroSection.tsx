@@ -299,7 +299,7 @@ export default function HeroSection() {
             style={{ fontFamily: "'JetBrains Mono', ui-monospace, monospace" }}
           >
             <span className="text-primary/50">[</span>
-            Software Quality Engineer
+            Software Development Engineer in Test
             <span className="text-primary/50">]</span>
           </span>
         </div>
