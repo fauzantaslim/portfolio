@@ -28,6 +28,9 @@ npm run build
 - `lib/projects-data.ts`: `Project` type and the `projects` array (currently 11 items).
 - `app/projects/[slug]/`: detail page. It already shows description, tech stack, highlights,
   "View Live Site" and "View on GitHub" links, so a card does not need to repeat them.
+- `components/ContactSection.tsx` + `app/api/contact/route.ts`: contact form and its Resend-backed
+  endpoint. Deployed on Vercel. Env vars are listed in `.env.example`; real values live in
+  `.env.local` (git-ignored). Protection plan: `docs/spec-contact-protection.md`.
 
 ## Conventions
 

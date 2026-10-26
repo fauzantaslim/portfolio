@@ -3,7 +3,14 @@
 import { useEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { FaEnvelope, FaLocationDot, FaLinkedin, FaGithub } from "react-icons/fa6";
+import {
+  FaEnvelope,
+  FaLocationDot,
+  FaLinkedin,
+  FaGithub,
+  FaTriangleExclamation,
+  FaCheck,
+} from "react-icons/fa6";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -43,6 +50,7 @@ export default function ContactSection() {
   const [formState, setFormState] = useState({ name: "", email: "", message: "" });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [focused, setFocused] = useState<string | null>(null);
 
   useEffect(() => {
@@ -87,15 +95,38 @@ export default function ContactSection() {
     return () => ctx.revert();
   }, []);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!formState.name.trim() || !formState.email.trim() || !formState.message.trim()) {
+      setErrorMessage("Please fill out all fields before submitting.");
+      return;
+    }
+
     setIsSubmitting(true);
-    setTimeout(() => {
-      setIsSubmitting(false);
+    setErrorMessage(null);
+
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formState),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        throw new Error(data.error || "Failed to send message. Please try again.");
+      }
+
       setIsSubmitted(true);
       setFormState({ name: "", email: "", message: "" });
-      setTimeout(() => setIsSubmitted(false), 4000);
-    }, 1500);
+      setTimeout(() => setIsSubmitted(false), 6000);
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : "Something went wrong. Please try again.";
+      setErrorMessage(message);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const inputBase = `
@@ -236,10 +267,17 @@ export default function ContactSection() {
                   className="w-14 h-14 rounded-full flex items-center justify-center"
                   style={{ background: "rgba(29,205,159,0.12)", border: "1px solid rgba(29,205,159,0.3)" }}
                 >
-                  <span className="text-primary text-2xl">✓</span>
+                  <FaCheck className="text-primary text-xl" aria-hidden="true" />
                 </div>
                 <p className="text-foreground font-bold text-lg">Message sent!</p>
                 <p className="text-foreground/40 text-sm font-mono">I&apos;ll get back to you soon.</p>
+                <button
+                  type="button"
+                  onClick={() => setIsSubmitted(false)}
+                  className="mt-2 text-xs font-mono text-primary/70 hover:text-primary underline underline-offset-4"
+                >
+                  Send another message
+                </button>
               </div>
             ) : (
               <form onSubmit={handleSubmit} className="space-y-8" noValidate>
@@ -299,6 +337,17 @@ export default function ContactSection() {
                     style={{ fontFamily: "'JetBrains Mono', monospace" }}
                   />
                 </div>
+
+                {/* Error Banner */}
+                {errorMessage && (
+                  <div
+                    role="alert"
+                    className="p-3.5 rounded-lg border border-red-500/30 bg-red-500/10 text-red-400 text-xs font-mono flex items-start gap-2.5"
+                  >
+                    <FaTriangleExclamation className="shrink-0 text-sm mt-0.5 text-red-400" aria-hidden="true" />
+                    <span className="leading-relaxed">{errorMessage}</span>
+                  </div>
+                )}
 
                 {/* Submit */}
                 <button

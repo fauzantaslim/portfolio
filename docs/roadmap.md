@@ -31,3 +31,18 @@ Persistence is not involved. Every task leaves the tree compiling.
 - [x] 3. Shard portrait WebGL component (three.js)
 - [x] 4. Wire up About canvas/photo layers + retarget Hero timeline
 - [x] 5. Polish (resize, mobile, pause offscreen, reduced motion)
+
+## Contact Email API (Resend): `docs/spec-contact-email-api.md`
+
+- [x] 1. Install `resend` and create `app/api/contact/route.ts` with validation, Resend dispatch, and `.env.example`
+- [x] 2. Update `components/ContactSection.tsx` to call `/api/contact` with loading, success, and error UI states
+- [ ] 3. Bump Next.js to safe version (16.4.3) and verify build (`npm run build`)
+
+## Contact Form Protection: `docs/spec-contact-protection.md`
+
+Starts only after the Contact Email API section above is fully done (Next.js bump first).
+
+- [ ] 1. Honeypot field + subject newline sanitization
+- [ ] 2. Per-IP rate limit with Upstash (3 / hour / IP, fail-open)
+- [ ] 3. Cloudflare Turnstile end-to-end (invisible widget + server siteverify, fail-closed)
+- [ ] 4. Deploy checklist in `README.md` (Vercel env vars, hostname restriction, WAF)
