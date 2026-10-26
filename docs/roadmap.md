@@ -42,7 +42,7 @@ Persistence is not involved. Every task leaves the tree compiling.
 
 Starts only after the Contact Email API section above is fully done (Next.js bump first).
 
-- [ ] 1. Honeypot field + subject newline sanitization
-- [ ] 2. Per-IP rate limit with Upstash (3 / hour / IP, fail-open)
-- [ ] 3. Cloudflare Turnstile end-to-end (invisible widget + server siteverify, fail-closed)
+- [x] 1. Honeypot field + subject newline sanitization
+- [x] 2. Per-IP rate limit with Upstash (3 / hour / IP, fail-open)
+- [x] 3. Cloudflare Turnstile end-to-end (invisible widget + server siteverify, fail-closed)
 - [ ] 4. Deploy checklist in `README.md` (Vercel env vars, hostname restriction, WAF)

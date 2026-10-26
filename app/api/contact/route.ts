@@ -1,5 +1,7 @@
 import { NextResponse } from "next/server";
 import { Resend } from "resend";
+import { checkRateLimit } from "@/lib/rate-limit";
+import { verifyTurnstile } from "@/lib/turnstile";
 
 function escapeHtml(str: string): string {
   return str
@@ -31,8 +33,15 @@ export async function POST(request: Request) {
       );
     }
 
-    const { name, email, message } = body as Record<string, unknown>;
+    const { name, email, message, website, turnstileToken } = body as Record<string, unknown>;
 
+    // 1. Honeypot check: bots fill hidden "website" field. Real users leave it empty.
+    // Return silent success without sending email so bots get no feedback signal.
+    if (typeof website === "string" && website.trim() !== "") {
+      return NextResponse.json({ success: true });
+    }
+
+    // 2. Field validation
     const trimmedName = typeof name === "string" ? name.trim() : "";
     const trimmedEmail = typeof email === "string" ? email.trim() : "";
     const trimmedMessage = typeof message === "string" ? message.trim() : "";
@@ -58,6 +67,31 @@ export async function POST(request: Request) {
       );
     }
 
+    // Extract client IP address
+    const ip =
+      request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ||
+      request.headers.get("x-real-ip") ||
+      "unknown";
+
+    // 3. Per-IP rate limiting (Upstash Redis, fail-open)
+    const isAllowed = await checkRateLimit(ip);
+    if (!isAllowed) {
+      return NextResponse.json(
+        { error: "You've sent too many messages recently. Please try again in an hour." },
+        { status: 429 }
+      );
+    }
+
+    // 4. Cloudflare Turnstile token verification (fail-closed)
+    const isTurnstileValid = await verifyTurnstile(turnstileToken, ip);
+    if (!isTurnstileValid) {
+      return NextResponse.json(
+        { error: "Security verification failed. Please refresh the page and try again." },
+        { status: 400 }
+      );
+    }
+
+    // 5. Send email via Resend
     const apiKey = process.env.RESEND_API_KEY;
     if (!apiKey) {
       return NextResponse.json(
@@ -70,11 +104,14 @@ export async function POST(request: Request) {
     const to = process.env.CONTACT_EMAIL_TO || "fauzantaslim123@gmail.com";
     const from = process.env.CONTACT_EMAIL_FROM || "Portfolio Contact <onboarding@resend.dev>";
 
+    // Subject newline sanitization to prevent header/subject injection
+    const sanitizedSubjectName = trimmedName.replace(/[\r\n]+/g, " ");
+
     const { data, error } = await resend.emails.send({
       from,
       to,
       replyTo: trimmedEmail,
-      subject: `Portfolio Message from ${trimmedName}`,
+      subject: `Portfolio Message from ${sanitizedSubjectName}`,
       text: `Sender: ${trimmedName}\nEmail: ${trimmedEmail}\n\nMessage:\n${trimmedMessage}`,
       html: `
         <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 24px; border: 1px solid #e2e8f0; border-radius: 12px; background: #ffffff;">

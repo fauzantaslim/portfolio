@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import Script from "next/script";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import {
@@ -11,6 +12,28 @@ import {
   FaTriangleExclamation,
   FaCheck,
 } from "react-icons/fa6";
+
+declare global {
+  interface Window {
+    turnstile?: {
+      render: (
+        container: string | HTMLElement,
+        options: {
+          sitekey: string;
+          action?: string;
+          appearance?: "always" | "execute" | "interaction-only";
+          theme?: "light" | "dark" | "auto";
+          callback?: (token: string) => void;
+          "error-callback"?: (error: unknown) => void;
+          "expired-callback"?: () => void;
+        }
+      ) => string;
+      reset: (widgetId?: string) => void;
+      remove: (widgetId?: string) => void;
+      getResponse: (widgetId?: string) => string | undefined;
+    };
+  }
+}
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -47,11 +70,81 @@ const contactLinks = [
 
 export default function ContactSection() {
   const sectionRef = useRef<HTMLDivElement>(null);
-  const [formState, setFormState] = useState({ name: "", email: "", message: "" });
+  const turnstileContainerRef = useRef<HTMLDivElement>(null);
+  const widgetIdRef = useRef<string | null>(null);
+
+  const [formState, setFormState] = useState({ name: "", email: "", message: "", website: "" });
+  const [turnstileToken, setTurnstileToken] = useState<string>("");
+  const [turnstileStatus, setTurnstileStatus] = useState<"loading" | "ready" | "error">("loading");
+
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [focused, setFocused] = useState<string | null>(null);
+
+  const renderTurnstile = () => {
+    if (typeof window === "undefined" || !window.turnstile || !turnstileContainerRef.current) {
+      return;
+    }
+    if (widgetIdRef.current) {
+      return;
+    }
+
+    const siteKey =
+      process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY || "1x00000000000000000000BB";
+
+    try {
+      const id = window.turnstile.render(turnstileContainerRef.current, {
+        sitekey: siteKey,
+        action: "contact",
+        appearance: "interaction-only",
+        theme: "auto",
+        callback: (token: string) => {
+          setTurnstileToken(token);
+          setTurnstileStatus("ready");
+        },
+        "error-callback": (err: unknown) => {
+          console.error("[Turnstile error]:", err);
+          setTurnstileToken("");
+          setTurnstileStatus("error");
+        },
+        "expired-callback": () => {
+          setTurnstileToken("");
+          if (widgetIdRef.current && window.turnstile) {
+            window.turnstile.reset(widgetIdRef.current);
+          }
+        },
+      });
+      widgetIdRef.current = id;
+    } catch (err) {
+      console.error("[Turnstile render error]:", err);
+      setTurnstileStatus("error");
+    }
+  };
+
+  // Re-render Turnstile widget when reset from submitted state
+  useEffect(() => {
+    if (!isSubmitted && window.turnstile) {
+      const timer = setTimeout(() => {
+        renderTurnstile();
+      }, 60);
+      return () => clearTimeout(timer);
+    }
+  }, [isSubmitted]);
+
+  // Clean up Turnstile widget on unmount
+  useEffect(() => {
+    return () => {
+      if (widgetIdRef.current && window.turnstile) {
+        try {
+          window.turnstile.remove(widgetIdRef.current);
+        } catch {
+          // ignore
+        }
+        widgetIdRef.current = null;
+      }
+    };
+  }, []);
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -102,6 +195,18 @@ export default function ContactSection() {
       return;
     }
 
+    if (turnstileStatus === "error") {
+      setErrorMessage(
+        "Security verification could not load. If you use a script or ad blocker, please temporarily disable it or email me directly at fauzantaslim123@gmail.com."
+      );
+      return;
+    }
+
+    if (!turnstileToken) {
+      setErrorMessage("Security verification is in progress. Please wait a moment and try again.");
+      return;
+    }
+
     setIsSubmitting(true);
     setErrorMessage(null);
 
@@ -109,7 +214,13 @@ export default function ContactSection() {
       const res = await fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formState),
+        body: JSON.stringify({
+          name: formState.name,
+          email: formState.email,
+          message: formState.message,
+          website: formState.website,
+          turnstileToken,
+        }),
       });
 
       const data = await res.json();
@@ -119,13 +230,20 @@ export default function ContactSection() {
       }
 
       setIsSubmitted(true);
-      setFormState({ name: "", email: "", message: "" });
+      setFormState({ name: "", email: "", message: "", website: "" });
+      setTurnstileToken("");
+      widgetIdRef.current = null;
       setTimeout(() => setIsSubmitted(false), 6000);
     } catch (err: unknown) {
       const message = err instanceof Error ? err.message : "Something went wrong. Please try again.";
       setErrorMessage(message);
     } finally {
       setIsSubmitting(false);
+      // Turnstile tokens are single-use: reset widget after every submit attempt
+      if (widgetIdRef.current && window.turnstile) {
+        window.turnstile.reset(widgetIdRef.current);
+        setTurnstileToken("");
+      }
     }
   };
 
@@ -281,6 +399,24 @@ export default function ContactSection() {
               </div>
             ) : (
               <form onSubmit={handleSubmit} className="space-y-8" noValidate>
+                {/* Honeypot field (hidden off-screen from real users, traps automated bots) */}
+                <div
+                  className="opacity-0 absolute -left-[9999px] -top-[9999px] h-0 w-0 overflow-hidden"
+                  aria-hidden="true"
+                  tabIndex={-1}
+                >
+                  <label htmlFor="website" tabIndex={-1}>Website</label>
+                  <input
+                    type="text"
+                    id="website"
+                    name="website"
+                    tabIndex={-1}
+                    autoComplete="off"
+                    value={formState.website}
+                    onChange={(e) => setFormState({ ...formState, website: e.target.value })}
+                  />
+                </div>
+
                 {/* Name */}
                 <div className="space-y-2">
                   <label htmlFor="name" className={`field-label ${focused === "name" ? "text-primary" : "text-foreground/35"} transition-colors duration-200`}>
@@ -338,6 +474,19 @@ export default function ContactSection() {
                   />
                 </div>
 
+                {/* Turnstile explicit loader */}
+                <Script
+                  src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit"
+                  strategy="afterInteractive"
+                  onReady={renderTurnstile}
+                  onError={() => {
+                    setTurnstileStatus("error");
+                  }}
+                />
+
+                {/* Invisible Turnstile container (displays only if Cloudflare triggers challenge) */}
+                <div ref={turnstileContainerRef} id="turnstile-container" className="my-1" />
+
                 {/* Error Banner */}
                 {errorMessage && (
                   <div
@@ -352,14 +501,19 @@ export default function ContactSection() {
                 {/* Submit */}
                 <button
                   type="submit"
-                  disabled={isSubmitting}
-                  className="submit-btn w-full py-4 rounded-lg bg-primary text-black font-bold disabled:opacity-60"
+                  disabled={isSubmitting || (!turnstileToken && turnstileStatus !== "error")}
+                  className="submit-btn w-full py-4 rounded-lg bg-primary text-black font-bold disabled:opacity-60 cursor-pointer disabled:cursor-not-allowed"
                   aria-live="polite"
                 >
                   {isSubmitting ? (
                     <span className="flex items-center justify-center gap-2">
                       <span className="w-3 h-3 border-2 border-black/30 border-t-black rounded-full animate-spin" />
                       Sending...
+                    </span>
+                  ) : !turnstileToken && turnstileStatus !== "error" ? (
+                    <span className="flex items-center justify-center gap-2">
+                      <span className="w-3 h-3 border-2 border-black/30 border-t-black rounded-full animate-spin" />
+                      Verifying security...
                     </span>
                   ) : (
                     "Send Message ↗"
