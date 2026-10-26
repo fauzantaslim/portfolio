@@ -36,7 +36,7 @@ Persistence is not involved. Every task leaves the tree compiling.
 
 - [x] 1. Install `resend` and create `app/api/contact/route.ts` with validation, Resend dispatch, and `.env.example`
 - [x] 2. Update `components/ContactSection.tsx` to call `/api/contact` with loading, success, and error UI states
-- [ ] 3. Bump Next.js to safe version (16.4.3) and verify build (`npm run build`)
+- [x] 3. Bump Next.js to safe version (16.4.3) and verify build (`npm run build`)
 
 ## Contact Form Protection: `docs/spec-contact-protection.md`
 
