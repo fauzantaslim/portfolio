@@ -41,6 +41,9 @@ Personal portfolio website built with **Next.js 16**, **TypeScript**, and **Tail
 ```
 portofolio-website/
 ├── app/
+│   ├── api/
+│   │   └── contact/
+│   │       └── route.ts  # Contact Form API (Resend, Turnstile, Rate limit)
 │   ├── layout.tsx        # Root layout (metadata, fonts, preloader)
 │   ├── page.tsx          # Home page — assembles all sections
 │   ├── globals.css       # Global styles and CSS variables
@@ -56,7 +59,7 @@ portofolio-website/
 │   ├── StackSection.tsx    # Tech stack showcase (icon cloud)
 │   ├── ExperienceSection.tsx # Career timeline
 │   ├── ProjectsSection.tsx # Projects showcase
-│   ├── ContactSection.tsx  # Contact information
+│   ├── ContactSection.tsx  # Contact form with Turnstile & honeypot
 │   ├── Footer.tsx          # Footer
 │   └── ui/
 │       ├── icon-cloud.tsx  # Interactive 3D icon cloud
@@ -65,6 +68,8 @@ portofolio-website/
 │       └── retro-grid.tsx  # Retro grid background
 │
 ├── lib/
+│   ├── rate-limit.ts       # Upstash Redis sliding window limiter
+│   ├── turnstile.ts        # Cloudflare Turnstile token siteverify
 │   └── utils.ts            # Utility functions (cn helper)
 │
 ├── public/                 # Static assets (images, icons, SVGs)
@@ -128,6 +133,36 @@ This project is optimized for deployment on **Vercel**.
 3. Vercel will auto-detect Next.js and deploy automatically.
 
 > Make sure to update the `url` field in `app/page.tsx` (JSON-LD) and `app/layout.tsx` (OpenGraph) with your actual production domain before deploying.
+
+### 🛡️ Production & Contact API Deployment Checklist
+
+Before or right after deploying to production on Vercel, follow this security & configuration checklist:
+
+1. **Configure Environment Variables in Vercel** (`Settings` → `Environment Variables`):
+   - `RESEND_API_KEY`: Secret key from [resend.com/api-keys](https://resend.com/api-keys). *(Visibility: Secret)*
+   - `CONTACT_EMAIL_TO`: Recipient inbox (`fauzantaslim123@gmail.com`). *(Visibility: Secret)*
+   - `CONTACT_EMAIL_FROM`: `Portfolio Contact Form <onboarding@resend.dev>` (or your verified domain). *(Visibility: Secret)*
+   - `NEXT_PUBLIC_TURNSTILE_SITE_KEY`: Client site key from Cloudflare Turnstile dashboard. *(Visibility: Plaintext / Config)*
+   - `TURNSTILE_SECRET_KEY`: Server secret key from Cloudflare Turnstile dashboard. *(Visibility: Secret)*
+
+2. **Connect Upstash Redis Rate Limiting** (1-Click via Vercel Storage):
+   - Go to your Vercel Project → **Storage** → **Create Database** → Select **Upstash (Redis)**.
+   - Choose *Singapore (Southeast)* on the Free plan and click **Connect**.
+   - Vercel automatically links the database and injects the `UPSTASH_REDIS_REST_KV_REST_API_*` variables into your deployment.
+
+3. **Cloudflare Turnstile Hostname Restriction**:
+   - In Cloudflare Dashboard → **Turnstile** → Select your widget → **Settings**.
+   - Under **Allowed Hostnames**, ensure only your production domains are listed (e.g., `fauzantaslim.my.id`, `*.vercel.app`).
+   - Remove `localhost` from production widget settings (localhost uses Cloudflare's dummy testing keys).
+
+4. **Enable Vercel Attack Challenge Mode / Bot Protection (WAF)**:
+   - In Vercel Project Dashboard → **Security** tab.
+   - Verify that Vercel WAF and DDoS mitigation are active to protect edge serverless invocations.
+
+5. **Post-Deploy Smoke Test**:
+   - Open your live site at `#contact` in an incognito window.
+   - Send a test message with valid details and verify the success screen appears and the email arrives in your inbox.
+   - Verify that multiple rapid submissions (>3 messages in an hour from the same IP) display the 429 rate limit warning.
 
 ---
 

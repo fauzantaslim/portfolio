@@ -45,4 +45,4 @@ Starts only after the Contact Email API section above is fully done (Next.js bum
 - [x] 1. Honeypot field + subject newline sanitization
 - [x] 2. Per-IP rate limit with Upstash (3 / hour / IP, fail-open)
 - [x] 3. Cloudflare Turnstile end-to-end (invisible widget + server siteverify, fail-closed)
-- [ ] 4. Deploy checklist in `README.md` (Vercel env vars, hostname restriction, WAF)
+- [x] 4. Deploy checklist in `README.md` (Vercel env vars, hostname restriction, WAF)
