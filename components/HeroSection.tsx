@@ -328,7 +328,7 @@ export default function HeroSection() {
             Contact Me
           </a>
           <a
-            href="/Fauzan Taslim Hidayat - CV Maret 2026.pdf"
+            href="/fauzan-taslim-cv.pdf"
             target="_blank"
             rel="noopener noreferrer"
             className="hero-btn hero-btn-secondary group inline-flex items-center gap-2.5 px-7 py-3.5 [@media(max-height:500px)]:px-4 [@media(max-height:500px)]:py-2 border border-primary/25 text-primary rounded-lg opacity-0"
