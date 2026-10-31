@@ -56,3 +56,10 @@ Reposition the portfolio from QA/SDET to Fullstack Developer across all sections
 - [x] 3. ContactSection: remove QA mention from info paragraph
 - [x] 4. Footer: tagline → "Fullstack Developer"
 - [x] 5. docs/overview.md: update identity description
+
+## New Project: Semplak Barat Rafting: `docs/spec-project-semplak-rafting.md`
+
+Add the PKM online rafting reservation system (BUMDes Semplak Barat) to the portfolio.
+
+- [x] 1. Add `semplak-barat-adventure` entry in `lib/projects-data.ts` (using `/rafting-1.jpg`..`/rafting-4.jpg`)
+- [x] 2. Verify static build, type safety, and slider gallery on `/projects/semplak-barat-adventure`

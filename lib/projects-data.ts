@@ -15,6 +15,38 @@ export type Project = {
 
 export const projects: Project[] = [
   {
+    slug: "semplak-barat-adventure",
+    title: "Semplak Barat Adventure",
+    role: "Full Stack Developer",
+    year: "2025",
+    status: "Live",
+    shortDescription:
+      "Web-based online reservation and scheduling system for river rafting tourism under BUMDes Semplak Barat, Bogor.",
+    longDescription: [
+      "Semplak Barat Adventure is a web-based reservation platform developed as a Community Service (PKM) initiative to empower local river rafting tourism under BUMDes Semplak Barat in Kemang, Bogor.",
+      "The system streamlines the booking process for tourists and management alike: visitors can explore rafting packages (5 KM family route or 12 KM adventure route), select dates and times, check boat and guide slot availability, and proceed to secure online payment via Midtrans.",
+      "For operational efficiency, the platform provides dedicated multi-role portals: an Admin Dashboard to manage boats, river guides, tour packages, website content, and monitor revenue trends, plus a Guide Portal where river guides view daily assignments and trip schedules.",
+    ],
+    highlights: [
+      "End-to-end tourist reservation flow with automated boat and guide slot availability check",
+      "Dynamic package selection (5 KM & 12 KM routes) with real-time price calculation",
+      "Secure payment gateway integration with Midtrans for automated transaction verification",
+      "Centralized Admin Management Portal for fleet, guides, packages, and web content",
+      "Admin analytics dashboard monitoring booking trends, revenue, and order status",
+      "Dedicated Guide (Pemandu) Portal for viewing daily rafting schedules and assignment history",
+      "Responsive design optimized for both mobile tourist bookings and desktop management",
+    ],
+    images: [
+      "/rafting-1.jpg",
+      "/rafting-2.jpg",
+      "/rafting-3.jpg",
+      "/rafting-4.jpg",
+    ],
+    category: "Web",
+    tags: ["Laravel", "PHP", "MySQL", "Tailwind CSS", "Midtrans"],
+    links: {},
+  },
+  {
     slug: "religi-id",
     title: "RELIGI.ID",
     role: "Full Stack Developer",
