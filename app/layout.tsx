@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Preloader from "@/components/Preloader";
+import SmoothScroll from "@/components/SmoothScroll";
 import { ThemeProvider } from "next-themes";
 
 const geistSans = Geist({
@@ -110,6 +111,7 @@ export default function RootLayout({
           disableTransitionOnChange={false}
         >
           <Preloader />
+          <SmoothScroll />
           {children}
         </ThemeProvider>
       </body>

@@ -9,11 +9,12 @@ import { Particles } from "@/components/ui/particles";
 import { useTheme } from "next-themes";
 
 const footerLinks = [
-  { label: "About",      href: "#about",      idx: "01" },
-  { label: "Stack",      href: "#stack",      idx: "02" },
-  { label: "Experience", href: "#experience", idx: "03" },
-  { label: "Projects",   href: "#projects",   idx: "04" },
-  { label: "Contact",    href: "#contact",    idx: "05" },
+  { label: "About",        href: "#about",        idx: "01" },
+  { label: "Stack",        href: "#stack",        idx: "02" },
+  { label: "Experience",   href: "#experience",   idx: "03" },
+  { label: "Projects",     href: "#projects",     idx: "04" },
+  { label: "Certificates", href: "#certificates", idx: "05" },
+  { label: "Contact",      href: "#contact",      idx: "06" },
 ];
 
 const socials = [

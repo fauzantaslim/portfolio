@@ -7,12 +7,13 @@ import { useTheme } from "next-themes";
 import { FaSun, FaMoon } from "react-icons/fa6";
 
 const navLinks = [
-  { label: "Home",       href: "#hero",       idx: "00" },
-  { label: "About",      href: "#about",      idx: "01" },
-  { label: "Stack",      href: "#stack",      idx: "02" },
-  { label: "Experience", href: "#experience", idx: "03" },
-  { label: "Projects",   href: "#projects",   idx: "04" },
-  { label: "Contact",    href: "#contact",    idx: "05" },
+  { label: "Home",         href: "#hero",         idx: "00" },
+  { label: "About",        href: "#about",        idx: "01" },
+  { label: "Stack",        href: "#stack",        idx: "02" },
+  { label: "Experience",   href: "#experience",   idx: "03" },
+  { label: "Projects",     href: "#projects",     idx: "04" },
+  { label: "Certificates", href: "#certificates", idx: "05" },
+  { label: "Contact",      href: "#contact",      idx: "06" },
 ];
 
 function ThemeToggle() {
@@ -112,7 +113,14 @@ export default function Navbar() {
     e.preventDefault();
     setIsMobileOpen(false);
     const target = document.querySelector(href);
-    if (target) target.scrollIntoView({ behavior: "smooth" });
+    if (!target) return;
+
+    const loco = typeof window !== "undefined" ? (window as any).locomotiveScroll : null;
+    if (loco && typeof loco.scrollTo === "function") {
+      loco.scrollTo(target, { offset: -70, duration: 1.1 });
+    } else {
+      target.scrollIntoView({ behavior: "smooth" });
+    }
   };
 
   const isLight = mounted && resolvedTheme === "light";

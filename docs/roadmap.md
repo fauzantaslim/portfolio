@@ -63,3 +63,13 @@ Add the PKM online rafting reservation system (BUMDes Semplak Barat) to the port
 
 - [x] 1. Add `semplak-barat-adventure` entry in `lib/projects-data.ts` (using `/rafting-1.jpg`..`/rafting-4.jpg`)
 - [x] 2. Verify static build, type safety, and slider gallery on `/projects/semplak-barat-adventure`
+
+## Certificates Section (Cyber-Scroll): `docs/spec-certificates-cyber-scroll.md`
+
+Add the Certificates section with interactive unrolling cyber-scroll cards after Projects.
+
+- [x] 1. Data layer: create `lib/certificates-data.ts` with TypeScript types and initial certificate items
+- [x] 2. Cyber-Scroll component: build `components/CertificatesSection.tsx` with roller caps, header, and grid layout
+- [x] 3. Unrolling animation: implement unroll/roll-up motion (roller rotation + canvas reveal) and reduced motion support
+- [x] 4. Page & navigation integration: wire into `app/page.tsx`, `components/Navbar.tsx`, and `components/Footer.tsx`
+- [x] 5. Polish & verification: responsive tuning, keyboard accessibility, and type check verification

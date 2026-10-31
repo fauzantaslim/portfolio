@@ -6,8 +6,9 @@ import HeroSection from "@/components/HeroSection";
 const AboutSection     = dynamic(() => import("@/components/AboutSection"));
 const StackSection     = dynamic(() => import("@/components/StackSection"));
 const ExperienceSection = dynamic(() => import("@/components/ExperienceSection"));
-const ProjectsSection  = dynamic(() => import("@/components/ProjectsSection"));
-const ContactSection   = dynamic(() => import("@/components/ContactSection"));
+const ProjectsSection      = dynamic(() => import("@/components/ProjectsSection"));
+const CertificatesSection  = dynamic(() => import("@/components/CertificatesSection"));
+const ContactSection       = dynamic(() => import("@/components/ContactSection"));
 const Footer           = dynamic(() => import("@/components/Footer"));
 
 const jsonLd = {
@@ -48,6 +49,7 @@ export default function Home() {
       <StackSection />
       <ExperienceSection />
       <ProjectsSection />
+      <CertificatesSection />
       <ContactSection />
       <Footer />
     </main>

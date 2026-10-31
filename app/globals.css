@@ -75,11 +75,20 @@
   --particles-color: #000000;
 }
 
-/* Smooth scrolling — only when user hasn't requested reduced motion (WCAG 2.3.3) */
+/* Smooth scrolling — fallback when Lenis is not active, disabled when reduced motion requested */
 @media (prefers-reduced-motion: no-preference) {
-  html {
+  html:not(.lenis) {
     scroll-behavior: smooth;
   }
+}
+
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
 }
 
 body {
