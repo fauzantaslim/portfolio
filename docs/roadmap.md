@@ -46,3 +46,13 @@ Starts only after the Contact Email API section above is fully done (Next.js bum
 - [x] 2. Per-IP rate limit with Upstash (3 / hour / IP, fail-open)
 - [x] 3. Cloudflare Turnstile end-to-end (invisible widget + server siteverify, fail-closed)
 - [x] 4. Deploy checklist in `README.md` (Vercel env vars, hostname restriction, WAF)
+
+## Fullstack Rebrand — Copywriting: `docs/spec-fullstack-rebrand.md`
+
+Reposition the portfolio from QA/SDET to Fullstack Developer across all sections.
+
+- [x] 1. HeroSection: role → "Fullstack Developer", update description
+- [x] 2. AboutSection: headline, highlighted word, role, body paragraph
+- [x] 3. ContactSection: remove QA mention from info paragraph
+- [x] 4. Footer: tagline → "Fullstack Developer"
+- [x] 5. docs/overview.md: update identity description

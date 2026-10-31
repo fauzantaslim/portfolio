@@ -268,7 +268,7 @@ export default function HeroSection() {
           <span
             className="hero-eyebrow font-mono text-xs tracking-[0.3em] uppercase text-primary opacity-0"
           >
-            Hello, I&apos;m
+            Hello
           </span>
           <div className="hero-accent-line h-px w-10 bg-primary/70 hidden sm:block" />
         </div>
@@ -299,7 +299,7 @@ export default function HeroSection() {
             style={{ fontFamily: "'JetBrains Mono', ui-monospace, monospace" }}
           >
             <span className="text-primary/50">[</span>
-            Software Development Engineer in Test
+            Fullstack Developer
             <span className="text-primary/50">]</span>
           </span>
         </div>
@@ -309,8 +309,8 @@ export default function HeroSection() {
           className="hero-desc max-w-xl mx-auto text-foreground/45 text-sm md:text-base [@media(max-height:500px)]:text-xs leading-relaxed mb-10 [@media(max-height:500px)]:mb-4 opacity-0"
           style={{ fontFamily: "'JetBrains Mono', monospace", lineHeight: 1.8 }}
         >
-          I break things on purpose — so users don&apos;t have to.
-          Also I build backends. Sometimes both happen at the same time.
+          I build full-featured applications — from database schema to polished UI.
+          Always shipping, always iterating.
         </p>
 
         {/* CTA Buttons */}

@@ -1,6 +1,6 @@
 # Overview
 
-Personal portfolio of Fauzan Taslim (full-stack / backend / QA). Single-page site made of
+Personal portfolio of Fauzan Taslim (fullstack developer, backend-leaning). Single-page site made of
 sections (Hero, About, Experience, Stack, Projects, Contact) plus a per-project detail page.
 
 ## Stack

@@ -248,7 +248,7 @@ export default function Footer() {
             className="text-foreground/30 max-w-xs text-center leading-relaxed"
             style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "0.62rem", letterSpacing: "0.08em" }}
           >
-            Backend Developer &amp; Software Quality Engineer<br />
+            Fullstack Developer<br />
             based in Bogor, Indonesia.
           </p>
         </div>

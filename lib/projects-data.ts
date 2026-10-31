@@ -15,15 +15,15 @@ export type Project = {
 
 export const projects: Project[] = [
   {
-    slug: "articles-website",
-    title: "Articles Website",
+    slug: "religi-id",
+    title: "RELIGI.ID",
     role: "Full Stack Developer",
     year: "2025",
     status: "Live",
     shortDescription:
-      "Build a web application for Islamic news articles with a focus on user experience and accessibility.",
+      "Web application for Islamic news and articles with a focus on user experience and accessibility.",
     longDescription: [
-      "This project is a full-featured Islamic news article platform built with Laravel, designed to provide a clean and accessible reading experience for Muslim readers across Indonesia.",
+      "RELIGI.ID is a full-featured Islamic news article platform built with Laravel, designed to provide a clean and accessible reading experience for Muslim readers across Indonesia.",
       "The platform supports article browsing by category, full-text search, and a responsive layout that works seamlessly across devices. Special attention was given to readability — typography choices, line spacing, and contrast ratios were optimized for long-form content consumption.",
       "The CMS backend allows editors to manage articles, categories, and media through an intuitive admin panel. Images are processed and served efficiently to maintain performance even on slower mobile connections.",
     ],

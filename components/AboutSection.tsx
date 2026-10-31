@@ -240,7 +240,7 @@ export default function AboutSection() {
     return () => ctx.revert();
   }, []);
 
-  const headline = "Obsessed with quality & craft.";
+  const headline = "Obsessed with craft & shipping.";
   const words = headline.split(" ");
 
   return (
@@ -283,7 +283,7 @@ export default function AboutSection() {
           <h2 id="about-heading" aria-label={headline} className="text-4xl md:text-7xl font-black leading-[1] tracking-tighter text-foreground">
             {words.map((word, i) => (
               <span key={i} aria-hidden="true" className="split-parent mr-[0.2em]">
-                <span className={`split-word ${word.toLowerCase() === 'quality' ? 'text-primary' : ''}`}>
+                <span className={`split-word ${word.toLowerCase() === 'craft' ? 'text-primary' : ''}`}>
                   {word}
                 </span>
               </span>
@@ -337,11 +337,11 @@ export default function AboutSection() {
             <div className="about-body-wrap space-y-6">
               <p className="text-foreground/90 leading-snug text-2xl md:text-4xl font-light tracking-tight">
                 <Chars text="I'm Fauzan Taslim Hidayat, a" />{" "}
-                <span className="text-primary font-medium"><Chars text="Software Development Engineer in Test" /></span>{" "}
+                <span className="text-primary font-medium"><Chars text="Fullstack Developer" /></span>{" "}
                 <Chars text="in Bogor." />
               </p>
               <p className="text-foreground/55 leading-relaxed text-base md:text-xl font-light max-w-xl">
-                <Chars text="I walk into the fragile, the untested and the almost-shipped, then break it on purpose so users never have to." />
+                <Chars text="I architect backends, connect them to thoughtful frontends, and ship products that actually work — end to end." />
                 <span className="terminal-cursor inline-block w-[0.6em] h-[1.1em] bg-primary/80 ml-2 -mb-0.5 opacity-0" />
               </p>
             </div>

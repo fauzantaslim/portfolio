@@ -326,8 +326,7 @@ export default function ContactSection() {
           {/* Left: Info */}
           <div className="lg:col-span-5 space-y-10">
             <p className="text-foreground/55 leading-relaxed text-[0.95rem]">
-              Whether you have a question about my QA processes, want to discuss a potential
-              collaboration, or just want to say hi — my inbox is always open.
+              Whether you want to discuss a project idea, a collaboration, or just want to say hi — my inbox is always open.
             </p>
 
             <div className="contact-links space-y-2">
