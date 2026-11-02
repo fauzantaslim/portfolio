@@ -36,6 +36,7 @@ function ThemeToggle() {
       onClick={() => setTheme(isDark ? "light" : "dark")}
       className="theme-toggle-btn relative w-8 h-8 rounded-lg flex items-center justify-center"
       aria-label={isDark ? "Switch to light mode" : "Switch to dark mode"}
+      data-cursor-label="Theme"
       title={isDark ? "Switch to light mode" : "Switch to dark mode"}
     >
       <span
@@ -198,6 +199,7 @@ export default function Navbar() {
         <a
           href="#hero"
           onClick={(e) => handleLinkClick(e, "#hero")}
+          data-cursor-label="Home"
           className="flex items-center gap-3 relative z-50 transition-transform hover:scale-[1.03] duration-300"
         >
           <Image
@@ -228,6 +230,7 @@ export default function Navbar() {
                 href={link.href}
                 onClick={(e) => handleLinkClick(e, link.href)}
                 aria-current={isActive ? "page" : undefined}
+                data-cursor-label={link.label}
                 className={`nav-link-item uppercase dark:text-neutral-light text-neutral-gray hover:text-primary transition-colors duration-200 ${
                   isActive ? "active" : ""
                 }`}
@@ -248,6 +251,7 @@ export default function Navbar() {
             onClick={() => setIsMobileOpen(!isMobileOpen)}
             className="p-2 relative z-50"
             aria-label={isMobileOpen ? "Close menu" : "Open menu"}
+            data-cursor-label="Menu"
             aria-expanded={isMobileOpen}
             aria-controls="mobile-nav-menu"
           >
@@ -296,6 +300,7 @@ export default function Navbar() {
                 key={link.href}
                 href={link.href}
                 onClick={(e) => handleLinkClick(e, link.href)}
+                data-cursor-label={link.label}
                 className={`flex items-center gap-3 py-2.5 text-sm transition-colors duration-200 ${
                   isActive ? "text-primary" : "dark:text-white/60 text-black/60 hover:text-primary"
                 }`}

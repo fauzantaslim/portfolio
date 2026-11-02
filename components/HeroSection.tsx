@@ -323,6 +323,7 @@ export default function HeroSection() {
             }}
             className="hero-btn hero-btn-primary group inline-flex items-center gap-2.5 px-7 py-3.5 [@media(max-height:500px)]:px-4 [@media(max-height:500px)]:py-2 bg-primary text-black font-bold rounded-lg opacity-0"
             aria-label="Contact me"
+            data-cursor-label="Contact"
           >
             <FaEnvelope className="w-3.5 h-3.5" aria-hidden="true" />
             Contact Me
@@ -333,6 +334,7 @@ export default function HeroSection() {
             rel="noopener noreferrer"
             className="hero-btn hero-btn-secondary group inline-flex items-center gap-2.5 px-7 py-3.5 [@media(max-height:500px)]:px-4 [@media(max-height:500px)]:py-2 border border-primary/25 text-primary rounded-lg opacity-0"
             aria-label="Download CV"
+            data-cursor-label="Download"
           >
             <FaDownload className="w-3.5 h-3.5" aria-hidden="true" />
             Download CV
@@ -355,6 +357,7 @@ export default function HeroSection() {
           }}
           className="scroll-indicator flex flex-col items-center gap-2 text-foreground/30"
           aria-label="Scroll to About section"
+          data-cursor-label="Scroll"
         >
           Scroll
           <div

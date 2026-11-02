@@ -362,7 +362,7 @@ export default function ContactSection() {
                 );
 
                 return href ? (
-                  <a key={label} href={href} aria-label={`Send email or visit ${label} profile`} target="_blank" rel="noopener noreferrer" className="block">
+                  <a key={label} href={href} aria-label={`Send email or visit ${label} profile`} data-cursor-label={label} target="_blank" rel="noopener noreferrer" className="block">
                     {inner}
                   </a>
                 ) : (
@@ -500,6 +500,7 @@ export default function ContactSection() {
                 {/* Submit */}
                 <button
                   type="submit"
+          data-cursor-label="Send"
                   disabled={isSubmitting || (!turnstileToken && turnstileStatus !== "error")}
                   className="submit-btn w-full py-4 rounded-lg bg-primary text-black font-bold disabled:opacity-60 cursor-pointer disabled:cursor-not-allowed"
                   aria-live="polite"

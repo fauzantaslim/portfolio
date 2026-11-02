@@ -415,6 +415,7 @@ export default function ProjectsSection() {
                 }}
                 aria-pressed={isActive}
                 className="proj-filter-btn inline-flex items-center gap-2 px-3 py-1.5 uppercase cursor-pointer"
+              data-cursor-label="Filter"
                 style={{
                   border: `1px solid ${isActive ? accent : accent + "28"}`,
                   backgroundColor: isActive ? accent + "18" : accent + "08",
@@ -476,6 +477,7 @@ export default function ProjectsSection() {
                     href={`/projects/${project.slug}`}
                     draggable={false}
                     aria-label={`View details for ${project.title}`}
+              data-cursor-label={project.title}
                     tabIndex={isFront ? 0 : -1}
                     aria-hidden={!isFront}
                     className={`proj-card absolute block select-none overflow-hidden rounded-2xl md:rounded-3xl border border-black/10 dark:border-white/10 bg-gray-200 dark:bg-[#0a0a0a] shadow-[0_20px_50px_rgba(0,0,0,0.45)] ${isFront ? "" : "pointer-events-none"}`}
@@ -496,18 +498,18 @@ export default function ProjectsSection() {
                       sizes="(min-width: 768px) 60vw, 90vw"
                       className="object-cover pointer-events-none"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-transparent" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-transparent pointer-events-none" />
                     <div
                       className="proj-card-dim absolute inset-0 bg-black pointer-events-none"
                       style={{ opacity: 0 }}
                     />
                     <span
-                      className="absolute top-4 left-4 md:top-6 md:left-6 inline-block px-3 py-1 text-[10px] md:text-xs font-mono tracking-widest uppercase rounded-sm border backdrop-blur-md"
+                      className="absolute top-4 left-4 md:top-6 md:left-6 inline-block px-3 py-1 text-[10px] md:text-xs font-mono tracking-widest uppercase rounded-sm border backdrop-blur-md pointer-events-none"
                       style={{ color: accent, borderColor: accent + "40", backgroundColor: accent + "10" }}
                     >
                       {project.category}
                     </span>
-                    <h3 className="absolute bottom-4 left-4 right-4 md:bottom-6 md:left-6 md:right-6 text-2xl md:text-5xl [@media(max-height:500px)]:text-xl font-black text-white tracking-tight leading-[1.05] drop-shadow-2xl">
+                    <h3 className="absolute bottom-4 left-4 right-4 md:bottom-6 md:left-6 md:right-6 text-2xl md:text-5xl [@media(max-height:500px)]:text-xl font-black text-white tracking-tight leading-[1.05] drop-shadow-2xl pointer-events-none">
                       {project.title}
                     </h3>
                   </Link>

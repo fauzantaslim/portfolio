@@ -228,6 +228,7 @@ export default function Footer() {
             onClick={(e) => { e.preventDefault(); scrollToTop(); }}
             className="group flex flex-col items-center gap-2"
             aria-label="Back to top"
+            data-cursor-label="Top"
           >
             <Image
               src="/logo-fauzan.svg"
@@ -264,6 +265,7 @@ export default function Footer() {
               key={link.href}
               href={link.href}
               className="footer-link text-foreground/45"
+              data-cursor-label={link.label}
               onClick={(e) => {
                 e.preventDefault();
                 document.querySelector(link.href)?.scrollIntoView({ behavior: "smooth" });
@@ -296,6 +298,7 @@ export default function Footer() {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label={label}
+                data-cursor-label={label}
                 className="footer-social w-9 h-9 rounded-lg flex items-center justify-center"
                 style={{
                   border: `1px solid ${accent}28`,
@@ -323,6 +326,7 @@ export default function Footer() {
           onClick={scrollToTop}
           className="back-to-top text-foreground/30 px-4 py-2 rounded-lg"
           aria-label="Back to top"
+          data-cursor-label="Top"
         >
           ↑ &nbsp;back to top
         </button>

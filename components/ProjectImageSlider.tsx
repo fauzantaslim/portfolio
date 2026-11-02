@@ -153,6 +153,7 @@ export default function ProjectImageSlider({ images, title }: ProjectImageSlider
           data-caption={`${title} — ${current + 1} / ${total}`}
           className="block absolute inset-0"
           aria-label={`View ${title} screenshot ${current + 1} of ${total} in fullscreen`}
+          data-cursor-label="Zoom"
         >
           <div
             key={current}
@@ -221,6 +222,7 @@ export default function ProjectImageSlider({ images, title }: ProjectImageSlider
                 backdropFilter: "blur(8px)",
               }}
               aria-label="Previous image"
+          data-cursor-label="Prev"
             >
               <FaChevronLeft className="w-3.5 h-3.5 text-white" />
             </button>
@@ -233,6 +235,7 @@ export default function ProjectImageSlider({ images, title }: ProjectImageSlider
                 backdropFilter: "blur(8px)",
               }}
               aria-label="Next image"
+          data-cursor-label="Next"
             >
               <FaChevronRight className="w-3.5 h-3.5 text-white" />
             </button>

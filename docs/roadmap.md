@@ -73,3 +73,19 @@ Add the Certificates section with interactive unrolling cyber-scroll cards after
 - [x] 3. Unrolling animation: implement unroll/roll-up motion (roller rotation + canvas reveal) and reduced motion support
 - [x] 4. Page & navigation integration: wire into `app/page.tsx`, `components/Navbar.tsx`, and `components/Footer.tsx`
 - [x] 5. Polish & verification: responsive tuning, keyboard accessibility, and type check verification
+
+
+## Certificates Orbit (React Bits OrbitImages): `docs/spec-certificates-orbit.md`
+
+Replace the certificate card grid with the OrbitImages orbit. Builds on the section above.
+
+- [x] 1. Vendor `OrbitImages` into `components/ui/orbit-images.tsx`
+- [x] 2. Rebuild `CertificatesSection` on the orbit (stage, info panel, Fancybox on click, thumbnails)
+- [x] 3. Responsive pass (mobile config via media query) and type check
+
+## Target Cursor (React Bits): `docs/spec-target-cursor.md`
+
+Site-wide reticle cursor that snaps around interactive elements.
+
+- [x] 1. Vendor `TargetCursor` into `components/ui/`
+- [x] 2. Add `SiteCursor` (selector + theme color) and mount it in `app/layout.tsx`
