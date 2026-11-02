@@ -48,5 +48,12 @@ export const certificates: Certificate[] = [
     issueDate: "Jan 2025",
     credentialUrl: "https://www.hackerrank.com/certificates/fb7f8fdf61e8",
   },
+  {
+    id: "bnsp-pemrogram-junior",
+    title: "Pemrogram Junior (Junior Coder)",
+    issuer: "BNSP",
+    image: "/certificates/bnsp.png",
+    issueDate: "Sep 2026",
+  },
 ];
 
