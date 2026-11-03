@@ -30,6 +30,7 @@ export default function ProjectImageSlider({ images, title }: ProjectImageSlider
     Fancybox.bind(`[data-fancybox="${galleryId}"]`, {
       groupAttr: "data-fancybox",
       dragToClose: false,
+      modal: false,
     });
 
     return () => {
@@ -106,9 +107,13 @@ export default function ProjectImageSlider({ images, title }: ProjectImageSlider
           border-radius: inherit;
         }
         .group:hover .zoom-hint { opacity: 1; }
+        .fancybox__dialog {
+          z-index: 99999;
+        }
         .fancybox__container {
           --fancybox-accent-color: var(--color-primary);
           --fancybox-bg: rgba(5,5,5,0.96);
+          z-index: 99999;
         }
         .fancybox__toolbar { background: rgba(10,10,10,0.85); backdrop-filter: blur(12px); }
         .fancybox__caption {

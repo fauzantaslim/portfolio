@@ -110,6 +110,7 @@ export default function CertificatesSection() {
     Fancybox.bind(`[data-fancybox="${GALLERY}"]`, {
       groupAttr: "data-fancybox",
       dragToClose: false,
+      modal: false,
     });
 
     const ctx = gsap.context(() => {
@@ -185,6 +186,9 @@ export default function CertificatesSection() {
         @keyframes cert-info-in {
           from { opacity: 0; transform: translateY(6px); }
           to { opacity: 1; transform: translateY(0); }
+        }
+        .fancybox__dialog {
+          z-index: 99999;
         }
         .fancybox__container {
           --fancybox-accent-color: var(--color-primary);

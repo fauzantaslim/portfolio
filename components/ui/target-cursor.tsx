@@ -269,8 +269,10 @@ const TargetCursor = ({
         label.style.opacity = shown.toFixed(3);
       }
 
-      const mix = s.cursorColorOnTarget ? Math.round(Math.max(0, Math.min(1, lock.x)) * 100) : 0;
-      const color = mix ? `color-mix(in oklab, ${s.cursorColorOnTarget} ${mix}%, ${s.cursorColor})` : s.cursorColor;
+      const inFancybox = target ? !!target.closest('.fancybox__container') : false;
+      const targetColor = inFancybox ? '#ffffff' : s.cursorColorOnTarget;
+      const mix = targetColor ? Math.round(Math.max(0, Math.min(1, lock.x)) * 100) : 0;
+      const color = mix ? `color-mix(in oklab, ${targetColor} ${mix}%, ${s.cursorColor})` : s.cursorColor;
       if (color !== lastColor) {
         root.style.setProperty('--target-cursor-color', color);
         lastColor = color;
