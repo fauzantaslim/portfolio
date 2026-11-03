@@ -160,11 +160,11 @@ export default function Footer() {
           left: 0;
           width: 0;
           height: 1px;
-          background: #1DCD9F;
+          background: var(--color-primary);
           transition: width 0.25s ease;
         }
         .footer-link:hover::after { width: 100%; }
-        .footer-link:hover { color: #1DCD9F; }
+        .footer-link:hover { color: var(--color-primary); }
 
         .footer-social {
           transition: transform 0.2s ease, box-shadow 0.2s ease;
@@ -189,7 +189,7 @@ export default function Footer() {
         .back-to-top:hover {
           border-color: rgba(29,205,159,0.5);
           box-shadow: 0 0 16px rgba(29,205,159,0.2);
-          color: #1DCD9F;
+          color: var(--color-primary);
         }
       `}</style>
 
@@ -235,15 +235,15 @@ export default function Footer() {
               alt="Fauzan Logo"
               width={160}
               height={60}
-              className="h-10 md:h-14 w-auto object-contain bg-white group-hover:bg-[#1DCD9F] rounded-xl shadow-lg transition-colors duration-300"
+              className="h-10 md:h-14 w-auto object-contain bg-white group-hover:bg-primary rounded-xl shadow-lg transition-colors duration-300"
             />
             <span
               className="text-xl font-bold tracking-tight"
               style={{ fontFamily: "'JetBrains Mono', monospace" }}
             >
-              <span className="text-[#1DCD9F]">F</span>
-              <span className="text-foreground group-hover:text-[#1DCD9F] transition-colors duration-300">auzan</span>
-              <span className="text-[#1DCD9F]">.</span>
+              <span className="text-primary">F</span>
+              <span className="text-foreground group-hover:text-primary transition-colors duration-300">auzan</span>
+              <span className="text-primary">.</span>
             </span>
           </a>
           <p

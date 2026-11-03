@@ -479,7 +479,7 @@ export default function ProjectsSection() {
               data-cursor-label={project.title}
                     tabIndex={isFront ? 0 : -1}
                     aria-hidden={!isFront}
-                    className={`proj-card absolute block select-none overflow-hidden rounded-2xl md:rounded-3xl border border-black/10 dark:border-white/10 bg-gray-200 dark:bg-[#0a0a0a] shadow-[0_20px_50px_rgba(0,0,0,0.45)] ${isFront ? "" : "pointer-events-none"}`}
+                    className={`proj-card absolute block select-none overflow-hidden rounded-2xl md:rounded-3xl border border-black/10 dark:border-white/10 bg-gray-200 dark:bg-neutral-black shadow-[0_20px_50px_rgba(0,0,0,0.45)] ${isFront ? "" : "pointer-events-none"}`}
                     style={{
                       width: `90%`,
                       height: `90%`,
@@ -499,7 +499,7 @@ export default function ProjectsSection() {
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-transparent pointer-events-none" />
                     <div
-                      className="proj-card-dim absolute inset-0 bg-black pointer-events-none"
+                      className="proj-card-dim absolute inset-0 bg-neutral-black pointer-events-none"
                       style={{ opacity: 0 }}
                     />
                     <span

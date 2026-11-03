@@ -39,10 +39,10 @@ function useMediaQuery(query: string) {
 
 function lightboxCaption(cert: Certificate) {
   const verify = cert.credentialUrl
-    ? ` &bull; <a href="${cert.credentialUrl}" target="_blank" rel="noopener noreferrer" style="color:#1DCD9F">Verify &#8599;</a>`
+    ? ` &bull; <a href="${cert.credentialUrl}" target="_blank" rel="noopener noreferrer" style="color:var(--color-primary)">Verify &#8599;</a>`
     : "";
   const date = cert.issueDate ? ` &bull; ${cert.issueDate}` : "";
-  return `<strong>${cert.title}</strong> &bull; <span style="color:#1DCD9F">${cert.issuer}</span>${date}${verify}`;
+  return `<strong>${cert.title}</strong> &bull; <span style="color:var(--color-primary)">${cert.issuer}</span>${date}${verify}`;
 }
 
 function orbitItemOf(target: EventTarget) {
@@ -164,7 +164,7 @@ export default function CertificatesSection() {
       className="relative py-24 md:py-32 bg-background z-20"
     >
       <style>{`
-        .cert-orbit { color: #1DCD9F; }
+        .cert-orbit { color: var(--color-primary); }
         .cert-orbit [data-orbit-item] > div {
           background: var(--surface);
           border: 1px solid rgba(29,205,159,0.35);
@@ -187,7 +187,7 @@ export default function CertificatesSection() {
           to { opacity: 1; transform: translateY(0); }
         }
         .fancybox__container {
-          --fancybox-accent-color: #1DCD9F;
+          --fancybox-accent-color: var(--color-primary);
           --fancybox-bg: rgba(5,5,5,0.96);
           z-index: 99999;
         }
@@ -205,7 +205,7 @@ export default function CertificatesSection() {
           backdrop-filter: blur(8px);
           border-top: 1px solid rgba(29,205,159,0.15);
         }
-        .fancybox__button--close:hover { color: #1DCD9F; }
+        .fancybox__button--close:hover { color: var(--color-primary); }
       `}</style>
 
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-foreground/[0.02] to-transparent pointer-events-none" aria-hidden="true" />

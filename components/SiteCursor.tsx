@@ -1,18 +1,15 @@
 "use client";
 
-import { useTheme } from "next-themes";
 import TargetCursor from "@/components/ui/target-cursor";
 
 const TARGETS = 'a[href], button, [role="button"], [data-orbit-item], .cursor-target';
 
 export default function SiteCursor() {
-  const { resolvedTheme } = useTheme();
-
   return (
     <TargetCursor
       targetSelector={TARGETS}
-      cursorColor="#1DCD9F"
-      cursorColorOnTarget={resolvedTheme === "light" ? "#0a0a0a" : "#ffffff"}
+      cursorColor="var(--color-primary)"
+      cursorColorOnTarget="var(--foreground)"
       blendMode="normal"
       spinDuration={2}
       hoverDuration={0.2}

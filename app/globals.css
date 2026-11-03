@@ -109,12 +109,12 @@ body {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #1DCD9F;
+  background: var(--color-primary);
   border-radius: 3px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #169976;
+  background: var(--color-primary-dark);
 }
 
 /* Selection */
@@ -150,7 +150,7 @@ body {
   inset: -1px;
   border-radius: inherit;
   padding: 1px;
-  background: linear-gradient(135deg, #1DCD9F, transparent, #169976);
+  background: linear-gradient(135deg, var(--color-primary), transparent, var(--color-primary-dark));
   -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
   -webkit-mask-composite: xor;
   mask-composite: exclude;
@@ -184,7 +184,7 @@ body {
   left: 0;
   width: 0;
   height: 2px;
-  background: linear-gradient(90deg, #1DCD9F, #169976);
+  background: linear-gradient(90deg, var(--color-primary), var(--color-primary-dark));
   transition: width 0.3s ease;
 }
 
@@ -210,8 +210,8 @@ body {
   left: 0;
   z-index: 9999;
   padding: 8px 16px;
-  background: #1DCD9F;
-  color: #000;
+  background: var(--color-primary);
+  color: var(--color-neutral-black);
   font-weight: bold;
   font-size: 0.85rem;
   border-radius: 0 0 4px 0;
@@ -228,7 +228,7 @@ body {
   outline: none;
 }
 :focus-visible {
-  outline: 2px solid #1DCD9F;
+  outline: 2px solid var(--color-primary);
   outline-offset: 3px;
   border-radius: 3px;
 }

@@ -107,7 +107,7 @@ export default function ProjectImageSlider({ images, title }: ProjectImageSlider
         }
         .group:hover .zoom-hint { opacity: 1; }
         .fancybox__container {
-          --fancybox-accent-color: #1DCD9F;
+          --fancybox-accent-color: var(--color-primary);
           --fancybox-bg: rgba(5,5,5,0.96);
         }
         .fancybox__toolbar { background: rgba(10,10,10,0.85); backdrop-filter: blur(12px); }
@@ -136,7 +136,7 @@ export default function ProjectImageSlider({ images, title }: ProjectImageSlider
 
       {/* Main image container */}
       <div
-        className="relative w-full aspect-video overflow-hidden rounded-xl dark:bg-[#0a0a0a] bg-gray-100 border dark:border-white/8 border-black/8"
+        className="relative w-full aspect-video overflow-hidden rounded-xl dark:bg-neutral-black bg-gray-100 border dark:border-white/8 border-black/8"
         onTouchStart={handleTouchStart}
         onTouchEnd={handleTouchEnd}
       >
@@ -260,7 +260,7 @@ export default function ProjectImageSlider({ images, title }: ProjectImageSlider
               style={{
                 width: i === current ? "20px" : "6px",
                 height: "6px",
-                background: i === current ? "#1DCD9F" : "var(--border-subtle)",
+                background: i === current ? "var(--color-primary)" : "var(--border-subtle)",
               }}
             />
           ))}

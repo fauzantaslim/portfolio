@@ -151,7 +151,7 @@ export default function Preloader() {
           display: inline-block;
           width: 7px;
           height: 13px;
-          background: #1DCD9F;
+          background: var(--color-primary);
           vertical-align: middle;
           margin-left: 3px;
           animation: cursor-blink 0.9s step-end infinite;
@@ -167,10 +167,10 @@ export default function Preloader() {
         }
         .boot-line.done::before {
           content: '✓ ';
-          color: #1DCD9F;
+          color: var(--color-primary);
         }
         .boot-line.last {
-          color: #1DCD9F;
+          color: var(--color-primary);
           font-weight: 700;
         }
         .progress-track {
@@ -183,9 +183,9 @@ export default function Preloader() {
         .progress-fill {
           height: 100%;
           width: 100%;
-          background: #1DCD9F;
+          background: var(--color-primary);
           border-radius: 1px;
-          box-shadow: 0 0 8px #1DCD9F88;
+          box-shadow: 0 0 8px rgba(29,205,159,0.53);
           transform-origin: left center;
           transform: scaleX(0);
           transition: transform 0.3s ease;
@@ -210,13 +210,13 @@ export default function Preloader() {
               ref={(el) => {
                 if (el) topStairsRefs.current[i] = el;
               }}
-              className="absolute top-0 left-0 w-full h-[50.5%] bg-[#1DCD9F]"
+              className="absolute top-0 left-0 w-full h-[50.5%] bg-primary"
             />
             <div
               ref={(el) => {
                 if (el) bottomStairsRefs.current[i] = el;
               }}
-              className="absolute bottom-0 left-0 w-full h-[50.5%] bg-[#1DCD9F]"
+              className="absolute bottom-0 left-0 w-full h-[50.5%] bg-primary"
             />
 
             {/* Layer 1: Black Backdrop (Main preloader background) */}
@@ -224,13 +224,13 @@ export default function Preloader() {
               ref={(el) => {
                 if (el) topBackdropRefs.current[i] = el;
               }}
-              className="absolute top-0 left-0 w-full h-[50.5%] bg-[#050505]"
+              className="absolute top-0 left-0 w-full h-[50.5%] bg-neutral-black"
             />
             <div
               ref={(el) => {
                 if (el) bottomBackdropRefs.current[i] = el;
               }}
-              className="absolute bottom-0 left-0 w-full h-[50.5%] bg-[#050505]"
+              className="absolute bottom-0 left-0 w-full h-[50.5%] bg-neutral-black"
             />
           </div>
         ))}
@@ -267,9 +267,9 @@ export default function Preloader() {
               color: "rgba(255,255,255,0.9)",
             }}
           >
-            <span style={{ color: "#1DCD9F" }}>F</span>
+            <span className="text-primary">F</span>
             auzan
-            <span style={{ color: "#1DCD9F" }}>.</span>
+            <span className="text-primary">.</span>
           </span>
         </div>
 

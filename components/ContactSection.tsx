@@ -502,17 +502,17 @@ export default function ContactSection() {
                   type="submit"
           data-cursor-label="Send"
                   disabled={isSubmitting || (!turnstileToken && turnstileStatus !== "error")}
-                  className="submit-btn w-full py-4 rounded-lg bg-primary text-black font-bold disabled:opacity-60 cursor-pointer disabled:cursor-not-allowed"
+                  className="submit-btn w-full py-4 rounded-lg bg-primary text-neutral-black font-bold disabled:opacity-60 cursor-pointer disabled:cursor-not-allowed"
                   aria-live="polite"
                 >
                   {isSubmitting ? (
                     <span className="flex items-center justify-center gap-2">
-                      <span className="w-3 h-3 border-2 border-black/30 border-t-black rounded-full animate-spin" />
+                      <span className="w-3 h-3 border-2 border-neutral-black/30 border-t-neutral-black rounded-full animate-spin" />
                       Sending...
                     </span>
                   ) : !turnstileToken && turnstileStatus !== "error" ? (
                     <span className="flex items-center justify-center gap-2">
-                      <span className="w-3 h-3 border-2 border-black/30 border-t-black rounded-full animate-spin" />
+                      <span className="w-3 h-3 border-2 border-neutral-black/30 border-t-neutral-black rounded-full animate-spin" />
                       Verifying security...
                     </span>
                   ) : (

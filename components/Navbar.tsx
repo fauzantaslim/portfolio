@@ -160,7 +160,7 @@ export default function Navbar() {
           left: 0;
           width: 0;
           height: 1px;
-          background: #1DCD9F;
+          background: var(--color-primary);
           transition: width 0.25s ease;
         }
         .nav-link-item:hover::after,
@@ -168,7 +168,7 @@ export default function Navbar() {
           width: 100%;
         }
         .nav-link-item.active {
-          color: #1DCD9F;
+          color: var(--color-primary);
         }
         .hamburger-btn {
           display: block;
@@ -182,7 +182,7 @@ export default function Navbar() {
           left: 0;
           width: 22px;
           height: 1.5px;
-          background: #1DCD9F;
+          background: var(--color-primary);
           transition: transform 0.3s ease, opacity 0.3s ease;
           transform-origin: center center;
         }
@@ -207,16 +207,16 @@ export default function Navbar() {
             alt="Fauzan Logo"
             width={120}
             height={40}
-            className="h-8 md:h-10 w-auto object-contain bg-white hover:bg-[#1DCD9F] rounded-lg shadow-sm transition-colors duration-300"
+            className="h-8 md:h-10 w-auto object-contain bg-white hover:bg-primary rounded-lg shadow-sm transition-colors duration-300"
             priority
           />
           <span
             className="text-xl font-bold tracking-tight hidden sm:block"
             style={{ fontFamily: "'JetBrains Mono', monospace" }}
           >
-            <span className="text-[#1DCD9F]">F</span>
+            <span className="text-primary">F</span>
             <span className="dark:text-white text-neutral-dark">auzan</span>
-            <span className="text-[#1DCD9F]">.</span>
+            <span className="text-primary">.</span>
           </span>
         </a>
 

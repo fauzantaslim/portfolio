@@ -15,9 +15,9 @@ import ProjectImageSlider from "@/components/ProjectImageSlider";
 
 /* ─── Status badge colours ───────────────────────────────────── */
 const statusConfig: Record<string, { color: string; bg: string; border: string }> = {
-  Live:            { color: "#1DCD9F", bg: "rgba(29,205,159,0.12)", border: "rgba(29,205,159,0.3)" },
+  Live:            { color: "var(--color-primary)", bg: "rgba(29,205,159,0.12)", border: "rgba(29,205,159,0.3)" },
   "In Development":{ color: "#fb923c", bg: "rgba(251,146,60,0.12)",  border: "rgba(251,146,60,0.3)"  },
-  Archived:        { color: "#888888", bg: "rgba(136,136,136,0.12)", border: "rgba(136,136,136,0.3)" },
+  Archived:        { color: "var(--color-neutral-light)", bg: "rgba(136,136,136,0.12)", border: "rgba(136,136,136,0.3)" },
 };
 
 const categoryColor: Record<string, string> = {
@@ -61,7 +61,7 @@ export default function ProjectDetailClient({ project, slug }: Props) {
           width: 5px;
           height: 5px;
           border-radius: 50%;
-          background: #1DCD9F;
+          background: var(--color-primary);
         }
         .prose-p {
           line-height: 1.85;
@@ -91,7 +91,7 @@ export default function ProjectDetailClient({ project, slug }: Props) {
         }
         .back-btn:hover {
           border-color: rgba(29,205,159,0.4);
-          color: #1DCD9F;
+          color: var(--color-primary);
           background: rgba(29,205,159,0.06);
         }
         .cta-primary {
@@ -124,7 +124,7 @@ export default function ProjectDetailClient({ project, slug }: Props) {
           transition: border-color 0.2s ease, background-color 0.2s ease;
         }
         .proj-nav-link:hover {
-          color: #1DCD9F;
+          color: var(--color-primary);
         }
       `}</style>
 
@@ -289,7 +289,7 @@ export default function ProjectDetailClient({ project, slug }: Props) {
                     target="_blank"
                     rel="noopener noreferrer"
                     data-cursor-label="Live Demo"
-                    className="cta-primary inline-flex items-center justify-center gap-2 w-full py-3 rounded-lg bg-primary text-black font-bold"
+                    className="cta-primary inline-flex items-center justify-center gap-2 w-full py-3 rounded-lg bg-primary text-neutral-black font-bold"
                     aria-label={`Open ${project.title} live site`}
                   >
                     <FaArrowUpRightFromSquare className="w-3.5 h-3.5" />

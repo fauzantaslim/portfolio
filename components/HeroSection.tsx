@@ -241,7 +241,7 @@ export default function HeroSection() {
           text-transform: uppercase;
           transition: color 0.2s ease;
         }
-        .scroll-indicator:hover { color: #1DCD9F; }
+        .scroll-indicator:hover { color: var(--color-primary); }
       `}</style>
 
       {/* RetroGrid — color-scheme aware */}
@@ -323,7 +323,7 @@ export default function HeroSection() {
               e.preventDefault();
               document.querySelector("#contact")?.scrollIntoView({ behavior: "smooth" });
             }}
-            className="hero-btn hero-btn-primary group inline-flex items-center gap-2.5 px-7 py-3.5 [@media(max-height:500px)]:px-4 [@media(max-height:500px)]:py-2 bg-primary text-black font-bold rounded-lg opacity-0"
+            className="hero-btn hero-btn-primary group inline-flex items-center gap-2.5 px-7 py-3.5 [@media(max-height:500px)]:px-4 [@media(max-height:500px)]:py-2 bg-primary text-neutral-black font-bold rounded-lg opacity-0"
             aria-label="Contact me"
             data-cursor-label="Contact"
           >
@@ -334,11 +334,11 @@ export default function HeroSection() {
             href="/fauzan-taslim-cv.pdf"
             target="_blank"
             rel="noopener noreferrer"
-            className="hero-btn hero-btn-secondary group inline-flex items-center gap-2.5 px-7 py-3.5 [@media(max-height:500px)]:px-4 [@media(max-height:500px)]:py-2 rounded-lg opacity-0 bg-white/90 dark:bg-transparent backdrop-blur-sm border border-black/15 dark:border-primary/30 text-emerald-800 dark:text-primary font-bold shadow-sm dark:shadow-none hover:border-emerald-700 dark:hover:border-primary hover:bg-white dark:hover:bg-primary/10"
+            className="hero-btn hero-btn-secondary group inline-flex items-center gap-2.5 px-7 py-3.5 [@media(max-height:500px)]:px-4 [@media(max-height:500px)]:py-2 rounded-lg opacity-0 bg-white/90 dark:bg-transparent backdrop-blur-sm border border-black/15 dark:border-primary/30 text-primary-dark dark:text-primary font-bold shadow-sm dark:shadow-none hover:border-primary-dark dark:hover:border-primary hover:bg-white dark:hover:bg-primary/10"
             aria-label="Download CV"
             data-cursor-label="Download"
           >
-            <FaDownload className="w-3.5 h-3.5 text-emerald-800 dark:text-primary transition-transform group-hover:-translate-y-0.5" aria-hidden="true" />
+            <FaDownload className="w-3.5 h-3.5 text-primary-dark dark:text-primary transition-transform group-hover:-translate-y-0.5" aria-hidden="true" />
             Download CV
           </a>
         </div>

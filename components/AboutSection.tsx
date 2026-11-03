@@ -298,7 +298,7 @@ export default function AboutSection() {
             <div className="about-img-frame absolute -top-4 -left-4 w-full h-full border border-primary/20 rounded-2xl z-0" />
             <div
               data-shard={shard}
-              className="about-img-wrapper about-scanline relative w-full aspect-[4/5] rounded-2xl overflow-hidden dark:border dark:border-white/10 border border-black/10 z-10 shadow-2xl bg-[#04120f]"
+              className="about-img-wrapper about-scanline relative w-full aspect-[4/5] rounded-2xl overflow-hidden dark:border dark:border-white/10 border border-black/10 z-10 shadow-2xl bg-neutral-black"
             >
               {/* Curtain Reveal (replaced by the shard effect when it is active) */}
               <div className="about-curtain absolute inset-0 bg-primary z-[5]" style={{ display: shard === "on" ? "none" : undefined }} />

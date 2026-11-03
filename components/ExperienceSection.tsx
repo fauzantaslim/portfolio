@@ -85,8 +85,8 @@ export default function ExperienceSection() {
       gsap.set(cards, { transformOrigin: "top center" });
       gsap.set(cards[0], { yPercent: 0, y: 0, opacity: 1, scale: 1 });
       gsap.set(cards.slice(1), { yPercent: 120, y: 0, opacity: 0, scale: 1 });
-      gsap.set(dots, { backgroundColor: "#1e1e1e" });
-      gsap.set(dots[0], { backgroundColor: "#1dcd9f", scale: 1.2 });
+      gsap.set(dots, { backgroundColor: "var(--color-neutral-dark)" });
+      gsap.set(dots[0], { backgroundColor: "var(--color-primary)", scale: 1.2 });
 
       const tl = gsap.timeline({
         scrollTrigger: {
@@ -109,7 +109,7 @@ export default function ExperienceSection() {
         if (index > 0) {
           // Slide in new card
           tl.to(card, { yPercent: 0, y: 0, opacity: 1, duration: 1, ease: "power2.out" }, startTime);
-          tl.to(dots[index], { backgroundColor: "#1dcd9f", scale: 1.2, duration: 0.1 }, startTime);
+          tl.to(dots[index], { backgroundColor: "var(--color-primary)", scale: 1.2, duration: 0.1 }, startTime);
           tl.to(dots[index - 1], { scale: 1, duration: 0.1 }, startTime);
         }
 
@@ -150,7 +150,7 @@ export default function ExperienceSection() {
           width: 5px;
           height: 5px;
           border-radius: 50%;
-          background: #1DCD9F;
+          background: var(--color-primary);
           margin-top: 9px;
           flex-shrink: 0;
         }
@@ -162,7 +162,7 @@ export default function ExperienceSection() {
           padding: 2px 7px;
           border-radius: 2px;
           border: 1px solid rgba(29,205,159,0.3);
-          color: #1DCD9F;
+          color: var(--color-primary);
           background: rgba(29,205,159,0.08);
         }
       `}</style>
@@ -217,7 +217,7 @@ export default function ExperienceSection() {
               {experiences.map((exp, index) => (
                 <div
                   key={index}
-                  className="exp-card absolute top-0 left-0 w-full h-full p-5 md:p-8 [@media(max-height:500px)]:p-4 rounded-2xl dark:bg-[#0a0a0a] bg-white border dark:border-white/8 border-black/8 shadow-[0_-20px_60px_rgba(0,0,0,0.15)] dark:shadow-[0_-20px_60px_rgba(0,0,0,0.6)] flex flex-col"
+                  className="exp-card absolute top-0 left-0 w-full h-full p-5 md:p-8 [@media(max-height:500px)]:p-4 rounded-2xl dark:bg-neutral-black bg-white border dark:border-white/8 border-black/8 shadow-[0_-20px_60px_rgba(0,0,0,0.15)] dark:shadow-[0_-20px_60px_rgba(0,0,0,0.6)] flex flex-col"
                   style={{ zIndex: index + 1 }}
                 >
                   {/* Card header */}
