@@ -16,6 +16,7 @@ export default function ProjectImageSlider({ images, title }: ProjectImageSlider
   const [isAnimating, setIsAnimating] = useState(false);
   const [direction, setDirection] = useState<"left" | "right">("right");
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const anchorRefs = useRef<(HTMLAnchorElement | null)[]>([]);
 
   // useId() produces a stable, SSR-safe ID — avoids hydration mismatch from Math.random()
   const reactId = useId();
@@ -123,6 +124,9 @@ export default function ProjectImageSlider({ images, title }: ProjectImageSlider
         {images.map((src, i) => (
           <a
             key={i}
+            ref={(el) => {
+              anchorRefs.current[i] = el;
+            }}
             href={src}
             data-fancybox={galleryId}
             data-caption={`${title} — ${i + 1} / ${total}`}
@@ -147,11 +151,10 @@ export default function ProjectImageSlider({ images, title }: ProjectImageSlider
         />
 
         {/* Clickable image — opens Fancybox at current index */}
-        <a
-          href={images[current]}
-          data-fancybox={galleryId}
-          data-caption={`${title} — ${current + 1} / ${total}`}
-          className="block absolute inset-0"
+        <button
+          type="button"
+          onClick={() => anchorRefs.current[current]?.click()}
+          className="block absolute inset-0 text-left w-full h-full cursor-zoom-in"
           aria-label={`View ${title} screenshot ${current + 1} of ${total} in fullscreen`}
           data-cursor-label="Zoom"
         >
@@ -190,7 +193,7 @@ export default function ProjectImageSlider({ images, title }: ProjectImageSlider
               CLICK TO ZOOM
             </span>
           </span>
-        </a>
+        </button>
 
         {/* Counter badge */}
         {hasMultiple && (

@@ -15,7 +15,7 @@ const jsonLd = {
   "@context": "https://schema.org",
   "@type": "Person",
   name: "Fauzan Taslim Hidayat",
-  jobTitle: "Software Quality Engineer",
+  jobTitle: "Fullstack Developer",
   url: "https://fauzantaslim.my.id",
   image: "https://fauzantaslim.my.id/ojan.png",
   address: {
@@ -29,7 +29,7 @@ const jsonLd = {
     "https://www.linkedin.com/in/fauzan-taslim-hidayat",
     "https://github.com/fauzantaslim",
   ],
-  knowsAbout: ["Software Quality Assurance", "Test Automation", "REST API Development", "CI/CD", "Node.js", "TypeScript"],
+  knowsAbout: ["Fullstack Developer", "Software Quality Assurance", "Test Automation", "REST API Development", "CI/CD", "Node.js", "TypeScript"],
 };
 
 export default function Home() {

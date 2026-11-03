@@ -215,11 +215,13 @@ export default function HeroSection() {
           font-size: 0.72rem;
           letter-spacing: 0.1em;
           text-transform: uppercase;
-          transition: background 0.25s ease, border-color 0.25s ease;
+          transition: background 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease, color 0.25s ease;
         }
         .hero-btn-secondary:hover {
-          background: rgba(29,205,159,0.08);
-          border-color: rgba(29,205,159,0.5);
+          box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+        }
+        :is(.dark *) .hero-btn-secondary:hover {
+          box-shadow: 0 0 24px rgba(29, 205, 159, 0.25);
         }
         .hero-badge {
           font-family: 'JetBrains Mono', ui-monospace, monospace;
@@ -332,11 +334,11 @@ export default function HeroSection() {
             href="/fauzan-taslim-cv.pdf"
             target="_blank"
             rel="noopener noreferrer"
-            className="hero-btn hero-btn-secondary group inline-flex items-center gap-2.5 px-7 py-3.5 [@media(max-height:500px)]:px-4 [@media(max-height:500px)]:py-2 border border-primary/25 text-primary rounded-lg opacity-0"
+            className="hero-btn hero-btn-secondary group inline-flex items-center gap-2.5 px-7 py-3.5 [@media(max-height:500px)]:px-4 [@media(max-height:500px)]:py-2 rounded-lg opacity-0 bg-white/90 dark:bg-transparent backdrop-blur-sm border border-black/15 dark:border-primary/30 text-emerald-800 dark:text-primary font-bold shadow-sm dark:shadow-none hover:border-emerald-700 dark:hover:border-primary hover:bg-white dark:hover:bg-primary/10"
             aria-label="Download CV"
             data-cursor-label="Download"
           >
-            <FaDownload className="w-3.5 h-3.5" aria-hidden="true" />
+            <FaDownload className="w-3.5 h-3.5 text-emerald-800 dark:text-primary transition-transform group-hover:-translate-y-0.5" aria-hidden="true" />
             Download CV
           </a>
         </div>

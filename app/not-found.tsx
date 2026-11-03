@@ -22,6 +22,7 @@ export default function NotFound() {
 
         <Link
           href="/"
+          data-cursor-label="Back to Home"
           className="group flex items-center gap-2 px-8 py-3.5 bg-primary text-black font-semibold rounded-full hover:bg-primary-dark transition-all duration-300 hover:shadow-[0_0_30px_rgba(29,205,159,0.3)]"
         >
           <FaArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />

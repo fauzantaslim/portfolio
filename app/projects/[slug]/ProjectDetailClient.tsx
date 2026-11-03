@@ -131,7 +131,11 @@ export default function ProjectDetailClient({ project, slug }: Props) {
       {/* ── Top nav bar ── */}
       <div className="sticky top-0 z-50 dark:bg-black/70 bg-white/80 backdrop-blur-xl border-b dark:border-white/8 border-black/8">
         <div className="section-container flex items-center justify-between h-14">
-          <Link href="/#projects" className="back-btn inline-flex items-center gap-2 px-3 py-1.5 rounded-lg text-foreground/60">
+          <Link
+            href="/#projects"
+            data-cursor-label="Back to Portfolio"
+            className="back-btn inline-flex items-center gap-2 px-3 py-1.5 rounded-lg text-foreground/60"
+          >
             <FaArrowLeft className="w-3 h-3" />
             Back to Portfolio
           </Link>
@@ -284,6 +288,7 @@ export default function ProjectDetailClient({ project, slug }: Props) {
                     href={project.links.live}
                     target="_blank"
                     rel="noopener noreferrer"
+                    data-cursor-label="Live Demo"
                     className="cta-primary inline-flex items-center justify-center gap-2 w-full py-3 rounded-lg bg-primary text-black font-bold"
                     aria-label={`Open ${project.title} live site`}
                   >
@@ -296,6 +301,7 @@ export default function ProjectDetailClient({ project, slug }: Props) {
                     href={project.links.github}
                     target="_blank"
                     rel="noopener noreferrer"
+                    data-cursor-label="GitHub Repo"
                     className="cta-secondary inline-flex items-center justify-center gap-2 w-full py-3 rounded-lg text-foreground/70"
                     aria-label={`Open ${project.title} GitHub repository`}
                   >
@@ -345,6 +351,7 @@ export default function ProjectDetailClient({ project, slug }: Props) {
                   <Link
                     key={p.slug}
                     href={`/projects/${p.slug}`}
+                    data-cursor-label={p.title}
                     className="proj-nav-link inline-flex items-center gap-2 px-3 py-2 rounded-lg text-sm dark:text-white/60 text-black/60"
                     style={{
                       border: `1px solid ${pAccent}20`,
@@ -363,6 +370,7 @@ export default function ProjectDetailClient({ project, slug }: Props) {
               })}
             <Link
               href="/#projects"
+              data-cursor-label="All Projects"
               className="inline-flex items-center gap-2 px-3 py-2 rounded-lg border dark:border-white/10 border-black/10 text-sm dark:text-white/40 text-black/40 hover:text-primary hover:border-primary/30 transition-all duration-200"
               style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "0.72rem" }}
             >

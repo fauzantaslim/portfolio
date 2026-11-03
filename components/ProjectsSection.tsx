@@ -123,11 +123,10 @@ export default function ProjectsSection() {
     }
   }, []);
 
-  const filteredProjects = (
+  const filteredProjects =
     activeFilter === "All"
       ? projects
-      : projects.filter((p) => p.category === activeFilter)
-  ).slice().reverse();
+      : projects.filter((p) => p.category === activeFilter);
 
   useLayoutEffect(() => {
     tlRef.current?.kill();
