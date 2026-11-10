@@ -154,6 +154,35 @@ export const projects: Project[] = [
       github: "https://github.com/fauzantaslim/asia-tiga-utama-company-profile",
     },
   },
+    {
+    slug: "nusantara-tools",
+    title: "NusantaraTools",
+    role: "Full Stack Developer",
+    year: "2026",
+    status: "Live",
+    shortDescription:
+      "Free all-in-one productivity platform for Indonesian users: Split Bill, Pomodoro, Prayer Schedule, and more.",
+    longDescription: [
+      "NusantaraTools is a productivity toolkit built for the everyday needs of Indonesian students and workers. The platform bundles essential daily tools into a single, fast, and mobile-friendly web application.",
+      "Current tools include a Split Bill calculator (for warung and group meals), a Pomodoro timer for focused work sessions, and a Prayer Schedule feature that uses GPS to fetch accurate prayer times for the user's location.",
+      "Built with Next.js and TypeScript, the app prioritizes speed and offline capability. The interface is intentionally minimal — tools should get out of the way and let users focus on their task.",
+    ],
+    highlights: [
+      "Split Bill calculator with custom per-person adjustments",
+      "Pomodoro timer with work/break session tracking",
+      "GPS-based prayer schedule (accurate for all Indonesian cities)",
+      "Progressive Web App (PWA) installable on mobile",
+      "Zero account required — all tools work instantly",
+      "Works offline after first load",
+    ],
+    images: ["/nusantaratools.png"],
+    category: "Web",
+    tags: ["Next.js", "TypeScript", "Tailwind CSS"],
+    links: {
+      live: "https://nusantaratools.my.id/",
+      github: "https://github.com/fauzantaslim/nusantara-tools",
+    },
+  },
   {
     slug: "semplak-barat-adventure",
     title: "Semplak Barat Adventure",
@@ -273,35 +302,6 @@ export const projects: Project[] = [
     links: {
       live: "https://goalpedia.fauzantaslim.biz.id/",
       github: "https://github.com/fauzantaslim/goalpedia",
-    },
-  },
-  {
-    slug: "nusantara-tools",
-    title: "NusantaraTools",
-    role: "Full Stack Developer",
-    year: "2026",
-    status: "Live",
-    shortDescription:
-      "Free all-in-one productivity platform for Indonesian users: Split Bill, Pomodoro, Prayer Schedule, and more.",
-    longDescription: [
-      "NusantaraTools is a productivity toolkit built for the everyday needs of Indonesian students and workers. The platform bundles essential daily tools into a single, fast, and mobile-friendly web application.",
-      "Current tools include a Split Bill calculator (for warung and group meals), a Pomodoro timer for focused work sessions, and a Prayer Schedule feature that uses GPS to fetch accurate prayer times for the user's location.",
-      "Built with Next.js and TypeScript, the app prioritizes speed and offline capability. The interface is intentionally minimal — tools should get out of the way and let users focus on their task.",
-    ],
-    highlights: [
-      "Split Bill calculator with custom per-person adjustments",
-      "Pomodoro timer with work/break session tracking",
-      "GPS-based prayer schedule (accurate for all Indonesian cities)",
-      "Progressive Web App (PWA) installable on mobile",
-      "Zero account required — all tools work instantly",
-      "Works offline after first load",
-    ],
-    images: ["/nusantaratools.png"],
-    category: "Web",
-    tags: ["Next.js", "TypeScript", "Tailwind CSS"],
-    links: {
-      live: "https://nusantaratools.my.id/",
-      github: "https://github.com/fauzantaslim/nusantara-tools",
     },
   },
   {
